@@ -1,17 +1,25 @@
 {{wrap file="_include/page.phtml"}}
-  {{into slot="content_wrapper"}}  
-    <form id="-js-login-form" method="post">
-      <dl>
+<center>
+  <p style="vertical-align: central;">Please Login first!</p>
+</center>
+<div id="login_form">
+  <form id="-js-login-form" method="post">
+    <dl>
       <dt><label for="login">{{i m='Логин'/}}</label></dt>
-      <dd><input type="text" name="login" id="login" /></dd>
+      <dd><input class="textfield" type="text" name="login" id="login" /></dd>
       <dt><label for="password">{{i m='Пароль'/}}</label></dt>
-      <dd><input type="password" name="password" id="password" /></dd>
-      </dl>
-      <input id="-js-submit" type="submit" value="{{i m='Войти'/}}" disabled="disabled" />
-    </form>
-  {{/into}}
-{{/wrap}}
+      <dd><input class="textfield" type="password" name="password" id="password" /></dd>
+    </dl>
+    <button id="-js-submit" onclick="window.main.loginClick('login_form');return false;">{{i m='Войти'/}}</button>
+    <p class="errors" style="display: none">Ошибки</p>
+  </form>
+  
+</div>
 
-<script>
-  window.main.showLoader();
-</script>
+  {{ainto slot="js_ready"}}
+    $('#login_form').bPopup({
+            modalClose: true,
+            opacity: 0.5,            
+        });  
+  {{/ainto}}
+{{/wrap}}

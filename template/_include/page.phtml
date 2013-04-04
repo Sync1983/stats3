@@ -12,6 +12,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" type="text/javascript"></script>  
   {{slot id="head" /}}    
+  {{js_combined dir="media/var/js/"}}    
+    {{js_once src="js/bpopup.min.js" /}}    
+  {{/js_combined}}
 </head>
 <body>
 {{slot id="menu" /}}
@@ -21,11 +24,12 @@
 
 {{js:i18n_dictonary dir="media/var/i18n/" js_var="ammo.i18n_dictonary" /}}
 {{js_combined dir="media/var/js/"}}  
-  {{js_once src="js/md5.js" /}}  
+  {{js_once src="js/md5.js" /}}
+  {{js_once src="js/bpopup.min.js" /}}  
   {{js_once src="js/main.js" /}}  
 {{/js_combined}}
 
-<div class="-ammo-ajax-loader" style="display: none;">&nbsp;</div>
+<div class="ajax-loader" style="display: none;">&nbsp;</div>
 {{slot id="js_include" /}}
 <script type="text/javascript">
 jQuery(document).ready(function() {  

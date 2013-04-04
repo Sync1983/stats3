@@ -1,4 +1,4 @@
-.-ammo-ajax-loader {
+.ajax-loader {
   font-size:1.2em;
   position:fixed;
   top:50%;
@@ -15,4 +15,50 @@
 
 root { 
   display: block;
+}
+
+#login_form{
+  top:50%;
+  left:50%;
+  border: 2px solid #cccccc;
+  width: 500px;
+  height: 300px;
+  border-radius: 5px;
+}
+
+#login_form dl {
+  padding: 0;
+  margin: 0 10px;
+  font-size: 25px;
+  color: white;
+}
+
+#login_form dd {
+  padding: 0;
+  margin: 0px;
+}
+
+#login_form form {  
+  margin-top: 25px;
+}
+
+#login_form .textfield{
+  padding:  0;
+  margin: 10px 20px 20px 10px;
+  width: 450px;
+  height: 40px;
+  font-size: large;
+}
+
+#-js-submit{
+  height: 40px;
+  width: 150px;
+  margin-left: 160px;
+}
+#login_form .errors {
+  color: #CC0000;
+  margin: -3px 20px;
+  padding: 0;
+  display: none; 
+  font-size: 15pt;
 }

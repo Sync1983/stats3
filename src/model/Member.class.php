@@ -2,7 +2,6 @@
 
 class Member extends lmbActiveRecord
 {
-
   public function isLoggedIn() {
     return $this->getId() && $this->_getRaw('is_logged_in');
   }
@@ -33,6 +32,16 @@ class Member extends lmbActiveRecord
   static function cryptPassword($password) {
     $sailt1 = "s(*&&n3яч"; $sailt2 = "LrfЛцЗ";
     return substr(md5($password . $sailt1), 5) . substr(sha1($password . $sailt2), 3, 20);
+  }
+  
+  static function findByLogin($login) {
+    if($login)
+      return lmbActiveRecord :: findOne('Member', array('login=?', $login));
+  }
+
+  static function findByLoginAndPassword($login, $password) {    
+    $member = self :: findByLogin($login);    
+    return ($member && $member->isValidPassword($password)) ? $member : false;
   }
 
   private function isValidPassword($password) {
