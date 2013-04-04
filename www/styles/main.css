@@ -1,0 +1,19 @@
+.-ammo-ajax-loader {
+  font-size:1.2em;
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:200px;  
+  margin:0 -84px 0 -64px;  
+  width: 128px;
+  height: 135px;
+  text-align:center; 
+  z-index:4000;
+  background: url(../images/ajax_loader.gif) no-repeat center 5px;
+  text-align: center;  
+  color:#222222;}
+
+root { 
+  display: block;
+}
+

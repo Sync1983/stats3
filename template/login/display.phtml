@@ -1,0 +1,17 @@
+{{wrap file="_include/page.phtml"}}
+  {{into slot="content_wrapper"}}  
+    <form id="-js-login-form" method="post">
+      <dl>
+      <dt><label for="login">{{i m='Логин'/}}</label></dt>
+      <dd><input type="text" name="login" id="login" /></dd>
+      <dt><label for="password">{{i m='Пароль'/}}</label></dt>
+      <dd><input type="password" name="password" id="password" /></dd>
+      </dl>
+      <input id="-js-submit" type="submit" value="{{i m='Войти'/}}" disabled="disabled" />
+    </form>
+  {{/into}}
+{{/wrap}}
+
+<script>
+  window.main.showLoader();
+</script>
