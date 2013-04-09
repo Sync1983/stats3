@@ -1,0 +1,7 @@
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+ALTER TABLE `project` ADD `has_active_stats` tinyint(4) NOT NULL DEFAULT '0' COMMENT '' AFTER dir;
+
+
+SET FOREIGN_KEY_CHECKS = 1;

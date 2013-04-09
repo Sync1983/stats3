@@ -13,7 +13,8 @@ class AdminApplication extends lmbWebApplication
                                               'not_found')));
     $this->registerFilter(new lmbHandle('limb/web_app/src/filter/lmbResponseTransactionFilter'));
     $this->registerFilter(new lmbHandle('src/AccessFilter'));
-    $this->registerFilter(new lmbHandle('limb/web_app/src/filter/lmbActionPerformingFilter'));    
+    $this->registerFilter(new lmbHandle('limb/web_app/src/filter/lmbActionPerformingFilter'));       
+    $this->registerFilter(new lmbHandle('limb/web_app/src/filter/lmbViewRenderingFilter'));
   }
 }
 

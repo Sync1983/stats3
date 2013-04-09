@@ -20,11 +20,9 @@ class spLoginTools extends spTools
   
   function getMember()
   {
-    if(!is_object($this->member))
-    {
+    if(!is_object($this->member)) {
       $this->member = $this->_getMemberByCookies();
-      if(!$this->member)
-      {
+      if(!$this->member) {
         $this->member = new Member();
         $this->member->set('is_logged_in', false);
       }
@@ -37,7 +35,7 @@ class spLoginTools extends spTools
   function setAutologinCookie($member)
   {
     $response = $this->toolkit->getResponse();
-    $response->setCookie(self :: COOKIE_MEMBER_ID, $member->id, time() + 24 * 60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
+    $response->setCookie(self :: COOKIE_MEMBER_ID, $member->id, time() + 24 * 60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);    
     $response->setCookie(self :: COOKIE_MEMBER_HASH, $member->getAutologinHash(), time() + 24 * 60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
   }
   

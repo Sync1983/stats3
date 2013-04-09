@@ -426,7 +426,7 @@ function main_funct(parent) {
         return false;
       } else if(data.redirect) {
         console.log('Redirecting');
-        document.location.href = '/'+data.redirect;
+        location.href = window.myjs.server_vars.base_path+data.redirect;
       }
       $('.errors').css('display','none');
       //$('#'+item).bPopup().close();

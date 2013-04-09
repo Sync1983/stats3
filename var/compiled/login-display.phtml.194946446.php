@@ -1,7 +1,7 @@
 <?php /* This file is generated from login/display.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutora4db11e31d0f115ebe64dd162daf3438', false)){
+if(!class_exists('MacroTemplateExecutorac96f6ff4d47859e2e76f8bbb162cec8', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutora4db11e31d0f115ebe64dd162daf3438 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutorac96f6ff4d47859e2e76f8bbb162cec8 extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -22,14 +22,14 @@ function __staticInclude1($file) {
   <link rel="stylesheet" type="text/css" href="/_/15opygu/media/var/css/styles-main.css" />  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" type="text/javascript"></script>  
-  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler4108fccd620bc0256cdaf91775bed807(array()); ?>    
+  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler5015d3be1f930f8526f12fa15b5fc6e7(array()); ?>    
   <script type="text/javascript" src="/_/1ad11hz/media/var/js/c1cbeae377b511cf1acbd60e83a3d9b4.js" ></script>
 </head>
 <body>
-<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandlere5c66fffaebdb3104c33e2984b179db5(array()); ?>
+<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandler3b8484db15155b72d5f64c9ea55e6c3c(array()); ?>
 
 <div id="content">
-  <?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandler1c691fbc264cdee39e9ec03bb6199893(array()); ?>
+  <?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandler09eb1cc9ee9f53ff2d2816582f19db6b(array()); ?>
 
 </div>
 
@@ -37,7 +37,7 @@ function __staticInclude1($file) {
 <script type="text/javascript" src="/_/1qptv7d/media/var/js/b23c09763e3b0727b423d6a78e533f32.js" ></script>
 
 <div class="ajax-loader" style="display: none;">&nbsp;</div>
-<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandler8a57015b00bfb98c27eb761cc90526d0(array()); ?>
+<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandler333d69f9a87aba8846ea3f783813b383(array()); ?>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {  
@@ -68,19 +68,19 @@ jQuery(document).ready(function() {
 <?php 
 }
 
-function __slotHandler4108fccd620bc0256cdaf91775bed807($A= array()) {
+function __slotHandler5015d3be1f930f8526f12fa15b5fc6e7($A= array()) {
 if($A) extract($A);
 }
 
-function __slotHandlere5c66fffaebdb3104c33e2984b179db5($B= array()) {
+function __slotHandler3b8484db15155b72d5f64c9ea55e6c3c($B= array()) {
 if($B) extract($B);
 }
 
-function __slotHandler1c691fbc264cdee39e9ec03bb6199893($C= array()) {
+function __slotHandler09eb1cc9ee9f53ff2d2816582f19db6b($C= array()) {
 if($C) extract($C);
 }
 
-function __slotHandler8a57015b00bfb98c27eb761cc90526d0($D= array()) {
+function __slotHandler333d69f9a87aba8846ea3f783813b383($D= array()) {
 if($D) extract($D);
 }
 
@@ -96,4 +96,4 @@ function __aslotHandler_js_ready() {
 
 }
 }
-$macro_executor_class='MacroTemplateExecutora4db11e31d0f115ebe64dd162daf3438';
+$macro_executor_class='MacroTemplateExecutorac96f6ff4d47859e2e76f8bbb162cec8';

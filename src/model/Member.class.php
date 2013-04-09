@@ -24,8 +24,8 @@ class Member extends lmbActiveRecord
     return $validator;
   }
   
-  private function getAutologinHash() {
-    $sailt = "^&*\t\n@,mg'я" . $this->get('auto_login_sailt') . ':' . lmbToolkit :: instance()->getEncodeRealIp();
+  public function getAutologinHash() {
+    $sailt = "^&*\t\n@,mg'я" . $this->get('auto_login_sailt') . ':' . lmbToolkit :: instance()->getEncodeRealIp();    
     return substr(sha1($this->hashed_password . $sailt), 0, 14) . substr(md5($this->id . $sailt), 0, 18); 
   }
   
