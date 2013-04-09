@@ -14,6 +14,6 @@ class MainPageController extends spController
     
     $pager = new Pager();
     $pager->loadByProject($project_id);
-    $this->set
+    $this->view->set()
   }
 }
