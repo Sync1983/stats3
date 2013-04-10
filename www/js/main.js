@@ -44,8 +44,15 @@ function main_funct(parent) {
     return false;
   };
 
-  $().ajaxSend(main.showLoader);
-  $().ajaxComplete(main.hideLoader);
+  main.loadMenu = function(obj,menu) {
+    var dest = $('#'+menu);    
+    var items = obj;
+    console.log(items);
+    for(var index in items) {
+      var item = items[index];
+      dest.appendTo(dest.create('<li>',{id:'page_'+item.id,name:item.name}));
+    }
+  };
 
   return main;
 }

@@ -4,6 +4,8 @@ $classes =& $_ENV['LIMB_LAZY_CLASS_PATHS'];
 
 $classes['Member'] = 'src/model/Member.class.php';
 $classes['Project'] = 'src/model/Project.class.php';
+$classes['PageView'] = 'src/model/PageView.class.php';
+$classes['Pager'] = 'src/model/Pager.class.php';
 /*$classes['Counter'] = 'src/model/Counter.class.php';
 $classes['Referrer'] = 'src/model/Referrer.class.php';
 $classes['Chart'] = 'src/model/Chart.class.php';

@@ -1,5 +1,36 @@
 {{wrap file="_include/page.phtml"}}
-  {{into slot="tab_content"}}
-    Hello! 
-  {{/into}}
+  
+{{into slot="menu"}}
+  <div id="select-menu">
+    <select class="project-selector">
+      {{list using="$#projects" as="$item"}}
+        {{list:item}}
+          <option value="{$item.id}">{$item.title}</option>     
+        {{/list:item}}
+      {{/list}}     
+    </select>
+  </div>
+  <div id="tabs">    
+    <ul class='etabs'>
+      <li class='tab' class="active"><a href="#content">HTML Markup</a></li>
+      <li class='tab'><a href="#content">Required JS</a></li>        
+    </ul>    
+  </div>  
+{{/into}}
+{{into slot="content_wrapper"}} 
+<center>
+<div id="tab-content">
+  <div id="content">
+    Please Wait for loading...
+  </div>
+</div>
+{{/into}}
+
+  {{ainto slot="js_ready"}}
+    $('#tabs').easytabs({
+      panelContext:$("#tab-content")
+    });
+    //window.main.loadMenu({$#tabs|raw},"tabs");
+  {{/ainto}}
+  
 {{/wrap}}

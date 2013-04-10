@@ -11,8 +11,15 @@ class Member extends lmbActiveRecord
   }
   
   public function getProjectAccessIds() {
-    $ids = $this->get('projects_ids');
-    return $ids ? unpack('V*', $ids) : array();
+    if(!$this->isAdmin()) {
+      $ids = $this->get('projects_ids');
+      return $ids ? unpack('V*', $ids) : array();
+    }
+    $sql_projects = self::find('Project');
+    $ids = array();
+    foreach ($sql_projects as $project)
+      $ids[] = $project['id'];
+    return $ids;
   }
   
   protected function _createValidator()
