@@ -14,10 +14,9 @@
     <ul class='etabs'>
       {{list using="$#tabs" as="$item"}}
         {{list:item}}          
-          <li class='tab'><a href="#content" id="{$item.id}" style="text-decoration: none;">{$item.title}</a></li>
+          <li class='tab'><a href="#content" id="{$item.id}" style="text-decoration: none;">{$item.title}</a></li>        
         {{/list:item}}
       {{/list}}     
-          <li class='tab'><a href="#content" id="add_tab" style="text-decoration: none;">+</a></li>
     </ul>    
   </div>
 {{/into}}
@@ -30,11 +29,11 @@
 </div>
 {{/into}}
 
-{{ainto slot="js_ready"}}
-  $('#tabs').easytabs({
-    panelContext:$("#tab-content"),      
-  });
-  $('#tabs').bind('easytabs:before',window.main.changeTab);
-{{/ainto}}
+  {{ainto slot="js_ready"}}
+    $('#tabs').easytabs({
+      panelContext:$("#tab-content")
+    });
+    //window.main.loadMenu({$#tabs|raw},"tabs");
+  {{/ainto}}
   
 {{/wrap}}
