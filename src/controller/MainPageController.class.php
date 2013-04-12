@@ -35,7 +35,7 @@ class MainPageController extends spController
     $tabs = array();
     foreach ($pages as $page)
       $tabs[]=array('title'=>$page->get('name'),'id'=>$page->get('id'));    
-    
+    $this->setTimeInterval();
     $this->view->set('tabs', $tabs);
   }
   
@@ -77,5 +77,17 @@ class MainPageController extends spController
     }
     
     $this->sendAjaxResponce($charts, true);
+  }
+  
+  private function setTimeInterval() {
+    $request = $this->toolkit->request;
+    $bday = $request['bday'];
+    $eday = $request['eday'];
+    if(!$bday)
+      $bday = strtotime ('-30 days');
+    if(!$eday)
+      $eday = time();
+    $this->view->set('bday', $bday);
+    $this->view->set('eday', $eday);
   }
 }

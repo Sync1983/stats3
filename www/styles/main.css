@@ -71,24 +71,26 @@ html,body {
 }
 
 #select-menu {
-  background-color: #000000;
-  border: 1px solid #cccccc;
+  background-color: #666;  
   width: 90%;
-  height: 30px;
-  border-radius: 5px;
+  height: 50px;
+  border-radius: 15px;
+  border: 1px solid #444;
   z-index: 100;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
 }
 
 .project-selector {
-  margin-top: 5px;
+  margin-top: 15px;
   margin-right: 20px;
   float: right;
   width: 200px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
 }
 
 div#tab-content {
   position: absolute;  
-  top:70px;
+  top:90px;
   bottom: 10px;
   left:5%;
   width: 90%;  
@@ -100,6 +102,61 @@ div#tab-content {
 #content {  
   height: 100%;
   min-height:100%;
+}
+
+#dateRange-txt {
+  width: 200px;  
+  height: 25px;  
+  margin-top: 12px;
+  margin-left: 20px;
+  float: left;  
+  text-align: center;
+  cursor: pointer;
+  color: #000;
+  background-color: #CCC;  
+  border-radius: 10px;
+  border: 1px solid #000;  
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+}
+
+#dateReload {
+  background: url('../images/reload.png') 0px 0px no-repeat;  
+  background-size:25px;
+  margin-left: 10px;
+  margin-top: 13px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  float: left;
+  position: relative;
+}
+
+#profile-button{
+  margin-top: 14px;
+  margin-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  float: right;
+  color: #000;
+  text-decoration: none;
+  background-color: #CCC;
+  border: 1px solid #000;
+  border-radius: 5px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+}
+
+#user-manager {
+  position: absolute;  
+  float: right;
+  right: 5%;
+  top:  60px;
+  width: 600px;
+  height: 50px;
+  display: none;
+  border: 1px solid #CCC;
+  border-radius: 10px;
+  background-color: #666;
+  z-index: 1100;
 }
 
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; border: #000 double 1px; }
