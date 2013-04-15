@@ -1,3 +1,4 @@
+/* include main.js */
 
 function main_funct(parent) {
   var main = {};
@@ -101,16 +102,6 @@ function main_funct(parent) {
     }    
     main.selectedTabId = clicked[0].getAttribute('id');
     main.selectedTabName = clicked[0].text;
-    main.loadTab();
-    return true;
-  };
-
-  main.loadTab = function() {
-    if(main.selectedTabId===-1) {
-      main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
-      main.selectedTabName = $('.etabs>li>a')[0].text;
-    }
-    console.log({selectedTabId:main.selectedTabName});
     $('.chart').remove();
     main.ajax('main_page','ajax_load_tab',{project_id:project_id, page_id:main.selectedTabId},
                     function(data){
@@ -120,16 +111,19 @@ function main_funct(parent) {
                         alert(data.error);                        
                         return;
                       } else if(data.html) {
-                        $('#content').html(data.html);
+                        targetPanel.html(data.html);
                       }                      
+                      
                     });
-  }
+    return true;
+  };
 
   main.deleteTabAlert = function(tabs) {
     if(main.selectedTabId === -1) {      
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
       main.selectedTabName = $('.etabs>li>a')[0].text;
-    }    
+    }
+    console.log({id:main.selectedTabId,name:main.selectedTabName});
     var dialog = $('<div>'+"Удалить вкладку \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
              .dialog({               
                width:  500,               
@@ -161,5 +155,3 @@ function main_funct(parent) {
 }
 
 window.main = main_funct(window);
-
-

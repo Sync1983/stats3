@@ -159,6 +159,53 @@ div#tab-content {
   z-index: 1100;
 }
 
+#delete-tab {
+  background: url('../images/delbutton.png') 0px 0px no-repeat;  
+  background-size: 50px 25px;
+  width: 50px;
+  height: 25px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+}
+
+.delete-chart {
+  background: url('../images/delete.png') 0px 0px no-repeat;  
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  float: right;
+  top: 0px;
+  margin-top: -60px;
+  margin-right: -10px;
+}
+
+.chart {
+  min-width: 250px; 
+  width: 250px; 
+  height: 200px; 
+  margin: 70px 20px auto; 
+  border: 2px solid #000000;
+  padding-top: 40px; 
+  padding-bottom: 40px;
+  float: left;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  border-radius: 5px;
+  background-color: #EEE;
+  cursor: pointer;
+}
+
+.chart h1 {
+  font-size: 18px;
+  position: relative;
+  top:0px;
+  margin: 0;
+  padding: 0;
+  margin-top: -40px;  
+}
+
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; border: #000 double 1px; }
 .ui-dialog .ui-dialog-titlebar { padding: .4em 1em; position: relative;  }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; } 

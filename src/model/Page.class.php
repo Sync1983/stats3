@@ -2,40 +2,34 @@
 /**
  * @author Sync
  */
-class PageView extends lmbActiveRecord {
-    //page_id    
-    //position
-    //data_type
-    //counter_id
-    //view_preset
-    private $_views;
+class Page extends lmbActiveRecord{
+    protected $_db_table_name = 'pager';
+    //`id`  int(3) unsigned NOT NULL auto_increment,
+    //`project_id`  int(3) UNSIGNED NOT NULL DEFAULT '0',
+    //`member_id`    int(3) unsigned NOT NULL DEFAULT '0',    
+    //`name`   VARCHAR(500) NOT NULL DEFAULT 'Имя',
+    private $_views = array();
     
-    public function __construct($page_id = null, $magic_params = null, $conn = null) {
-      parent::__construct($magic_params, $conn);
-      if(!$page_id)
-        return;
-      $this->_views = array();
-      $view_records = lmbActiveRecord::find('PageView', array('criteria'=>"page_id=$page_id"));
-      foreach ($view_records as $record) {
-        $view = new PageView();
-        $view->loadFromRecord($record);
-        $this->_views[] = $view;
-      }
-      function orderSort($a, $b) { 
-        if ($a->get('position')<$b->get('position'))
-          return 1;
-        else if ($a->get('position')>$b->get('position'))
-          return -1;
-        else 
-          return 0;
-      } 
-      uasort($this->_views, 'orderSort');
-      return;
+    public function addPage($name,$project,$member) {
+      $this->set('project_id',intval($project));
+      $this->set('member_id',intval($member));
+      $this->set('name',strval($name));
+      $this->save();
     }
     
-    public function getPageViews(){
+    public function loadViewByPage($pager_id) {      
+      $views = self::find('page_view',array('criteria'=>'page_id='.intval($pager_id)));
+      $this->_views = array();
+      foreach ($views as $view_record) {
+        $item = new PageView();
+        $item->loadFromRecord($view_record);
+        $this->_views[] = $item;
+      }
+    }
+    
+    public function getViews() {
       return $this->_views;
     }
-
-
+            
 }
+

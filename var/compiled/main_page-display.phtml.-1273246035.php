@@ -1,7 +1,7 @@
 <?php /* This file is generated from D:\stats3/template/main_page/display.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor657c7ec865e47d5864ee64611aba9636', false)){
+if(!class_exists('MacroTemplateExecutor510eb5412861537b5f91f522337ea0c5', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutor657c7ec865e47d5864ee64611aba9636 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutor510eb5412861537b5f91f522337ea0c5 extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -18,32 +18,32 @@ function __staticInclude1($file) {
     window.myjs = window.myjs || {}; 
     window.myjs.server_vars = <?php echo json_encode($this->toolkit->getJsVars())?>
   </script>  
-  <script type="text/javascript">window.ammo=window.ammo||{};window.ammo.file_versions={"js\/chart.js":"\/_\/18892an\/js\/chart.js","js\/datepicker.js":"\/_\/1yh938w\/js\/datepicker.js","js\/jquery.easytabs.min.js":"\/_\/0x9fvu4\/js\/jquery.easytabs.min.js","js\/jquery.hashchange.min.js":"\/_\/09oto83\/js\/jquery.hashchange.min.js","js\/main.js":"\/_\/0ul61as\/js\/main.js","js\/md5.js":"\/_\/0qkk5dg\/js\/md5.js"};</script>  
+  <script type="text/javascript">window.ammo=window.ammo||{};window.ammo.file_versions={"js\/chart.js":"\/_\/1kmpapf\/js\/chart.js","js\/datepicker.js":"\/_\/0kfb1f0\/js\/datepicker.js","js\/jquery.easytabs.min.js":"\/_\/0x9fvu4\/js\/jquery.easytabs.min.js","js\/jquery.hashchange.min.js":"\/_\/09oto83\/js\/jquery.hashchange.min.js","js\/main.js":"\/_\/1g22bv5\/js\/main.js","js\/md5.js":"\/_\/0qkk5dg\/js\/md5.js"};</script>  
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css"></style>
-  <link rel="stylesheet" type="text/css" href="/_/095au3l/media/var/css/styles-main.css" />
+  <link rel="stylesheet" type="text/css" href="/_/1uacyt7/media/var/css/styles-main.css" />  
   <link rel="stylesheet" type="text/css" href="/_/0eqsm52/media/var/css/styles-tabs.css" />
   <link rel="stylesheet" type="text/css" href="/_/1epp5ns/media/var/css/styles-datepicker.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js" type="text/javascript"></script>    
-  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler732758ee61b8eeb3d8413f24e2e556e1(array()); ?>    
-  <script type="text/javascript" src="/_/0fcm17n/media/var/js/4aece685991f42cd23d6d50e39521728.js" ></script>
+  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler3b2699c8e5800646f807ee0497a36bdb(array()); ?>    
+  <script type="text/javascript" src="/_/1agcsuy/media/var/js/4aece685991f42cd23d6d50e39521728.js" ></script>
   <script>
     var project_id = <?php echo htmlspecialchars($this->project_id,3); ?>;
   </script>
 </head>
 <body>
 <center>
-<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandlerd13af747984f9fc39d5a29b49a7c99e0(array()); ?>
+<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandler44a326fd0b952ecc9b433f2d6cf7272e(array()); ?>
 
-<?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandler95de2763d9be6fda4d26577ce85eb8fe(array()); ?>
+<?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandler005106a55ec64972d954a87dec5d56a4(array()); ?>
 
 </center>
 
 <script type="text/javascript" src="/_/0d6793j/media/var/i18n/i18n_dictonary.en_US.js" ></script>
-<script type="text/javascript" src="/_/1ng8zjq/media/var/js/782352eaf3a268c6779a85e17b196815.js" ></script>
+<script type="text/javascript" src="/_/1tqvin6/media/var/js/0c1edb151553856c18c4a2e3c40eec66.js" ></script>
 
 <div class="ajax-loader" style="display: none;">&nbsp;</div>
-<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandler3f1184ba9ad42f7359a24d0cb5d93829(array()); ?>
+<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandler8cf2bc74079425d5af3fcfbea7cc0c55(array()); ?>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {  
@@ -62,11 +62,11 @@ jQuery(document).ready(function() {
 <?php 
 }
 
-function __slotHandler732758ee61b8eeb3d8413f24e2e556e1($A= array()) {
+function __slotHandler3b2699c8e5800646f807ee0497a36bdb($A= array()) {
 if($A) extract($A);
 }
 
-function __slotHandlerd13af747984f9fc39d5a29b49a7c99e0($D= array()) {
+function __slotHandler44a326fd0b952ecc9b433f2d6cf7272e($D= array()) {
 if($D) extract($D); ?>
 
   <div id="select-menu">
@@ -126,25 +126,31 @@ if((is_array($BE) || ($BE instanceof ArrayAccess)) && isset($BE['title'])) { $BD
 echo htmlspecialchars($BD,3); ?></a></li>
         <?php $W++;}if($W > 0) { ?>
 
-      <?php } ?>     
+        
+      <?php }if($W == 0) { ?>
+
+          <li class='tab'><a href="#content" id="add_tab" style="text-decoration: none;">Добавьте вкладки</a></li>
+        <?php } ?>     
           <li class='tab'><a href="#content" id="add_tab" style="text-decoration: none;">+</a></li>
     </ul>    
   </div>
 <?php 
 }
 
-function __slotHandler95de2763d9be6fda4d26577ce85eb8fe($BF= array()) {
+function __slotHandler005106a55ec64972d954a87dec5d56a4($BF= array()) {
 if($BF) extract($BF); ?> 
 <center>
 <div id="tab-content">
   <div id="content">
     Please Wait for loading...
   </div>
+  <div id="delete-tab" onclick="window.main.deleteTabAlert('tabs');"></div>
 </div>
+<div class="confirm-delete"></div>
 <?php 
 }
 
-function __slotHandler3f1184ba9ad42f7359a24d0cb5d93829($BG= array()) {
+function __slotHandler8cf2bc74079425d5af3fcfbea7cc0c55($BG= array()) {
 if($BG) extract($BG);
 }
 
@@ -156,7 +162,7 @@ function __aslotHandler_js_ready() {
   $('#tabs').easytabs({
     panelContext:$("#tab-content"),      
   });  
-  $('#tabs').bind('easytabs:before',window.main.changeTab);
+  $('#tabs').bind('easytabs:before',window.main.changeTab);  
   $("#dateRange-txt").DatePicker(
   { 
     flat: false,
@@ -170,9 +176,10 @@ function __aslotHandler_js_ready() {
   });
   
   $("#dateRange-txt").text($.datepicker.formatDate('yy-mm-dd', bday)+' - '+$.datepicker.formatDate('yy-mm-dd', eday));    
+  window.main.loadTab();
 <?php 
 }
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor657c7ec865e47d5864ee64611aba9636';
+$macro_executor_class='MacroTemplateExecutor510eb5412861537b5f91f522337ea0c5';

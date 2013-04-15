@@ -1,9 +1,9 @@
 <?php /* This file is generated from D:\stats3/template/main_page/ajax_add_tab.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor63668220ae8417e866aebe468501fb6d', false)){
+if(!class_exists('MacroTemplateExecutorae59307fc321b2e96fe2d9c2f1967584', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
 require_once('limb/macro/src/tags/form/lmbMacroFormWidget.class.php');
 require_once('limb/macro/src/tags/form/lmbMacroInputWidget.class.php');
-class MacroTemplateExecutor63668220ae8417e866aebe468501fb6d extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutorae59307fc321b2e96fe2d9c2f1967584 extends lmbMacroTemplateExecutor {
 
 function _init() {
 $this->form_add_tab_form = new lmbMacroFormWidget('add_tab_form');
@@ -34,4 +34,4 @@ if(isset($this->form_add_tab_form_error_list))$this->form_add_tab_form->setError
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor63668220ae8417e866aebe468501fb6d';
+$macro_executor_class='MacroTemplateExecutorae59307fc321b2e96fe2d9c2f1967584';

@@ -5,8 +5,8 @@
 class Preset extends lmbActiveRecord {
   protected $_db_table_name = 'preset'; 
   
-  function __construct($id = null, $magic_params = null, $conn = null) {
-    parent::__construct($magic_params, $conn);
+  function __construct($id = null) {
+    parent::__construct();
     if(!$id)
       return;
     $this->loadById($id);

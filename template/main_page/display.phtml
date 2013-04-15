@@ -23,6 +23,9 @@
         {{list:item}}          
           <li class='tab'><a href="#content" id="{$item.id}" style="text-decoration: none;">{$item.title}</a></li>
         {{/list:item}}
+        {{list:empty}}
+          <li class='tab'><a href="#content" id="add_tab" style="text-decoration: none;">Добавьте вкладки</a></li>
+        {{/list:empty}}
       {{/list}}     
           <li class='tab'><a href="#content" id="add_tab" style="text-decoration: none;">+</a></li>
     </ul>    
@@ -34,7 +37,9 @@
   <div id="content">
     Please Wait for loading...
   </div>
+  <div id="delete-tab" onclick="window.main.deleteTabAlert('tabs');"></div>
 </div>
+<div class="confirm-delete"></div>
 {{/into}}
 
 {{ainto slot="js_ready"}}
@@ -43,7 +48,7 @@
   $('#tabs').easytabs({
     panelContext:$("#tab-content"),      
   });  
-  $('#tabs').bind('easytabs:before',window.main.changeTab);
+  $('#tabs').bind('easytabs:before',window.main.changeTab);  
   $("#dateRange-txt").DatePicker(
   { 
     flat: false,
@@ -57,6 +62,7 @@
   });
   
   $("#dateRange-txt").text($.datepicker.formatDate('yy-mm-dd', bday)+' - '+$.datepicker.formatDate('yy-mm-dd', eday));    
+  window.main.loadTab();
 {{/ainto}}
   
 {{/wrap}}

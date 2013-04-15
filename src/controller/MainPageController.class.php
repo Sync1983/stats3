@@ -26,9 +26,9 @@ class MainPageController extends spController
       return;
     
     $pages = array();    
-    $sql_pages = lmbActiveRecord::find('Pager', array('criteria'=>"project_id=$project_id"));    
+    $sql_pages = lmbActiveRecord::find('Page', array('criteria'=>"project_id=$project_id"));    
     foreach ($sql_pages as $record) {
-      $page = new Pager();
+      $page = new Page();
       $page->loadFromRecord($record);
       $pages[]=$page;
     }
@@ -51,32 +51,45 @@ class MainPageController extends spController
     $request = $this->toolkit->request;
     $p_id = $request['pid'];
     $m_id = $request['mid'];
+    $name = $request['name'];
     /** @var Member */
     $member = $this->toolkit->getMember();    
-    if((!$p_id)||(!$m_id)) {      
+    if((!$p_id)||(!$m_id)||(!$name)) {      
       $this->sendAjaxError('Not valid data struct');
       return;
     }
+    $tab = new Page();
+    $tab->set('member_id', $member->getId());
+    $tab->set('project_id', $p_id);
+    $tab->set('name',$name);
+    $tab->save();
+    $this->sendAjaxSuccess();
+  }
+  
+  function doAjaxDeleteTab() {
+    $request = $this->toolkit->request;
+    $id = $request['id'];    
+    /** @var Member */
+    $member = $this->toolkit->getMember();    
+    if((!$id)||(!$member)) {      
+      $this->sendAjaxError('Not valid data struct');
+      return;
+    }
+    $tab = new Page($id);    
+    $tab->delete('Page',"id=".$id);
     $this->sendAjaxSuccess();
   }
           
-  function doAjaxLoadPage() {
+  function doAjaxLoadTab() {
     $request = $this->toolkit->request;    
     $project_id = $request['project_id'];    
     $page_id    = $request['page_id'];
+    $charts = array();
     $page_view = new PageView($page_id);
     $views = $page_view->getPageViews();    
-    $charts = array();
-    foreach ($views as $view) {
-      $c_id = $view->get('counter_id');      
-      $preset = new Preset($c_id);
-      if($project_id!=$preset->getProjectId())
-        continue;
-      $charts['id'] = $c_id;
-      $charts['name'] = $preset->getName();
-    }
-    
-    $this->sendAjaxResponce($charts, true);
+    $this->view = $this->toolkit->createViewByTemplate('main_page/ajax_load_tab.phtml');
+    $this->view->set('charts', $views);    
+    $this->sendAjaxResponce($charts,true);
   }
   
   private function setTimeInterval() {

@@ -455,6 +455,7 @@ function main_funct(parent) {
                   console.log(save_data);
                   main.ajax('main_page','ajax_save_tab',save_data,
                     function(data){
+                      console.log(data);
                       data = JSON.parse(data);
                       if(data.error) {
                         dialog.children(".error").css('display','block');
@@ -462,7 +463,7 @@ function main_funct(parent) {
                         return;
                       }                      
                       dialog.dialog('close');
-                      //location.href = location.href;
+                      location.href = "?project_id="+pid;
                     });
                 },
                },               
@@ -471,7 +472,7 @@ function main_funct(parent) {
         });
       return false;
     }      
-    return false;
+    return true;
   };
 
   return main;

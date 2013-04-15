@@ -1,0 +1,10 @@
+<div>
+  Выберите формулу или создайте новую!
+  <select style="width: 90%" id="active-counter-id">
+    {{list using="$#names" as="$item"}}
+      {{list:item}}
+      <option value="{$item.id}">{$item.title}</option>
+      {{/list:item}}
+    {{/list}}   
+  </select>
+</div>
