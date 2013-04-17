@@ -114,16 +114,59 @@ function main_funct(parent) {
     $('.chart').remove();
     main.ajax('main_page','ajax_load_tab',{project_id:project_id, page_id:main.selectedTabId},
                     function(data){
-                      console.log(data);
+                      console.log("Load tabs:"+data);
                       data = JSON.parse(data);
                       if(data.error) {
                         alert(data.error);                        
                         return;
                       } else if(data.html) {
                         $('#content').html(data.html);
+                        if(data.charts)
+                          loadCharts(data.charts);
                       }                      
                     });
+  };
+
+  function loadCharts(charts){
+    console.log(charts);    
+    for(var i in charts) {
+      var chart_item = charts[i];      
+      var chart = new window.chart.addChart("chart_"+chart_item.id,chart_item.counter_id,chart_item.name);
+      //while(!chart.isLoaded);
+    }
   }
+
+  main.renameTabAlert = function(tabs) {
+    if(main.selectedTabId === -1) {      
+      main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
+      main.selectedTabName = $('.etabs>li>a')[0].text;
+    }
+    var dialog = $('<div>'+"Удалить вкладку \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
+             .dialog({               
+               width:  500,               
+               resizable:false,
+               title: "Переименовать вкладку",
+               close: function(event, ui) {                    
+                dialog.remove();                    
+               },
+               buttons: {
+                "Удалить": function() {                  
+                  main.ajax('main_page','ajax_delete_tab',{id:main.selectedTabId},
+                    function(data){
+                      console.log(data);
+                      data = JSON.parse(data);
+                      if(data.error) {
+                        dialog.children(".error").css('display','block');
+                        dialog.children(".error").text(data.error);
+                        return;
+                      }                      
+                      dialog.dialog('close');
+                      location.href = "?project_id="+project_id;
+                    });
+                }
+               }                
+             });             
+  };
 
   main.deleteTabAlert = function(tabs) {
     if(main.selectedTabId === -1) {      

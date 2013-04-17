@@ -5,8 +5,82 @@ function chart_funct(parent) {
   if(parent.chart)
     chart = parent.chart;
   
-  chart.addChart = function (name,id) {
+  chart.addChart = function (container,id,chart_name) {
+    var options = {
+    title: { text: chart_name },    
+    chart: {
+                renderTo: container,
+                type: 'areaspline',
+                zoomType: 'none',
+                events: { click: function(event){ /*Click on surface*/ } }
+            },
+    plotOptions: {
+     area: {                    
+       marker: {
+         enabled: true,
+         symbol: 'circle',
+         radius: 2,
+         states: { hover: { enabled: true } }
+                }
+           }
+    },
+    series: {},
+    xAxis: {
+      title: {text: 'Время'},
+      type: 'datetime',
+      dateTimeLabelFormats: { day: '%e of %b'},
+      maxZoom: 48 * 3600 * 1000,      
+      labels: {rotation: -45,                    
+              style: {fontSize: '10px',fontFamily: 'Verdana, sans-serif'}
+              },
+    },
+    yAxis: {
+      title: {
+        text: 'Кол-во'
+      },
+    }, 
+    tooltip:{
+        formatter: function(){
+          return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x) + '<br><i>' +
+          Highcharts.numberFormat(this.y, 1)+"</i>";
+        }
+      
+   }
+  };
+  /*if(is_time)
+    options.xAxis = {title: {text: 'Время'},
+      type: 'datetime',
+      dateTimeLabelFormats: { day: '%e of %b'},
+      maxZoom: 48 * 3600 * 1000,    
+     };
+  else
+  {
+    options.xAxis = { title: {text: ''}, 
+                      type: 'linear',                      
+                      labels: { rotation: -45, 
+                                align:'right',
+                                style: {fontSize: '10px',fontFamily: 'Verdana, sans-serif'}
+                              },
+                    };
+     var pie = false;
+    for(var i in series)
+      if(series[i].categories)
+      {
+          options.xAxis.categories = series[i].categories;
+          options.chart.type = 'column';
+          //options.plotOptions.column = {stacking: 'percent'};
+      } else if(series[i].pie)
+      {
+        pie = true;
+      }
     
+    options.tooltip = {
+        formatter: function(){
+          return "<b>"+this.series.name+": "+this.x+"</b><br><i>"+Highcharts.numberFormat(this.y, 1)+"</i>";
+        }};*/
+    var chart = new Highcharts.Chart(options); 
+    chart.isLoaded = false;
+    return chart;
   };
 
  function onMouseOver(event){   
@@ -20,7 +94,7 @@ function chart_funct(parent) {
  }
  
  function showAddDialog(html,page_id) {
-   var dialog = $('<div>'+html+'<div class="error" style="display:none;color:red"></div></div>')
+   var dialog = $('<div id="add-dialog">'+html+'<div class="error" style="display:none;color:red"></div></div>')
              .dialog({               
                width:  600,               
                resizable:false,
@@ -30,8 +104,8 @@ function chart_funct(parent) {
                },
                buttons: {
                 "Добавить": function() {                  
-                  var counter_id = $(dialog).children('#active-counter-id').val();
-                  main.ajax('page','ajax_add_chart',{project_id:project_id,page_id:main.selectedTabId,counter_id:counter_id},
+                  var selector_id = $("#add-dialog .active-counter-id option:selected").val();                  
+                  main.ajax('page','ajax_add_chart',{project_id:project_id,page_id:main.selectedTabId,counter_id:selector_id},
                     function(data){
                       console.log(data);
                       data = JSON.parse(data);
@@ -81,5 +155,3 @@ function chart_funct(parent) {
 }
 
 window.chart = chart_funct(window);
-
-

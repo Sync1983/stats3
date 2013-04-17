@@ -17,7 +17,7 @@ class PageView extends lmbActiveRecord {
       $view_records = $this->findAllRecords("page_id=".$page_id,array('position'=>'asc'));
       foreach ($view_records as $record) {        
         $counter_id = $record['counter_id'];        
-        $this->_views[] = array(  'id'    =>  $record['page_id'],
+        $this->_views[] = array(  'id'    =>  $record['page_id']<<16+$record['position'],
                                   'counter_id' => $counter_id);
       }
       foreach ($this->_views as $key=>$view) {

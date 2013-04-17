@@ -89,7 +89,7 @@ class MainPageController extends spController
     $views = $page_view->getPageViews();    
     $this->view = $this->toolkit->createViewByTemplate('main_page/ajax_load_tab.phtml');
     $this->view->set('charts', $views);    
-    $this->sendAjaxResponce($charts,true);
+    $this->sendAjaxResponce(array('charts'=>$views),true);
   }
   
   private function setTimeInterval() {

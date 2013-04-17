@@ -1,7 +1,7 @@
 <?php /* This file is generated from D:\stats3/template/login/display.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutorcf824828007eaff1488e646204bdbfae', false)){
+if(!class_exists('MacroTemplateExecutor1ef654d978f99106ad0484e05aeb110e', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutorcf824828007eaff1488e646204bdbfae extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutor1ef654d978f99106ad0484e05aeb110e extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -18,26 +18,32 @@ function __staticInclude1($file) {
     window.myjs = window.myjs || {}; 
     window.myjs.server_vars = <?php echo json_encode($this->toolkit->getJsVars())?>
   </script>  
-  <script type="text/javascript">window.ammo=window.ammo||{};window.ammo.file_versions={"js\/bpopup.min.js":"\/_\/1zie26e\/js\/bpopup.min.js","js\/main.js":"\/_\/1v28l4p\/js\/main.js","js\/md5.js":"\/_\/0qkk5dg\/js\/md5.js"};</script>  
-  <link rel="stylesheet" type="text/css" href="/_/15opygu/media/var/css/styles-main.css" />  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" type="text/javascript"></script>  
-  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler1f8887f0c88059fd890c196b2e87b893(array()); ?>    
-  <script type="text/javascript" src="/_/1ad11hz/media/var/js/c1cbeae377b511cf1acbd60e83a3d9b4.js" ></script>
+  <script type="text/javascript">window.ammo=window.ammo||{};window.ammo.file_versions={"js\/chart.js":"\/_\/1kmpapf\/js\/chart.js","js\/datepicker.js":"\/_\/0kfb1f0\/js\/datepicker.js","js\/jquery.easytabs.min.js":"\/_\/0x9fvu4\/js\/jquery.easytabs.min.js","js\/jquery.hashchange.min.js":"\/_\/09oto83\/js\/jquery.hashchange.min.js","js\/main.js":"\/_\/06o68\/js\/main.js","js\/md5.js":"\/_\/0qkk5dg\/js\/md5.js"};</script>  
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css"></style>
+  <link rel="stylesheet" type="text/css" href="/_/08yph9c/media/var/css/styles-main.css" />  
+  <link rel="stylesheet" type="text/css" href="/_/0eqsm52/media/var/css/styles-tabs.css" />
+  <link rel="stylesheet" type="text/css" href="/_/1epp5ns/media/var/css/styles-datepicker.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js" type="text/javascript"></script>    
+  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler210825f810ac8744e166ba7206db5f6f(array()); ?>    
+  <script type="text/javascript" src="/_/1agcsuy/media/var/js/4aece685991f42cd23d6d50e39521728.js" ></script>
+  <script>
+    var project_id = <?php echo htmlspecialchars($this->project_id,3); ?>;
+  </script>
 </head>
 <body>
-<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandlerbd24008e35e0020a6207654598276da5(array()); ?>
+<center>
+<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandler073cf46b838b42382be92226c94e93e0(array()); ?>
 
-<div id="content">
-  <?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandler825363c956092c411e163be38ed0741b(array()); ?>
+<?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandlerdaa94a4a65b55962fb2e1c175b3d800b(array()); ?>
 
-</div>
+</center>
 
 <script type="text/javascript" src="/_/0d6793j/media/var/i18n/i18n_dictonary.en_US.js" ></script>
-<script type="text/javascript" src="/_/1aud537/media/var/js/b23c09763e3b0727b423d6a78e533f32.js" ></script>
+<script type="text/javascript" src="/_/0ff1yjn/media/var/js/0c1edb151553856c18c4a2e3c40eec66.js" ></script>
 
 <div class="ajax-loader" style="display: none;">&nbsp;</div>
-<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandlere7345bde4ddd29bfe2d737026a90d685(array()); ?>
+<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandler3ccbc0db29c7015bfe608e50515a3436(array()); ?>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {  
@@ -68,20 +74,20 @@ jQuery(document).ready(function() {
 <?php 
 }
 
-function __slotHandler1f8887f0c88059fd890c196b2e87b893($A= array()) {
+function __slotHandler210825f810ac8744e166ba7206db5f6f($A= array()) {
 if($A) extract($A);
 }
 
-function __slotHandlerbd24008e35e0020a6207654598276da5($B= array()) {
-if($B) extract($B);
-}
-
-function __slotHandler825363c956092c411e163be38ed0741b($C= array()) {
-if($C) extract($C);
-}
-
-function __slotHandlere7345bde4ddd29bfe2d737026a90d685($D= array()) {
+function __slotHandler073cf46b838b42382be92226c94e93e0($D= array()) {
 if($D) extract($D);
+}
+
+function __slotHandlerdaa94a4a65b55962fb2e1c175b3d800b($E= array()) {
+if($E) extract($E);
+}
+
+function __slotHandler3ccbc0db29c7015bfe608e50515a3436($F= array()) {
+if($F) extract($F);
 }
 
 function __aslotHandler_js_ready() {
@@ -96,4 +102,4 @@ function __aslotHandler_js_ready() {
 
 }
 }
-$macro_executor_class='MacroTemplateExecutorcf824828007eaff1488e646204bdbfae';
+$macro_executor_class='MacroTemplateExecutor1ef654d978f99106ad0484e05aeb110e';

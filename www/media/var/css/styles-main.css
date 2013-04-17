@@ -102,6 +102,7 @@ div#tab-content {
 #content {  
   height: 100%;
   min-height:100%;
+  overflow-y: scroll;
 }
 
 #dateRange-txt {
@@ -167,6 +168,17 @@ div#tab-content {
   position: absolute;
   right: 5px;
   top: 5px;
+  cursor: pointer;
+}
+
+#rename-tab {
+  background: url(/_/1aqm1lh/images/rename_button.png) 0px 0px no-repeat;  
+  background-size: 50px 20px;
+  width: 50px;
+  height: 20px;
+  position: absolute;
+  right: 60px;
+  top: 8px;
   cursor: pointer;
 }
 

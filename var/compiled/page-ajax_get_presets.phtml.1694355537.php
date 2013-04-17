@@ -1,13 +1,13 @@
 <?php /* This file is generated from page/ajax_get_presets.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor626014984f46555914155c5d1d702679', false)){
+if(!class_exists('MacroTemplateExecutor5db1a2e6cadb99dc85c190755c64a57d', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutor626014984f46555914155c5d1d702679 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutor5db1a2e6cadb99dc85c190755c64a57d extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
  ?><div>
   Выберите формулу или создайте новую!
-  <select style="width: 90%" id="active-counter-id">
+  <select style="width: 90%" class="active-counter-id">    
     <?php $E = 0;$G = $this->names;
 
 if(!is_array($G) && !($G instanceof Iterator) && !($G instanceof IteratorAggregate)) {
@@ -35,4 +35,4 @@ echo htmlspecialchars($K,3); ?></option>
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor626014984f46555914155c5d1d702679';
+$macro_executor_class='MacroTemplateExecutor5db1a2e6cadb99dc85c190755c64a57d';
