@@ -1,7 +1,7 @@
 <div style="margin-left: 10px;padding: 0;">
   {{list using="$#charts" as="$item"}}
     {{list:item}}
-      <div class="chart" id="chart_{$item.id}"><div class="delete-chart"></div><h1>{$item.name}</h1></div>
+    <div class="chart" id="chart_{$item.id}"><div class="delete-chart"></div><div class="chart_graph"></div></div>
     {{/list:item}}
   {{/list}}     
     <div class="chart" id="chart_add"><h1>Добавьте диаграмму</h1><img src="images/addChart.png" width="200" height="200" style="top:30px;position: relative;"/></div>

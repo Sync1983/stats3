@@ -209,6 +209,12 @@ div#tab-content {
   cursor: pointer;
 }
 
+.chart_graph {  
+  margin: 0px;
+  margin-top: -25px;
+  height:250px;
+}
+
 .chart h1 {
   font-size: 18px;
   position: relative;

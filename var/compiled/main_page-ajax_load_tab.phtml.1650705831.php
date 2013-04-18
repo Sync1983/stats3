@@ -1,7 +1,7 @@
 <?php /* This file is generated from main_page/ajax_load_tab.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor95d5145a867d2c18d43c0c3ba24f5f55', false)){
+if(!class_exists('MacroTemplateExecutor5a61fdbc2530ab3233fb05d1eadd44a8', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutor95d5145a867d2c18d43c0c3ba24f5f55 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutor5a61fdbc2530ab3233fb05d1eadd44a8 extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -15,15 +15,11 @@ foreach($F as $item) {if($E == 0) { ?>
 
     <?php } ?>
 
-      <div class="chart" id="chart_<?php $I='';
+    <div class="chart" id="chart_<?php $I='';
 $J = $item;
 if((is_array($J) || ($J instanceof ArrayAccess)) && isset($J['id'])) { $I = $J['id'];
 }else{ $I = '';}
-echo htmlspecialchars($I,3); ?>"><div class="delete-chart"></div><h1><?php $K='';
-$L = $item;
-if((is_array($L) || ($L instanceof ArrayAccess)) && isset($L['name'])) { $K = $L['name'];
-}else{ $K = '';}
-echo htmlspecialchars($K,3); ?></h1></div>
+echo htmlspecialchars($I,3); ?>"><div class="delete-chart"></div><div class="chart_graph"></div></div>
     <?php $E++;}if($E > 0) { ?>
 
   <?php } ?>     
@@ -37,4 +33,4 @@ echo htmlspecialchars($K,3); ?></h1></div>
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor95d5145a867d2c18d43c0c3ba24f5f55';
+$macro_executor_class='MacroTemplateExecutor5a61fdbc2530ab3233fb05d1eadd44a8';
