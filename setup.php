@@ -25,7 +25,4 @@ require_once('setup.override.php');
 
 // toolkit
 lmbToolkit :: merge(new spLoginTools());
-//lmbToolkit :: merge(new StatsTools());
-
-//lmbToolkit :: instance()->setTimeZone(new DateTimeZone('Etc/GMT-3'));
-//lmbToolkit :: instance()->setLocale('ru_RU');
+lmbToolkit :: merge(new spDataTools());

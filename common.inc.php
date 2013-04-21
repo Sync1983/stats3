@@ -31,11 +31,8 @@ $classes['log_viralSend']           = 'src/model/log_clases.php';*/
 
 // toolkit
 require_once(__DIR__ . '/src/spLoginTools.class.php');
-//require_once(__DIR__ . '/src/StatsTools.class.php');
-//require_once(__DIR__ . '/src/StatsMath.class.php');
+require_once(__DIR__ . '/src/spDataTools.class.php');
 //require_once(__DIR__ . '/src/redis.inc.php');
-//require_once(__DIR__ . '/src/sqlHashHelper.inc.php');
 
-//require_once('bit/stats/common.inc.php');
 
 

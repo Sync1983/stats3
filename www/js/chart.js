@@ -35,10 +35,8 @@
     return chart;
  };
 
- function chartAjaxLoad(chart) {
-  console.log(chart);
-  function onLoaded(data) {
-    data = JSON.parse(data);
+ function chartAjaxLoad(chart) {  
+  function onLoaded(data) {    
     console.log(data);
     if(data.options) {
       var opt = chart.getOptions();
@@ -55,8 +53,10 @@
       return;
     }
   }
-
-  window.main.ajax('chart','ajax_load_chart',{id:chart.chart_id,project_id:project_id},onLoaded);
+  var data = window.main.getPeriod();
+  data.id = chart.chart_id;
+  data.project_id = project_id;
+  window.main.ajax('chart','ajax_load_chart',data,onLoaded);
   return;
  }
 

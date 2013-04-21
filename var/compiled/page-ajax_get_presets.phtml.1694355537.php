@@ -1,7 +1,7 @@
 <?php /* This file is generated from page/ajax_get_presets.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor132d9965a5c504e8c61af141964b2141', false)){
+if(!class_exists('MacroTemplateExecutorca8ffc9c4710b9644fffad7197122af2', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutor132d9965a5c504e8c61af141964b2141 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutorca8ffc9c4710b9644fffad7197122af2 extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -14,9 +14,7 @@ if(!is_array($G) && !($G instanceof Iterator) && !($G instanceof IteratorAggrega
 $G = array();}
 $F = $G;
 foreach($F as $item) {if($E == 0) { ?>
-
       <?php } ?>
-
       <option value="<?php $I='';
 $J = $item;
 if((is_array($J) || ($J instanceof ArrayAccess)) && isset($J['id'])) { $I = $J['id'];
@@ -27,7 +25,6 @@ if((is_array($L) || ($L instanceof ArrayAccess)) && isset($L['title'])) { $K = $
 }else{ $K = '';}
 echo htmlspecialchars($K,3); ?></option>
       <?php $E++;}if($E > 0) { ?>
-
     <?php } ?>   
   </select>
 </div><?php 
@@ -35,4 +32,4 @@ echo htmlspecialchars($K,3); ?></option>
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor132d9965a5c504e8c61af141964b2141';
+$macro_executor_class='MacroTemplateExecutorca8ffc9c4710b9644fffad7197122af2';
