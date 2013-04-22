@@ -9,5 +9,11 @@
         <file>file:/D:/stats3/src/model/PageView.class.php</file>
         <file>file:/D:/stats3/www/js/main.js</file>
         <file>file:/D:/stats3/src/controller/MainPageController.class.php</file>
+        <file>file:/D:/stats3/template/main_page/ajax_load_tab.phtml</file>
+        <file>file:/D:/stats3/src/controller/ChartController.class.php</file>
+        <file>file:/D:/stats3/web/limb/toolkit/src/lmbToolkit.class.php</file>
+        <file>file:/D:/stats3/web/limb/dbal/tests/cases/toolkit/lmbDbToolsTest.class.php</file>
+        <file>file:/D:/stats3/web/limb/dbal/src/toolkit/lmbDbTools.class.php</file>
+        <file>file:/D:/stats3/web/limb/toolkit/src/lmbAbstractTools.class.php</file>
     </open-files>
 </project-private>
