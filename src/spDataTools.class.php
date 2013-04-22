@@ -35,10 +35,31 @@ class spDataTools extends spTools {
     echo "parse root: $root \r\n";
     $preset_key = $this->_pid."_".$root;
     if(array_key_exists($preset_key, $this->_presets)) {
-      // Корень - это указатель на другую формулу, нужно подменить его формулой
+      // Корень - это указатель на другую формулу, нужно подменить его
       return $this->_pharse($this->_presets[$preset_key]);
-    }
-    echo "parse root: $root \r\n";
+    }    
+    echo "parse root: $root \r\n";    
+    $start = 0;
+    $pos = 0;
+    $parts = array();
+    while($root!="") {
+      if( (substr($root,$pos,1)=='(')||
+          (substr($root,$pos,1)=='#')||
+          (substr($root,$pos,1)==')')||
+          ($pos>strlen($root))) {
+        $substr = substr($root, $start, $pos-$start);        
+        while(  (substr($root,$pos+1,1)=='(')||
+                (substr($root,$pos+1,1)=='#')||
+                (substr($root,$pos+1,1)==')')) 
+                $pos++;        
+        $root = substr($root, $pos, strlen($root)-$pos+1);        
+        $start=$pos = 1;
+        array_push($parts, $substr);
+        echo $root."\r\n";        
+      } 
+      $pos++;      
+    }    
+    print_r($parts);
   }
   
 }

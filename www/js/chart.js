@@ -110,20 +110,18 @@
  
  function onMouseClick(event) {
    var target = event.currentTarget;
-   var id = target.getAttribute('id');
-   console.log(id);
+   var id = target.getAttribute('id');   
    if(id==="chart_add") {
      onAddNewChart();
      return;
-   }
-     
+   }     
  }
   
-  chart.addEvents = function() {
-    $('.chart').each(function(index,elem) {
-      $(elem).bind('mouseenter',onMouseOver);
-      $(elem).bind('mouseleave',onMouseOut);
-      $(elem).bind('click',onMouseClick);
+ chart.addEvents = function() {
+   $('.chart').each(function(index,elem) {
+     $(elem).bind('mouseenter',onMouseOver);
+     $(elem).bind('click',onMouseClick);
+     $(elem).bind('mouseleave',onMouseOut);
     });
   };
   

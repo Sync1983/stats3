@@ -35,14 +35,12 @@ function main_funct(parent) {
     var login = $('#login').val();    
     var password = $('#password').val();
     main.ajax('login','ajax_login',{login:login,password:password},function(returnData){
-      var data = JSON.parse(returnData);
-      console.log(data);
+      var data = JSON.parse(returnData);      
       if(data.error) {
         $('.errors').css('display','block');
         $('.errors').text('*'+data.error);
         return false;
-      } else if(data.redirect) {
-        console.log('Redirecting');
+      } else if(data.redirect) {        
         location.href = window.myjs.server_vars.base_path+data.redirect;
       }
       $('.errors').css('display','none');      
@@ -67,8 +65,7 @@ function main_funct(parent) {
   };
 
   main.changeTab = function (event, clicked, targetPanel, settings) {    
-    var id = clicked.attr('id');
-    console.log(clicked);
+    var id = clicked.attr('id');    
     if(id === 'add_tab') {
        main.ajax('main_page','ajax_add_tab',null,
         function(data){
@@ -85,15 +82,12 @@ function main_funct(parent) {
                },
                buttons: {
                 "Сохранить": function() {                  
-                  var save_data = {};
-                  console.log($('#name'));
+                  var save_data = {};                  
                   save_data['name'] = $('#name').val();
                   save_data['pid'] = pid;
-                  save_data['mid'] = mid;
-                  console.log(save_data);
+                  save_data['mid'] = mid;                  
                   main.ajax('main_page','ajax_save_tab',save_data,
-                    function(data){
-                      console.log(data);
+                    function(data){                      
                       data = JSON.parse(data);
                       if(data.error) {
                         dialog.children(".error").css('display','block');
@@ -120,12 +114,10 @@ function main_funct(parent) {
     if(main.selectedTabId===-1) {
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
       main.selectedTabName = $('.etabs>li>a')[0].text;
-    }
-    console.log({selectedTabId:main.selectedTabName});
+    }    
     $('.chart').remove();
     main.ajax('main_page','ajax_load_tab',{project_id:project_id, page_id:main.selectedTabId},
-                    function(data){
-                      console.log("Load tabs:"+data);
+                    function(data){                      
                       data = JSON.parse(data);
                       if(data.error) {
                         alert(data.error);                        
@@ -138,8 +130,7 @@ function main_funct(parent) {
                     });
   };
 
-  function loadCharts(charts){
-    console.log(charts);    
+  function loadCharts(charts){    
     for(var i in charts) {
       var chart_item = charts[i];  
       var item = $("#chart_"+chart_item.id+" .chart_graph")[0];      
@@ -165,8 +156,7 @@ function main_funct(parent) {
                buttons: {
                 "Удалить": function() {                  
                   main.ajax('main_page','ajax_delete_tab',{id:main.selectedTabId},
-                    function(data){
-                      console.log(data);
+                    function(data){                      
                       data = JSON.parse(data);
                       if(data.error) {
                         dialog.children(".error").css('display','block');
@@ -197,8 +187,7 @@ function main_funct(parent) {
                buttons: {
                 "Удалить": function() {                  
                   main.ajax('main_page','ajax_delete_tab',{id:main.selectedTabId},
-                    function(data){
-                      console.log(data);
+                    function(data){                      
                       data = JSON.parse(data);
                       if(data.error) {
                         dialog.children(".error").css('display','block');
@@ -212,7 +201,6 @@ function main_funct(parent) {
                }                
              });             
   };
-
   return main;
 }
 

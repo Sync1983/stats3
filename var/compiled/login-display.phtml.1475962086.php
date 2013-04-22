@@ -1,7 +1,7 @@
 <?php /* This file is generated from D:\stats3/template/login/display.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor00567cba883505875959357dbefe32ae', false)){
+if(!class_exists('MacroTemplateExecutor8d2abcfcb47bfaa353ee0b0fdec1dffd', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutor00567cba883505875959357dbefe32ae extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutor8d2abcfcb47bfaa353ee0b0fdec1dffd extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -18,14 +18,14 @@ function __staticInclude1($file) {
     window.myjs = window.myjs || {}; 
     window.myjs.server_vars = <?php echo json_encode($this->toolkit->getJsVars())?>
   </script>  
-  <script type="text/javascript">window.ammo=window.ammo||{};window.ammo.file_versions={"js\/chart.js":"\/_\/0nux9zf\/js\/chart.js","js\/datepicker.js":"\/_\/0kfb1f0\/js\/datepicker.js","js\/exporting.js":"\/_\/0ms8kqs\/js\/exporting.js","js\/highcharts.js":"\/_\/0s7b9os\/js\/highcharts.js","js\/jquery.easytabs.min.js":"\/_\/0x9fvu4\/js\/jquery.easytabs.min.js","js\/jquery.hashchange.min.js":"\/_\/09oto83\/js\/jquery.hashchange.min.js","js\/main.js":"\/_\/143vs50\/js\/main.js","js\/md5.js":"\/_\/0qkk5dg\/js\/md5.js"};</script>  
+  <script type="text/javascript">window.ammo=window.ammo||{};window.ammo.file_versions={"js\/chart.js":"\/_\/1q067a7\/js\/chart.js","js\/datepicker.js":"\/_\/0kfb1f0\/js\/datepicker.js","js\/exporting.js":"\/_\/0ms8kqs\/js\/exporting.js","js\/highcharts.js":"\/_\/0s7b9os\/js\/highcharts.js","js\/jquery.easytabs.min.js":"\/_\/0x9fvu4\/js\/jquery.easytabs.min.js","js\/jquery.hashchange.min.js":"\/_\/09oto83\/js\/jquery.hashchange.min.js","js\/main.js":"\/_\/1e2wa5v\/js\/main.js","js\/md5.js":"\/_\/0qkk5dg\/js\/md5.js"};</script>  
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css"></style>
-  <link rel="stylesheet" type="text/css" href="/_/1qez7vt/media/var/css/styles-main.css" />  
+  <link rel="stylesheet" type="text/css" href="/_/02xzc5q/media/var/css/styles-main.css" />  
   <link rel="stylesheet" type="text/css" href="/_/0eqsm52/media/var/css/styles-tabs.css" />
   <link rel="stylesheet" type="text/css" href="/_/1epp5ns/media/var/css/styles-datepicker.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js" type="text/javascript"></script>    
-  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler1c4b6783c9e36d0725949c08089c89af(array()); ?>    
+  <?php if(isset($this->__slot_handlers_head)) {foreach($this->__slot_handlers_head as $__slot_handler_head) {call_user_func_array($__slot_handler_head, array(array()));}}$this->__slotHandler083bc69255aa0e4096d6191f634c3852(array()); ?>    
   <script type="text/javascript" src="/_/0y2gpx9/media/var/js/c91132352bb876119d730b5968b258f6.js" ></script>
   <script>
     var project_id = <?php echo htmlspecialchars($this->project_id,3); ?>;
@@ -33,17 +33,17 @@ function __staticInclude1($file) {
 </head>
 <body>
 <center>
-<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandler294a46d7f34aac120dc74b983650325e(array()); ?>
+<?php if(isset($this->__slot_handlers_menu)) {foreach($this->__slot_handlers_menu as $__slot_handler_menu) {call_user_func_array($__slot_handler_menu, array(array()));}}$this->__slotHandlerc528414a6715307f717bc9097d93510d(array()); ?>
 
-<?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandler86093898cb6cbb3e48b9bf3c17f2c5af(array()); ?>
+<?php if(isset($this->__slot_handlers_content_wrapper)) {foreach($this->__slot_handlers_content_wrapper as $__slot_handler_content_wrapper) {call_user_func_array($__slot_handler_content_wrapper, array(array()));}}$this->__slotHandler673febd704c80b51fd2acf4149ea0080(array()); ?>
 
 </center>
 
 <script type="text/javascript" src="/_/0d6793j/media/var/i18n/i18n_dictonary.en_US.js" ></script>
-<script type="text/javascript" src="/_/1n5fff5/media/var/js/0c1edb151553856c18c4a2e3c40eec66.js" ></script>
+<script type="text/javascript" src="/_/15tuue/media/var/js/0c1edb151553856c18c4a2e3c40eec66.js" ></script>
 
 <div class="ajax-loader" style="display: none;">&nbsp;</div>
-<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandler20ce92158d138325ab1191061638db78(array()); ?>
+<?php if(isset($this->__slot_handlers_js_include)) {foreach($this->__slot_handlers_js_include as $__slot_handler_js_include) {call_user_func_array($__slot_handler_js_include, array(array()));}}$this->__slotHandler8e7bc79a7efa6e6776bbb0e25d4af8f5(array()); ?>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {  
@@ -74,19 +74,19 @@ jQuery(document).ready(function() {
 <?php 
 }
 
-function __slotHandler1c4b6783c9e36d0725949c08089c89af($A= array()) {
+function __slotHandler083bc69255aa0e4096d6191f634c3852($A= array()) {
 if($A) extract($A);
 }
 
-function __slotHandler294a46d7f34aac120dc74b983650325e($D= array()) {
+function __slotHandlerc528414a6715307f717bc9097d93510d($D= array()) {
 if($D) extract($D);
 }
 
-function __slotHandler86093898cb6cbb3e48b9bf3c17f2c5af($E= array()) {
+function __slotHandler673febd704c80b51fd2acf4149ea0080($E= array()) {
 if($E) extract($E);
 }
 
-function __slotHandler20ce92158d138325ab1191061638db78($F= array()) {
+function __slotHandler8e7bc79a7efa6e6776bbb0e25d4af8f5($F= array()) {
 if($F) extract($F);
 }
 
@@ -102,4 +102,4 @@ function __aslotHandler_js_ready() {
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor00567cba883505875959357dbefe32ae';
+$macro_executor_class='MacroTemplateExecutor8d2abcfcb47bfaa353ee0b0fdec1dffd';
