@@ -1,7 +1,7 @@
 <?php /* This file is generated from main_page/ajax_load_tab.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutorfcae3d63f137bb5683759944195ddf3b', false)){
+if(!class_exists('MacroTemplateExecutora547cc9ab0e8dd37096bb4faba7d453e', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutorfcae3d63f137bb5683759944195ddf3b extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutora547cc9ab0e8dd37096bb4faba7d453e extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -33,4 +33,4 @@ echo htmlspecialchars($I,3); ?>"><div class="delete-chart"></div><div class="cha
 
 }
 }
-$macro_executor_class='MacroTemplateExecutorfcae3d63f137bb5683759944195ddf3b';
+$macro_executor_class='MacroTemplateExecutora547cc9ab0e8dd37096bb4faba7d453e';
