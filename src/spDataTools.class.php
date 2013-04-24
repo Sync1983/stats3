@@ -75,26 +75,30 @@ class spDataTools extends spTools {
     }*/
     // parts - набор команд и параметров
     print_r($parts);    
-    $parts = $this->constructTree(&$parts);    
+    $parts = $this->constructTree($parts);    
     print_r($parts);    
     //print_r($this->calculate($parts));
   }
   
-  private function constructTree(&$root){
-    
-    $params = array();
-    $pos = array_search('', $root)-1;    
-    for(;$pos>0;$pos--) {
-      if(in_array($root[$pos], $this->commands)) {
-        return array('f'=>$root[$pos],'p'=>$params);
-        array_splice($root, $pos+1, array_search('', $root)-$pos-1);
-        $params = array();
-      }
-      array_unshift($params, $root[$pos]);
-    }
-    $action = $root[$pos];
-    print_r($root);
-    return array('f'=>$action,'p'=>$params);
+  private function constructTree(&$root){    
+    $start_pos = array_search('', $root);    
+    //Находим первую команду выше
+    for($pos = $start_pos; $pos >= 0; $pos--)
+      if(!is_array($root[$pos]) && array_key_exists($root[$pos], $this->commands))
+        break;
+    //Вырезаем часть с командой и параметрами
+    $params = array_splice($root, $pos, $start_pos-$pos);    
+    //Переводим первый элемент в команду
+    $action = $params[0];
+    //Вырезаем команду из параметров
+    array_splice($params, 0, 1);
+    //Удаляем пустой разделитель параметров
+    array_splice($params, count($params), 1);
+    print_r(array('f'=>$action,'p'=>$params));    
+    $root[$pos] = array('f'=>$action,'p'=>$params);
+    if(count($root)>1)
+      $this->constructTree ($root);
+    return $root[0];
   }
 
 

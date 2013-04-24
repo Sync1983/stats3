@@ -201,6 +201,40 @@ function main_funct(parent) {
                }                
              });             
   };
+
+  main.deleteChart = function(id) {
+    if(main.selectedTabId === -1) {      
+      main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
+      main.selectedTabName = $('.etabs>li>a')[0].text;
+    };
+  
+    var dialog = $('<div>'+"Удалить диаграмму?"+'<div class="error" style="display:none;color:red"></div></div>')
+             .dialog({               
+               width:  500,               
+               resizable:false,
+               title: "Удалить вкладку?",
+               close: function(event, ui) {                    
+                dialog.remove();                    
+               },
+               buttons: { "Удалить": onDeleteButton }
+             });             
+           
+    function onDeleteAnswerRecive(data) {      
+      if(data.error) {
+        dialog.children(".error").css('display','block');
+        dialog.children(".error").text(data.error);
+        return;
+      }                      
+      dialog.dialog('close');
+      location.href = "?project_id="+project_id;
+    }       
+  
+    function onDeleteButton() {
+      main.ajax('main_page','ajax_delete_chart',{chart_id:id},onDeleteAnswerRecive);
+    };
+  
+  };
+
   return main;
 }
 

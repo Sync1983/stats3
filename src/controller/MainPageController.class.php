@@ -83,13 +83,24 @@ class MainPageController extends spController
   function doAjaxLoadTab() {
     $request = $this->toolkit->request;    
     $project_id = $request['project_id'];    
-    $page_id    = $request['page_id'];
-    $charts = array();
+    $page_id    = $request['page_id'];    
     $page_view = new PageView($page_id);
     $views = $page_view->getPageViews();    
     $this->view = $this->toolkit->createViewByTemplate('main_page/ajax_load_tab.phtml');
     $this->view->set('charts', $views);    
     $this->sendAjaxResponce(array('charts'=>$views),true);
+  }
+  
+  function doAjaxDeleteChart() {
+    $request = $this->toolkit->request;    
+    $chart_id    = $request['chart_id'];  
+    $page_id = ($chart_id>>16)&0xFFFF;
+    $chart_id &= 0xFFFF;
+    $page_view = new PageView($page_id);
+    if($page_view->deleteChart($page_id, $chart_id))
+      $this->sendAjaxSuccess();
+    else
+      $this->sendAjaxError ('Deleting error');
   }
   
   private function setTimeInterval() {
