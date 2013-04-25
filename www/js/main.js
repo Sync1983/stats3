@@ -134,7 +134,7 @@ function main_funct(parent) {
     for(var i in charts) {
       var chart_item = charts[i];  
       var item = $("#chart_"+chart_item.id+" .chart_graph")[0];      
-      var chart = new window.chart.addChart(item,chart_item.counter_id,chart_item.name);
+      var chart = new window.chart.addChart(item,chart_item.counter_id,chart_item.name,chart_item.id);
       chart.ajax_load(chart);
       //while(!chart.isLoaded);
     }

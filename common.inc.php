@@ -32,6 +32,7 @@ $classes['log_viralSend']           = 'src/model/log_clases.php';*/
 // toolkit
 require_once(__DIR__ . '/src/spLoginTools.class.php');
 require_once(__DIR__ . '/src/spDataTools.class.php');
+require_once(__DIR__ . '/src/spChartConverter.class.php');
 //require_once(__DIR__ . '/src/redis.inc.php');
 
 

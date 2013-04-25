@@ -29,7 +29,7 @@ class spDataTools extends spTools {
       $this->_presets[$row['project_id']."_".$row['name']] = $row['data'];
   }
 
-  public function getData($data,$project_id,$start_time,$stop_time){    
+  public function getData($data,$project_id,$chart_id,$start_time,$stop_time){    
     $this->_pid = $project_id;
     $this->_start = $start_time;
     $this->_stop = $stop_time;
@@ -37,13 +37,14 @@ class spDataTools extends spTools {
     $roots = explode(',', $data);
     $result = array();
     foreach ($roots as $root) {
-      $result[$root] = $this->_pharse($root);
+      $temp = $this->_pharse($root);
+      $result[$root] = $this->calculate($temp);      
     }
+    $result = $this->toolkit->createViewData($chart_id, &$result);
     return $result;
   }
   
-  private function _pharse($root){
-    echo "parse root: $root \r\n";
+  private function _pharse($root){    
     $preset_key = $this->_pid."_".$root;
     if(array_key_exists($preset_key, $this->_presets)) {
       // Корень - это указатель на другую формулу, нужно подменить его
@@ -51,33 +52,15 @@ class spDataTools extends spTools {
     }    
     
     $parts = split("[\(#\)]", $root);
-    /*while($root!="") {
-      if( (substr($root,$pos,1)=='(')||
-          (substr($root,$pos,1)=='#')||
-          (substr($root,$pos,1)==')')||
-          ($pos>strlen($root))) {
-        
-            while(  (substr($root,$pos+1,1)=='(')||
-                    (substr($root,$pos+1,1)=='#') ) 
-                    $pos++;        
-            
-            $substr = substr($root, $start, $pos-$start);        
-            $root = substr($root, $pos, strlen($root)-$pos+1);        
-            $start=$pos = 1;
-            array_push($parts, $substr);        
-      } 
-      $pos++;      
-    }   
-    foreach ($parts as $key=>$value) { 
-      $parts[$key] = trim ($value, "(#");
-      if($value=='')
-        unset($parts[$key]);
-    }*/
-    // parts - набор команд и параметров
-    print_r($parts);    
+    // parts - набор команд и параметров    
+    foreach ($parts as $key=>$part) {
+      $preset_key = $this->_pid."_".$part;
+      if(array_key_exists($preset_key, $this->_presets)) {        
+        $parts[$key] = $this->_pharse($part);
+      }
+    }
     $parts = $this->constructTree($parts);    
-    print_r($parts);    
-    //print_r($this->calculate($parts));
+    return $parts;    
   }
   
   private function constructTree(&$root){    
@@ -93,8 +76,7 @@ class spDataTools extends spTools {
     //Вырезаем команду из параметров
     array_splice($params, 0, 1);
     //Удаляем пустой разделитель параметров
-    array_splice($params, count($params), 1);
-    print_r(array('f'=>$action,'p'=>$params));    
+    array_splice($params, count($params), 1);    
     $root[$pos] = array('f'=>$action,'p'=>$params);
     if(count($root)>1)
       $this->constructTree ($root);
@@ -102,37 +84,19 @@ class spDataTools extends spTools {
   }
 
 
-  private function calculate(&$root,$pos=0) {    
-    $action = $root[$pos];
-    $pos++;    
-    $params = array();
-    $count = count($root);
-    for(;$pos<$count;$pos++) {
-      if(in_array($root, $this->commands)) {
-        // Этот параметр указатель на другую операцию, нужно сначала вычислить его
-        $root[$pos] = $this->calculate($root,$pos);        
-      }
-      $preset_key = $this->_pid."_".$root[$pos];
-      if(array_key_exists($preset_key, $this->_presets)) {
-        // Этот параметр указатель на другую формулу, нужно сначала вычислить его
-        $root[$pos] = $this->_pharse($this->_presets[$preset_key]);
-        echo "Insert\r\n";
-        print_r($root[$pos]);
-      }
-      $params[] = $root[$pos];
-      unset($root[$pos]);
-    }     
-    
-    echo "Calculate:\r\n";
-    print_r($root);
-    echo "Action: $action\r\n";
-    print_r($params);
-    
-    if(!method_exists($this, $action)) {
+  private function calculate(&$action) {
+    if(!isset($action['f']))
+      return;
+    $funct = $action['f'];
+    $params = $action['p'];    
+    foreach ($params as $key=>$param)
+      if(is_array($param)&&isset($param['f']))
+        $params[$key] = $this->calculate($param);
+    if(!method_exists($this, $funct)) {
       echo "Math action $action not found\r\n";
       return array();
     }
-    return $this->$action($params);
+    return $this->$funct($params);
   }
   
   private function loadChart($name,$start,$stop) {    
@@ -147,8 +111,9 @@ class spDataTools extends spTools {
   /*================================= Math part ==============================*/
   
   private function div($params) {
-    foreach ($params as $key=>$name)
-      $params[$key] = $this->loadChart($name, $this->_start, $this->_stop);
+    foreach ($params as $key=>$param)
+      if(!is_array($param)&&isset($param['f']))
+        $params[$key] = $this->loadChart($param, $this->_start,  $this->_stop);
     $result = array();
     foreach ($params[0] as $key=>$value) {
       if(is_array($params[1]))
@@ -159,9 +124,24 @@ class spDataTools extends spTools {
     return $result;
   }
   
+  private function diff($params) {
+    foreach ($params as $key=>$param)
+      if(!is_array($param)&&isset($param['f']))
+        $params[$key] = $this->loadChart($param, $this->_start,  $this->_stop);
+    $result = array();
+    foreach ($params[0] as $key=>$value) {
+      if(is_array($params[1]))
+        $result[$key] = isset ($params[1][$key])?$value-$params[1][$key]:0;
+      else
+        $result[$key] = $value-$params[1];
+    }
+    return $result;
+  }
+  
   private function perc($params) {
-    foreach ($params as $key=>$name)
-      $params[$key] = $this->loadChart($name, $this->_start, $this->_stop);
+    foreach ($params as $key=>$param)
+      if(!is_array($param)&&isset($param['f']))
+        $params[$key] = $this->loadChart($param, $this->_start,  $this->_stop);
     $result = array();
     foreach ($params[0] as $key=>$value) {
       if(is_array($params[1]))

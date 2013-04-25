@@ -1,15 +1,16 @@
 
- function chart_funct(parent) {
+function chart_funct(parent) {
    var chart = {};
    
    if(parent.chart)
      chart = parent.chart;
    
-  chart.addChart = function (container,id,chart_name) {
+  chart.addChart = function (container,id,chart_name,chart_id) {
+    $(container).bind("click",onMouseChartClick);
      var options = {
      title: { text: chart_name },    
      chart: { renderTo: container, type: 'areaspline', zoomType: 'none',
-              events: { click: function(event){ /*Click on surface*/ } }
+              events: { click: onMouseChartClick }
              },
      plotOptions: { area: { marker: { enabled: true, symbol: 'circle', radius: 2, states: { hover: { enabled: true } } } } },
      series: [{}],
@@ -31,13 +32,15 @@
     var chart = new Highcharts.Chart(options); 
     chart.isLoaded = false;
     chart.chart_id = id;
-    chart.ajax_load = chartAjaxLoad;
+    chart.chart_vid = chart_id;
+    chart.ajax_load = chartAjaxLoad;    
     return chart;
  };
 
  function chartAjaxLoad(chart) {  
   function onLoaded(data) {    
     console.log(data);
+    data = JSON.parse(data);
     if(data.options) {
       var opt = chart.getOptions();
       for(var i in data.options) {
@@ -45,8 +48,13 @@
       }    
       chart.setOptions(options);
     };
-    if(data.series) {
-      chart.GetOptions().series = data.series;
+    if(data.series) {      
+      for(var i in chart.series)
+        chart.series[i].remove();
+      //chart.options.series = data.series;
+      for(var i in data.series)
+        chart.addSeries(data.series[i],true);      
+      console.log(chart.options.series);      
     }
     if(data.error) {
       alert("Loading error:"+data.error);
@@ -55,6 +63,7 @@
   }
   var data = window.main.getPeriod();
   data.id = chart.chart_id;
+  data.vid = chart.chart_vid;
   data.project_id = project_id;
   window.main.ajax('chart','ajax_load_chart',data,onLoaded);
   return;
@@ -68,6 +77,27 @@
  function onMouseOut(event){   
    var target = event.currentTarget;
    $(target).css('border-color','#000');
+ }
+ 
+ function onMouseChartClick(event) {
+   var target = event.currentTarget;
+   console.log(target,"click");
+ }
+ 
+ function onAddNewChart() {
+   main.ajax('page','ajax_get_presets',{project_id:project_id,page_id:window.main.selectedTabId}, function(data){
+     data = JSON.parse(data);
+     showAddDialog(data.html,window.main.selectedTabId);
+   });
+ };
+ 
+ function onMouseClick(event) {
+   var target = event.currentTarget;
+   var id = target.getAttribute('id');   
+   if(id==="chart_add") {
+     onAddNewChart();
+     return;
+   }     
  }
  
  function showAddDialog(html,page_id) {
@@ -101,22 +131,6 @@
              });        
  };
  
- function onAddNewChart() {
-   main.ajax('page','ajax_get_presets',{project_id:project_id,page_id:window.main.selectedTabId}, function(data){
-     data = JSON.parse(data);
-     showAddDialog(data.html,window.main.selectedTabId);
-   });
- };
- 
- function onMouseClick(event) {
-   var target = event.currentTarget;
-   var id = target.getAttribute('id');   
-   if(id==="chart_add") {
-     onAddNewChart();
-     return;
-   }     
- }
-  
  chart.addEvents = function() {
    $('.chart').each(function(index,elem) {
      $(elem).bind('mouseenter',onMouseOver);

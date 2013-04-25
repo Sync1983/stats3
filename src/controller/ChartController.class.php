@@ -9,6 +9,7 @@ class ChartController extends spController {
     $request = $this->toolkit->request;
     $project_id = $request['project_id'];
     $chart_id = $request['id'];
+    $view_char_id = $request['vid'];
     $bday = $request['bday'];
     $eday = $request['eday'];
     /** @var Member */
@@ -23,10 +24,10 @@ class ChartController extends spController {
     // TODO понять как очистить результат
     //mysql_free_result($db->getConnectionId());
     
-    foreach ($result as $key=>$data_item)
-      $result[$key] = array_merge($data_item,array('raw_data'=>$this->toolkit->getData($data_item['data'],$project_id,$bday,$eday)));
-    
-    $this->sendAjaxError("Project: " . $project_id . " id:" . $chart_id);
+    /*foreach ($result as $key=>$data_item)
+      $result[$key]['series'] = $this->toolkit->getData($data_item['data'],$project_id,$chart_id,$bday,$eday);*/
+    $this->sendAjaxResponce(array('series'=> $this->toolkit->getData($result[0]['data'],$project_id,$view_char_id,$bday,$eday)));
+    //$this->sendAjaxError("Project: " . $project_id . " id:" . $chart_id);
   }
 
 }

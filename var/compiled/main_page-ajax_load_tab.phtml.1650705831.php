@@ -1,7 +1,7 @@
 <?php /* This file is generated from main_page/ajax_load_tab.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutore5b350590e86675b450edbc8a147a775', false)){
+if(!class_exists('MacroTemplateExecutorb5136cbf15d7165d7a3ef64d4741af62', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutore5b350590e86675b450edbc8a147a775 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutorb5136cbf15d7165d7a3ef64d4741af62 extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -37,4 +37,4 @@ echo htmlspecialchars($K,3); ?>);return false;"></div><div class="chart_graph"><
 
 }
 }
-$macro_executor_class='MacroTemplateExecutore5b350590e86675b450edbc8a147a775';
+$macro_executor_class='MacroTemplateExecutorb5136cbf15d7165d7a3ef64d4741af62';

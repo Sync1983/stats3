@@ -26,3 +26,4 @@ require_once('setup.override.php');
 // toolkit
 lmbToolkit :: merge(new spLoginTools());
 lmbToolkit :: merge(new spDataTools());
+lmbToolkit :: merge(new spChartConverter());
