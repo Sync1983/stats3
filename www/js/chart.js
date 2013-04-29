@@ -5,8 +5,7 @@ function chart_funct(parent) {
    if(parent.chart)
      chart = parent.chart;
    
-  chart.addChart = function (container,id,chart_name,chart_id) {
-    $(container).bind("click",onMouseChartClick);
+  chart.addChart = function (container,id,chart_name,chart_id) {    
      var options = {
      title: { text: chart_name },    
      chart: { renderTo: container, type: 'areaspline', zoomType: 'none',
@@ -23,13 +22,14 @@ function chart_funct(parent) {
      },
      yAxis: { title: { text: 'Кол-во' } }, 
      tooltip:{
-         formatter: function(){
+        crosshairs: [true],
+        formatter: function(){
            return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x) + '<br><i>' +
            Highcharts.numberFormat(this.y, 1)+"</i>";
           }
        }
     };
-    var chart = new Highcharts.Chart(options); 
+    var chart = new Highcharts.Chart(options);     
     chart.isLoaded = false;
     chart.chart_id = id;
     chart.chart_vid = chart_id;
@@ -39,7 +39,6 @@ function chart_funct(parent) {
 
  function chartAjaxLoad(chart) {  
   function onLoaded(data) {    
-    console.log(data);
     data = JSON.parse(data);
     if(data.options) {
       var opt = chart.getOptions();
@@ -50,11 +49,9 @@ function chart_funct(parent) {
     };
     if(data.series) {      
       for(var i in chart.series)
-        chart.series[i].remove();
-      //chart.options.series = data.series;
+        chart.series[i].remove();      
       for(var i in data.series)
-        chart.addSeries(data.series[i],true);      
-      console.log(chart.options.series);      
+        chart.addSeries(data.series[i],true);            
     }
     if(data.error) {
       alert("Loading error:"+data.error);
@@ -79,9 +76,16 @@ function chart_funct(parent) {
    $(target).css('border-color','#000');
  }
  
- function onMouseChartClick(event) {
-   var target = event.currentTarget;
-   console.log(target,"click");
+ function onMouseChartClick(event) {   
+   var target = event.currentTarget;   
+   $('#main-chart').css('display','block');
+   options = target.options;
+   options.chart.renderTo = "main-chart";
+   console.log(event);
+   var chart = new Highcharts.Chart(options);
+   chart.chart_id = target.chart_id;
+   chart.chart_vid = target.chart_vid;
+   chartAjaxLoad(chart);
  }
  
  function onAddNewChart() {
@@ -133,10 +137,10 @@ function chart_funct(parent) {
  
  chart.addEvents = function() {
    $('.chart').each(function(index,elem) {
-     $(elem).bind('mouseenter',onMouseOver);
-     $(elem).bind('click',onMouseClick);
+     $(elem).bind('mouseenter',onMouseOver);     
      $(elem).bind('mouseleave',onMouseOut);
     });
+    $("#chart_add").bind('click',onMouseClick);
   };
   
   return chart;

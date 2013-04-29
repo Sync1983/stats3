@@ -111,6 +111,11 @@ function main_funct(parent) {
     return true;
   };
 
+  main.pageReload = function() {
+    main.loadTab();
+    return;
+  };
+
   main.loadTab = function() {
     if(main.selectedTabId===-1) {
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
@@ -131,14 +136,40 @@ function main_funct(parent) {
                     });
   };
 
+  function updateChartPosition(event,ui) {
+    console.log("Change");
+    var items = $('#main-view').children('li.chart');
+    var pos = new Array();    
+    for(var i = 0;i<items.length;i++) {      
+      var id = items[i].getAttribute('id');
+      if(id!=="chart_add")
+        pos.push(id);
+    }
+    if(main.selectedTabId===-1) {
+       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
+       main.selectedTabName = $('.etabs>li>a')[0].text;
+     }    
+  
+    function onSaved(data) {
+      console.log(data);
+      return;
+    };
+  
+    main.ajax('main_page','ajax_change_positions',{project_id:project_id, page_id:main.selectedTabId,query:pos}, onSaved);
+  }
+
   function loadCharts(charts){    
     for(var i in charts) {
       var chart_item = charts[i];  
       var item = $("#chart_"+chart_item.id+" .chart_graph")[0];      
       var chart = new window.chart.addChart(item,chart_item.counter_id,chart_item.name,chart_item.id);
-      chart.ajax_load(chart);
-      //while(!chart.isLoaded);
+      chart.ajax_load(chart);      
     }
+    $("#main-view").sortable({
+     stop: updateChartPosition,
+     cancel: ".sortable-disabled",
+    });
+    $("#main-view").disableSelection();
   }
 
   main.renameTabAlert = function(tabs) {
@@ -146,7 +177,7 @@ function main_funct(parent) {
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
       main.selectedTabName = $('.etabs>li>a')[0].text;
     }
-    var dialog = $('<div>'+"Удалить вкладку \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
+    var dialog = $('<div>'+"Переименовать \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
              .dialog({               
                width:  500,               
                resizable:false,
@@ -165,7 +196,7 @@ function main_funct(parent) {
                         return;
                       }                      
                       dialog.dialog('close');
-                      location.href = "?project_id="+project_id;
+                      main.pageReload();
                     });
                 }
                }                
@@ -196,7 +227,7 @@ function main_funct(parent) {
                         return;
                       }                      
                       dialog.dialog('close');
-                      location.href = "?project_id="+project_id;
+                      main.pageReload();
                     });
                 }
                }                
@@ -227,7 +258,7 @@ function main_funct(parent) {
         return;
       }                      
       dialog.dialog('close');
-      location.href = "?project_id="+project_id;
+      main.pageReload();
     }       
   
     function onDeleteButton() {
@@ -240,6 +271,7 @@ function main_funct(parent) {
 }
 
 window.main = main_funct(window);
+$(window).bind('click',function() {$('#main-chart').css('display','none');});
 
 
 
@@ -251,8 +283,7 @@ function chart_funct(parent) {
    if(parent.chart)
      chart = parent.chart;
    
-  chart.addChart = function (container,id,chart_name,chart_id) {
-    $(container).bind("click",onMouseChartClick);
+  chart.addChart = function (container,id,chart_name,chart_id) {    
      var options = {
      title: { text: chart_name },    
      chart: { renderTo: container, type: 'areaspline', zoomType: 'none',
@@ -269,13 +300,14 @@ function chart_funct(parent) {
      },
      yAxis: { title: { text: 'Кол-во' } }, 
      tooltip:{
-         formatter: function(){
+        crosshairs: [true],
+        formatter: function(){
            return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x) + '<br><i>' +
            Highcharts.numberFormat(this.y, 1)+"</i>";
           }
        }
     };
-    var chart = new Highcharts.Chart(options); 
+    var chart = new Highcharts.Chart(options);     
     chart.isLoaded = false;
     chart.chart_id = id;
     chart.chart_vid = chart_id;
@@ -285,7 +317,6 @@ function chart_funct(parent) {
 
  function chartAjaxLoad(chart) {  
   function onLoaded(data) {    
-    console.log(data);
     data = JSON.parse(data);
     if(data.options) {
       var opt = chart.getOptions();
@@ -296,11 +327,9 @@ function chart_funct(parent) {
     };
     if(data.series) {      
       for(var i in chart.series)
-        chart.series[i].remove();
-      //chart.options.series = data.series;
+        chart.series[i].remove();      
       for(var i in data.series)
-        chart.addSeries(data.series[i],true);      
-      console.log(chart.options.series);      
+        chart.addSeries(data.series[i],true);            
     }
     if(data.error) {
       alert("Loading error:"+data.error);
@@ -325,9 +354,16 @@ function chart_funct(parent) {
    $(target).css('border-color','#000');
  }
  
- function onMouseChartClick(event) {
-   var target = event.currentTarget;
-   console.log(target,"click");
+ function onMouseChartClick(event) {   
+   var target = event.currentTarget;   
+   $('#main-chart').css('display','block');
+   options = target.options;
+   options.chart.renderTo = "main-chart";
+   console.log(event);
+   var chart = new Highcharts.Chart(options);
+   chart.chart_id = target.chart_id;
+   chart.chart_vid = target.chart_vid;
+   chartAjaxLoad(chart);
  }
  
  function onAddNewChart() {
@@ -379,10 +415,10 @@ function chart_funct(parent) {
  
  chart.addEvents = function() {
    $('.chart').each(function(index,elem) {
-     $(elem).bind('mouseenter',onMouseOver);
-     $(elem).bind('click',onMouseClick);
+     $(elem).bind('mouseenter',onMouseOver);     
      $(elem).bind('mouseleave',onMouseOut);
     });
+    $("#chart_add").bind('click',onMouseClick);
   };
   
   return chart;

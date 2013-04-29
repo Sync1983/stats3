@@ -103,6 +103,38 @@ class MainPageController extends spController
       $this->sendAjaxError ('Deleting error');
   }
   
+  function doAjaxChangePositions () {
+    $request = $this->toolkit->request;    
+    $project_id   = $request['project_id'];  
+    $page_id      = $request['page_id']; 
+    $query        = $request['query']; 
+    $page = new PageView($page_id);
+    $charts = $page->getPageViews();
+    
+    $page->deleteAllCharts($page_id);
+    foreach ($charts as $key=>$value) {
+      $charts[$value['id']] = $value;
+      unset($charts[$key]);
+    }
+    print_r($charts);
+    
+    foreach ($query as $key => $value) {
+      $page = new PageView();
+      $page->set('page_id',$page_id);
+      $page->set('position',$key);
+      $chart_vid = split("_", $value);
+      $chart_vid = $chart_vid[1];
+      echo "Chart id: $chart_vid\r\n";
+      $value = $charts[$chart_vid];        
+      $page->set('data_type',$value['data_type']);
+      $page->set('view_preset',$value['view_preset']);          
+      $page->set('counter_id',$value['counter_id']);
+      $page->save();      
+    };
+    $this->sendAjaxSuccess();
+  }
+
+
   private function setTimeInterval() {
     $request = $this->toolkit->request;
     $bday = $request['bday'];

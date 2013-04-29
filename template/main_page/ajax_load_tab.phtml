@@ -1,11 +1,11 @@
-<div style="margin-left: 10px;padding: 0;">
+<ul style="margin-left: 10px;padding: 0;" id="main-view">
   {{list using="$#charts" as="$item"}}
     {{list:item}}
-    <div class="chart" id="chart_{$item.id}"><div class="delete-chart" onclick="window.main.deleteChart({$item.id});return false;"></div><div class="chart_graph"></div></div>
+    <li class="chart" id="chart_{$item.id}"><div class="delete-chart" onclick="window.main.deleteChart({$item.id});return false;"></div><div class="chart_graph"></div></li>
     {{/list:item}}
   {{/list}}     
-    <div class="chart" id="chart_add"><h1>Добавьте диаграмму</h1><img src="images/addChart.png" width="200" height="200" style="top:30px;position: relative;"/></div>
-</div>
+  <li class="chart sortable-disabled" id="chart_add" style="list-style: none;"><h1>Добавьте диаграмму</h1><img src="images/addChart.png" width="200" height="200" style="top:30px;position: relative;"/></li>
+</ul>
 
 <script>
   window.chart.addEvents();

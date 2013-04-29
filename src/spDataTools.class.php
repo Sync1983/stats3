@@ -26,7 +26,7 @@ class spDataTools extends spTools {
     $presets = $this->_db->execute("SELECT name,data,project_id FROM preset");
     
     while ($row = $presets->fetch_assoc())      
-      $this->_presets[$row['project_id']."_".$row['name']] = $row['data'];
+      $this->_presets[$row['project_id']."&".$row['name']] = $row['data'];
   }
 
   public function getData($data,$project_id,$chart_id,$start_time,$stop_time){    
@@ -45,39 +45,44 @@ class spDataTools extends spTools {
   }
   
   private function _pharse($root){    
-    $preset_key = $this->_pid."_".$root;
+    $preset_key = $this->_pid."&".$root;    
     if(array_key_exists($preset_key, $this->_presets)) {
-      // Корень - это указатель на другую формулу, нужно подменить его
+      // Корень - это указатель на другую формулу, нужно подменить его      
       return $this->_pharse($this->_presets[$preset_key]);
-    }    
+    }
     
-    $parts = split("[\(#\)]", $root);
+    $parts = split("[\(#\)]", $root);    
     // parts - набор команд и параметров    
     foreach ($parts as $key=>$part) {
-      $preset_key = $this->_pid."_".$part;
-      if(array_key_exists($preset_key, $this->_presets)) {        
+      $preset_key = $this->_pid."&".$part;
+      if(array_key_exists($preset_key, $this->_presets)) { 
         $parts[$key] = $this->_pharse($part);
+      //Если формула просто alias, то заменяем им позицию, иначе вставляем в позицию дерево  
+      if(count($parts[$key])==1)
+        $parts[$key] = $parts[$key][0];
       }
     }
-    $parts = $this->constructTree($parts);    
+    if(count($parts)>1)
+      $parts = $this->constructTree($parts);       
     return $parts;    
   }
   
   private function constructTree(&$root){    
-    $start_pos = array_search('', $root);    
-    //Находим первую команду выше
+    $start_pos = array_search('', $root);  
+    $pos = 0;    
+    //Находим первую команду выше    
     for($pos = $start_pos; $pos >= 0; $pos--)
       if(!is_array($root[$pos]) && array_key_exists($root[$pos], $this->commands))
         break;
     //Вырезаем часть с командой и параметрами
-    $params = array_splice($root, $pos, $start_pos-$pos);    
+    $params = array_splice($root, $pos, $start_pos-$pos);            
     //Переводим первый элемент в команду
     $action = $params[0];
     //Вырезаем команду из параметров
     array_splice($params, 0, 1);
     //Удаляем пустой разделитель параметров
-    array_splice($params, count($params), 1);    
-    $root[$pos] = array('f'=>$action,'p'=>$params);
+    array_splice($params, count($params), 1);        
+    $root[$pos] = array('f'=>$action,'p'=>$params);    
     if(count($root)>1)
       $this->constructTree ($root);
     return $root[0];
@@ -110,11 +115,11 @@ class spDataTools extends spTools {
 
   /*================================= Math part ==============================*/
   
-  private function div($params) {
+  private function div($params) {     
     foreach ($params as $key=>$param)
       if(!is_array($param)&&isset($param['f']))
         $params[$key] = $this->loadChart($param, $this->_start,  $this->_stop);
-    $result = array();
+    $result = array();    
     foreach ($params[0] as $key=>$value) {
       if(is_array($params[1]))
         $result[$key] = isset ($params[1][$key])?$value/$params[1][$key]:0;

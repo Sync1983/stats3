@@ -110,6 +110,11 @@ function main_funct(parent) {
     return true;
   };
 
+  main.pageReload = function() {
+    main.loadTab();
+    return;
+  };
+
   main.loadTab = function() {
     if(main.selectedTabId===-1) {
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
@@ -130,14 +135,40 @@ function main_funct(parent) {
                     });
   };
 
+  function updateChartPosition(event,ui) {
+    console.log("Change");
+    var items = $('#main-view').children('li.chart');
+    var pos = new Array();    
+    for(var i = 0;i<items.length;i++) {      
+      var id = items[i].getAttribute('id');
+      if(id!=="chart_add")
+        pos.push(id);
+    }
+    if(main.selectedTabId===-1) {
+       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
+       main.selectedTabName = $('.etabs>li>a')[0].text;
+     }    
+  
+    function onSaved(data) {
+      console.log(data);
+      return;
+    };
+  
+    main.ajax('main_page','ajax_change_positions',{project_id:project_id, page_id:main.selectedTabId,query:pos}, onSaved);
+  }
+
   function loadCharts(charts){    
     for(var i in charts) {
       var chart_item = charts[i];  
       var item = $("#chart_"+chart_item.id+" .chart_graph")[0];      
       var chart = new window.chart.addChart(item,chart_item.counter_id,chart_item.name,chart_item.id);
-      chart.ajax_load(chart);
-      //while(!chart.isLoaded);
+      chart.ajax_load(chart);      
     }
+    $("#main-view").sortable({
+     stop: updateChartPosition,
+     cancel: ".sortable-disabled",
+    });
+    $("#main-view").disableSelection();
   }
 
   main.renameTabAlert = function(tabs) {
@@ -145,7 +176,7 @@ function main_funct(parent) {
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
       main.selectedTabName = $('.etabs>li>a')[0].text;
     }
-    var dialog = $('<div>'+"Удалить вкладку \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
+    var dialog = $('<div>'+"Переименовать \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
              .dialog({               
                width:  500,               
                resizable:false,
@@ -164,7 +195,7 @@ function main_funct(parent) {
                         return;
                       }                      
                       dialog.dialog('close');
-                      location.href = "?project_id="+project_id;
+                      main.pageReload();
                     });
                 }
                }                
@@ -195,7 +226,7 @@ function main_funct(parent) {
                         return;
                       }                      
                       dialog.dialog('close');
-                      location.href = "?project_id="+project_id;
+                      main.pageReload();
                     });
                 }
                }                
@@ -226,7 +257,7 @@ function main_funct(parent) {
         return;
       }                      
       dialog.dialog('close');
-      location.href = "?project_id="+project_id;
+      main.pageReload();
     }       
   
     function onDeleteButton() {
@@ -239,5 +270,6 @@ function main_funct(parent) {
 }
 
 window.main = main_funct(window);
+$(window).bind('click',function() {$('#main-chart').css('display','none');});
 
 
