@@ -1,0 +1,14 @@
+Allow from all
+
+RewriteEngine On
+
+# version
+RewriteRule ^\_/[^/]+/(.*)$ $1 [L]
+
+RewriteRule ^\_t/[^/]+/(.*)$ $1 [NS,E=LIMB_URI:$1]
+
+RewriteCond %{REQUEST_URI} !.*\.(js|ico|swf|css|htm|html|jpg|jpeg|gif|png)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-s
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]

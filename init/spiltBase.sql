@@ -1,0 +1,14 @@
+use stats2;
+insert into log_addStock 	select * from logger where event='addStock';
+insert into log_costStock 	select * from logger where event='costStock';
+insert into log_featureUse 	select * from logger where event='featureUse';
+insert into log_levelUp 	select * from logger where event='levelUp';
+insert into log_Login	 	select * from logger where event='Login';
+insert into log_NewPlayer 	select * from logger where event='NewPlayer';
+insert into log_payCost 	select * from logger where event='payCost';
+insert into log_QuestDone 	select * from logger where event='QuestDone';
+insert into log_QuestStart 	select * from logger where event='QuestStart';
+insert into log_QuestTaskComplete select * from logger where event='QuestTaskComplete';
+insert into log_viralRecive select * from logger where event='viralRecive';
+insert into log_viralSend 	select * from logger where event='viralSend';
+insert into log_OutEnergy 	select * from logger where event='Out energy window show';

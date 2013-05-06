@@ -1,0 +1,17 @@
+[09-Apr-2013 13:31:01 Etc/GMT-3] PHP Fatal error:  Uncaught exception 'Exception' with message 'Shell command 'mysql -hlocalhost -uroot -ptest stats2 < D:\stats3\cli/../init/migrate/1330007000_add_pager_table.sql 2>&1' executing error 
+'ERROR 1064 (42000) at line 3: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'autoincrement,
+    `project_id`  int(3) UNSIGNED NOT NULL DEFAULT '0',
+    `memb' at line 2'' in D:\stats3\cli\mysql.inc.php:45
+Stack trace:
+#0 D:\stats3\cli\mysql.inc.php(278): mysql_load('localhost', 'root', 'test', 'stats2', 'D:\stats3\cli/....')
+#1 D:\stats3\cli\mysql_migrate.php(47): mysql_migrate('localhost', 'root', 'test', 'stats2', NULL)
+#2 {main}
+  thrown in D:\stats3\cli\mysql.inc.php on line 45
+[09-Apr-2013 13:32:20 Etc/GMT-3] PHP Fatal error:  Uncaught exception 'Exception' with message 'Shell command 'mysql -hlocalhost -uroot -ptest stats2 < D:\stats3\cli/../init/migrate/1330007000_add_pager_table.sql 2>&1' executing error 
+'ERROR 1064 (42000) at line 3: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNSIGNED NOT NULL DEFAULT 'Имя',
+    PRIMARY KEY (`id`,`project_id`,`me' at line 5'' in D:\stats3\cli\mysql.inc.php:45
+Stack trace:
+#0 D:\stats3\cli\mysql.inc.php(278): mysql_load('localhost', 'root', 'test', 'stats2', 'D:\stats3\cli/....')
+#1 D:\stats3\cli\mysql_migrate.php(47): mysql_migrate('localhost', 'root', 'test', 'stats2', NULL)
+#2 {main}
+  thrown in D:\stats3\cli\mysql.inc.php on line 45

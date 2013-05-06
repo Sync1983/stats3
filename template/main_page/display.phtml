@@ -1,0 +1,70 @@
+{{wrap file="_include/page.phtml"}}
+  
+{{into slot="menu"}}
+  <div id="select-menu">
+    <div id="dateRange-block">
+      <div id="dateRange-txt" onclick="$('#dateRange-txt').DatePickerShow();">Date</div>
+      <div id="dateReload" onclick="window.main.pageReload();"></div>
+    </div>    
+    <a id="profile-button" href="#" onclick="var item = $('#user-manager'); if(item.css('display')==='none') { item.css('display','block');} else {item.css('display','none');}; return false;">Профиль</a>
+    <div id="user-manager">      
+    </div>
+    <select class="project-selector" onchange="window.main.selectProject(this);return false;">
+      {{list using="$#projects" as="$item"}}
+        {{list:item}}
+          <option value="{$item.id}" {$item.select}>{$item.title}</option>     
+        {{/list:item}}
+      {{/list}}     
+    </select>    
+  </div>
+  <div id="tabs">    
+    <ul class='etabs'>
+      {{list using="$#tabs" as="$item"}}
+        {{list:item}}          
+          <li class='tab'><a href="#content" id="{$item.id}" style="text-decoration: none;">{$item.title}</a></li>
+        {{/list:item}}
+        {{list:empty}}
+          <li class='tab'><a href="#content" id="add_tab" style="text-decoration: none;">Добавьте вкладки</a></li>
+        {{/list:empty}}
+      {{/list}}     
+          <li class='tab'><a href="#content" id="add_tab" style="text-decoration: none;">+</a></li>
+    </ul>    
+  </div>
+{{/into}}
+{{into slot="content_wrapper"}} 
+<center>
+<div id="tab-content">
+  <div id="content">
+    Please Wait for loading...
+  </div>
+  <div id="rename-tab" onclick="window.main.renameTabAlert('tabs');"></div>
+  <div id="delete-tab" onclick="window.main.deleteTabAlert('tabs');"></div>
+</div>
+<div class="confirm-delete"></div>
+<div id="main-chart"></div>
+{{/into}}
+
+{{ainto slot="js_ready"}}
+  var bday = new Date({$#bday}*1000);
+  var eday = new Date({$#eday}*1000);
+  $('#tabs').easytabs({
+    panelContext:$("#tab-content"),      
+  });  
+  $('#tabs').bind('easytabs:before',window.main.changeTab);  
+  $("#dateRange-txt").DatePicker(
+  { 
+    flat: false,
+    date: [bday,eday],
+    calendars: 3,
+    mode: "range",   
+    starts: 1,
+    onChange: function(formated) {         
+      $('#dateRange-txt').text(formated.join(' - '));
+    },
+  });
+  
+  $("#dateRange-txt").text($.datepicker.formatDate('yy-mm-dd', bday)+' - '+$.datepicker.formatDate('yy-mm-dd', eday));    
+  window.main.loadTab();
+{{/ainto}}
+  
+{{/wrap}}

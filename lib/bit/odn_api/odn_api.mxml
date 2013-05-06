@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+  xmlns:mx="http://www.adobe.com/2006/mxml"    
+  xmlns:funit="http://www.adobe.com/2009/flexUnitUIRunner"
+  xmlns="*" 
+  layout="absolute" 
+  creationComplete="main()">
+ <mx:Script>
+<![CDATA[
+	  import OdnApi;
+    private function main() : void
+    {
+      var api : OdnApi = new OdnApi;
+      api.init();
+    }
+]]>
+</mx:Script>
+</mx:Application>
+
