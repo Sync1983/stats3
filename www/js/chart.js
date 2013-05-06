@@ -9,7 +9,7 @@ function chart_funct(parent) {
      var options = {
      title: { text: chart_name },    
      chart: { renderTo: container, type: 'areaspline', zoomType: 'none',
-              events: { click: onMouseChartClick }
+              events: {  }
              },
      plotOptions: { area: { marker: { enabled: true, symbol: 'circle', radius: 2, states: { hover: { enabled: true } } } } },
      series: [{}],
@@ -49,7 +49,7 @@ function chart_funct(parent) {
     };
     if(data.series) {      
       for(var i in chart.series)
-        chart.series[i].remove();      
+        chart.series[i].remove();
       for(var i in data.series)
         chart.addSeries(data.series[i],true);            
     }
@@ -74,18 +74,6 @@ function chart_funct(parent) {
  function onMouseOut(event){   
    var target = event.currentTarget;
    $(target).css('border-color','#000');
- }
- 
- function onMouseChartClick(event) {   
-   var target = event.currentTarget;   
-   $('#main-chart').css('display','block');
-   options = target.options;
-   options.chart.renderTo = "main-chart";
-   console.log(event);
-   var chart = new Highcharts.Chart(options);
-   chart.chart_id = target.chart_id;
-   chart.chart_vid = target.chart_vid;
-   chartAjaxLoad(chart);
  }
  
  function onAddNewChart() {
@@ -136,11 +124,29 @@ function chart_funct(parent) {
  };
  
  chart.addEvents = function() {
-   $('.chart').each(function(index,elem) {
-     $(elem).bind('mouseenter',onMouseOver);     
-     $(elem).bind('mouseleave',onMouseOut);
-    });
-    $("#chart_add").bind('click',onMouseClick);
+    $("#chart_add").bind('click',onMouseClick);    
+  };
+  
+  chart.onFull = function (vid,counter_id) {            
+    $('#main-chart').css('display','block');
+    //container,id,chart_name,chart_id
+    console.log(counter_id,vid);
+    var chart = this.addChart("main-chart",counter_id,'',vid);    
+    chartAjaxLoad(chart); 
+  };
+
+  chart.changeView = function (type,vid) {
+    function onViewChanged() {
+      var charts = Highcharts.charts;
+      charts.forEach(function (item) {        
+        if((item.chart_vid)&&(item.chart_vid===vid)) {
+          for(var i in item.series)
+            item.series[i].remove();
+          item.ajax_load(item);          
+        }
+      });                  
+    }  
+    main.ajax('chart','ajax_change_view_chart',{vid:vid,type:type}, onViewChanged);
   };
   
   return chart;

@@ -18,16 +18,35 @@ class ChartController extends spController {
     $db = $this->toolkit->getDefaultDbConnection();    
     $db_result = $db->execute("SELECT * FROM preset WHERE id=" . $chart_id);    
     $result = array();
-    while ($row = $db_result->fetch_assoc())
-        $result[] = $row;
+    while ($row = $db_result->fetch_assoc()) {
+        $result[] = array('series' => 
+                          $this->toolkit->getData(
+                                  $row['data'],
+                                  $project_id,
+                                  $view_char_id,
+                                  $bday,
+                                  $eday));
+    };
     
-    // TODO понять как очистить результат
-    //mysql_free_result($db->getConnectionId());
+    if(count($result)>0)
+      $this->sendAjaxResponce($result[0]);
+    else
+      $this->sendAjaxError("Empty answer for project:$project_id chart id: $view_char_id start $bday end $eday");
+  }
+  
+  function doAjaxChangeViewChart() {
+    $request = $this->toolkit->request;
+    $vid  = $request['vid'];
+    $type = $request['type'];
     
-    /*foreach ($result as $key=>$data_item)
-      $result[$key]['series'] = $this->toolkit->getData($data_item['data'],$project_id,$chart_id,$bday,$eday);*/
-    $this->sendAjaxResponce(array('series'=> $this->toolkit->getData($result[0]['data'],$project_id,$view_char_id,$bday,$eday)));
-    //$this->sendAjaxError("Project: " . $project_id . " id:" . $chart_id);
+    $chart_id = $vid&0xFFFF;
+    $page_id = ($vid>>16)&0xFFFF;
+    
+    $page_view = new PageView($page_id);
+    if($page_view->changeChartType($page_id, $chart_id, $type))
+      $this->sendAjaxSuccess ();
+    else
+      $this->sendAjaxError ('Type not changed');
   }
 
 }

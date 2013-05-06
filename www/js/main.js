@@ -176,30 +176,38 @@ function main_funct(parent) {
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
       main.selectedTabName = $('.etabs>li>a')[0].text;
     }
-    var dialog = $('<div>'+"Переименовать \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
-             .dialog({               
-               width:  500,               
-               resizable:false,
-               title: "Переименовать вкладку",
-               close: function(event, ui) {                    
-                dialog.remove();                    
-               },
-               buttons: {
-                "Удалить": function() {                  
-                  main.ajax('main_page','ajax_delete_tab',{id:main.selectedTabId},
-                    function(data){                      
-                      data = JSON.parse(data);
-                      if(data.error) {
-                        dialog.children(".error").css('display','block');
-                        dialog.children(".error").text(data.error);
-                        return;
-                      }                      
-                      dialog.dialog('close');
-                      main.pageReload();
-                    });
-                }
-               }                
-             });             
+  
+    var dialog = $( '<div>'+
+                      "Переименовать \""+main.selectedTabName+"\"? <br>"+
+                      '<input type="text" id="rename_text" style="margin-top: 5px; width:98%;" value="'+main.selectedTabName+'"/>'+
+                      '<div class="error" style="display:none;color:red"></div>'+
+                    '</div>').dialog({               
+                      width:  500,               
+                      resizable:false,
+                      title: "Переименовать вкладку",
+                      close: function(event, ui) {                    
+                       dialog.remove();                    
+                      },
+                      buttons: {
+                       "Переименовать": onRename              
+                      }
+                 });             
+               
+    function onRename(){      
+      var new_name = $('#rename_text').val();
+      main.ajax('main_page','ajax_rename_tab',{id:main.selectedTabId,new_name:new_name},onAnswer);
+    };
+  
+    function onAnswer(data) {
+      data = JSON.parse(data);
+      if(data.error) {
+        dialog.children(".error").css('display','block');
+        dialog.children(".error").text(data.error);
+        return;
+      }                      
+      dialog.dialog('close');
+      location.href = location.href;
+    };
   };
 
   main.deleteTabAlert = function(tabs) {
@@ -270,6 +278,14 @@ function main_funct(parent) {
 }
 
 window.main = main_funct(window);
-$(window).bind('click',function() {$('#main-chart').css('display','none');});
+
+$(window).bind('click',function(event) {
+  if(event.target.className!=='chart-to-full')
+    $('#main-chart').css('display','none');
+  if(event.target.className!=='chart-toolbox')
+    $(".toolbox").each(function (num,item){    
+      $(item).css('display','none');
+    });
+});
 
 

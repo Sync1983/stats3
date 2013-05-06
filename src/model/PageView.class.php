@@ -49,6 +49,15 @@ class PageView extends lmbActiveRecord {
         return true;
       return false;
     }
+    
+    public function changeChartType($page_id,$position,$type) {
+      $db = lmbActiveRecord::getDefaultConnection();      
+      if($db->execute("UPDATE page_view SET view_preset=$type WHERE page_id=$page_id and position=$position"))
+        return true;
+      return false;
+    }
+    
+    
 
 
 }

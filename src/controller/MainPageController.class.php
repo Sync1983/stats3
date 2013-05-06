@@ -66,6 +66,17 @@ class MainPageController extends spController
     $this->sendAjaxSuccess();
   }
   
+  function doAjaxRenameTab() {
+    $request = $this->toolkit->request;
+    $p_id = $request['id'];    
+    $name = $request['new_name'];    
+    $tab = new Page();    
+    $tab->loadById($p_id);
+    $tab->set('name',$name);
+    $tab->save();
+    $this->sendAjaxSuccess();
+  }
+  
   function doAjaxDeleteTab() {
     $request = $this->toolkit->request;
     $id = $request['id'];    
@@ -116,7 +127,6 @@ class MainPageController extends spController
       $charts[$value['id']] = $value;
       unset($charts[$key]);
     }
-    print_r($charts);
     
     foreach ($query as $key => $value) {
       $page = new PageView();

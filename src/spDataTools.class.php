@@ -37,8 +37,8 @@ class spDataTools extends spTools {
     $roots = explode(',', $data);
     $result = array();
     foreach ($roots as $root) {
-      $temp = $this->_pharse($root);
-      $result[$root] = $this->calculate($temp);      
+      $temp = $this->_pharse($root);      
+      $result[$root] = $this->calculate($temp);       
     }
     $result = $this->toolkit->createViewData($chart_id, &$result);
     return $result;
@@ -100,7 +100,7 @@ class spDataTools extends spTools {
     if(!method_exists($this, $funct)) {
       echo "Math action $action not found\r\n";
       return array();
-    }
+    }    
     return $this->$funct($params);
   }
   
@@ -161,10 +161,10 @@ class spDataTools extends spTools {
     $name   = $params[0];
     $axist  = $params[1];
     $start  = $this->_start;
-    $stop   = $this->_stop;    
-    $data = $this->_db->execute("SELECT stamp,value FROM counter2 WHERE name=\"$name\" and axist=\"$axist\" and project_id=".$this->_pid." and stamp BETWEEN $start and $stop GROUP BY stamp,axist");
-    $result = array();
-    while ($row = $data->fetch_assoc()) 
+    $stop   = $this->_stop;        
+    $data = $this->_db->execute("SELECT stamp,value FROM counter2 WHERE name=\"$name\" and axist=\"$axist\" and project_id=".$this->_pid." and stamp>=$start and stamp<=$stop GROUP BY stamp,axist");
+    $result = array();        
+    while ($row = $data->fetch_assoc())
       $result[$row['stamp']] = $row['value'];
     return $result;
   }

@@ -167,7 +167,7 @@ div#tab-content {
   width: 50px;
   height: 25px;
   position: absolute;
-  right: 5px;
+  right: 25px;
   top: 5px;
   cursor: pointer;
 }
@@ -178,21 +178,39 @@ div#tab-content {
   width: 50px;
   height: 20px;
   position: absolute;
-  right: 60px;
+  right: 80px;
   top: 8px;
   cursor: pointer;
 }
 
-.delete-chart {
-  background: url(/_/0f95x7d/images/delete.png) 0px 0px no-repeat;  
+.chart-to-full {
+  background: url(/_/058am0n/images/fullscreen.jpg) 0px 0px no-repeat;  
   background-size: 25px 25px;
   width: 25px;
   height: 25px;
   position: relative;
-  float: right;
-  top: 0px;
-  margin-top: -60px;
-  margin-right: -10px;
+  float: left;
+  bottom: 0px;  
+  margin-bottom: -10px;
+  border: 1px solid #666666;
+  border-radius: 5px;
+}
+
+.chart-toolbox {
+  background: url(/_/0awg875/images/tools.png) 0px 0px no-repeat;  
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  float: left;
+  bottom: 0px;  
+  margin-bottom: -10px;  
+}
+
+.chart-to-full:hover, .chart-toolbox:hover {  
+  border: 2px solid lime;  
+  background-color: #666666;
+  border-radius: 5px;
 }
 
 .chart {
@@ -200,7 +218,7 @@ div#tab-content {
   width: 250px; 
   height: 200px; 
   margin: 70px 20px auto; 
-  border: 2px solid #000000;
+  border: 1px solid #666666;
   padding-top: 40px; 
   padding-bottom: 40px;
   float: left;
@@ -208,6 +226,12 @@ div#tab-content {
   border-radius: 5px;
   background-color: #EEE;
   cursor: pointer;
+}
+
+.chart:hover {
+  box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
+  margin-top: 65px;
+  margin-bottom: 5px;
 }
 
 .chart_graph {  
@@ -239,6 +263,45 @@ div#tab-content {
   z-index: 5000;
   background-color: #FF00FF;
   display: none;
+}
+.toolbox{
+  width: 490px;
+  height: 40px;
+  margin-top: 30px;
+  left:0px;
+  margin-left: -50px;
+  background-color: #222222;
+  border-radius: 15px;
+  display: none;
+}
+
+.toolbox ul{
+  padding: 0px;
+  margin-top: 6px;
+  margin-left: 4px;
+  top:6px;
+  position: relative;
+  color: #666;  
+}
+
+.toolbox ul li {
+  list-style: none;
+  float: left;
+  display: inline;
+  min-width: 60px;
+  padding: 0px 5px 0 5px;
+  margin-left: 2px;
+  height: 25px;
+  border: 1px solid #666;
+  border-radius: 15px;
+  background: #333;
+}
+
+.toolbox ul li:hover {
+  font-weight: bold;
+  color:white;
+  border-color: white;
+  background: #000;
 }
 
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; border: #000 double 1px; }

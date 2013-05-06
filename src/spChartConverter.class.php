@@ -14,14 +14,14 @@ class spChartConverter extends spTools {
       $this->_presets[$row['id']] = $row['name'];
   }
   
-  public function createViewData($chart_vid,&$data) {    
+  public function createViewData($chart_vid,&$data) {        
     $chart_id = $chart_vid&0xFFFF;
     $page_id = ($chart_vid>>16)&0xFFFF;        
     
     $chart = $this->_db->execute("SELECT view_preset,counter_id FROM page_view WHERE position=$chart_id and page_id=$page_id");
     $row = $chart->fetch_assoc();    
     
-    $type = 1;//$row['view_preset'];
+    $type = $row['view_preset'];
     $c_id = $row['counter_id'];
     
     $series = array();    
@@ -37,6 +37,10 @@ class spChartConverter extends spTools {
         $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key);
       elseif($type==1)
         $series[] = array('data'=>$parse_chart,'type'=>'bar','name'=>$key,'columns'=>  array_keys($parse_chart));
+      elseif($type==2)
+        $series[] = array('data'=>$parse_chart,'type'=>'line','name'=>$key,'columns'=>  array_keys($parse_chart));
+      elseif($type==3)
+        $series[] = array('data'=>$parse_chart,'type'=>'areaspline','name'=>$key,'columns'=>  array_keys($parse_chart));
     }
     return $series;
   }
