@@ -23,10 +23,13 @@ class spChartConverter extends spTools {
     
     $type = $row['view_preset'];
     $c_id = $row['counter_id'];
-    
+    if(!is_array($data))
+      return array();
     $series = array();    
     foreach ($data as $key=>$chart) {
       $parse_chart = array();
+      if(!is_array($chart))
+        continue;
       foreach ($chart as $c_key=>$value) {
         unset($chart[$c_key]);
         $parse_chart[]=array($c_key*1000,$value*1);

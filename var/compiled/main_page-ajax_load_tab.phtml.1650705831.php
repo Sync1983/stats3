@@ -1,7 +1,7 @@
 <?php /* This file is generated from main_page/ajax_load_tab.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor22de2d29ad4fb5a24684f0fa187aaaa7', false)){
+if(!class_exists('MacroTemplateExecutoraaca35f3881e2b8d51f19cfa9c6076ff', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutor22de2d29ad4fb5a24684f0fa187aaaa7 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutoraaca35f3881e2b8d51f19cfa9c6076ff extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -80,4 +80,4 @@ echo htmlspecialchars($W,3); ?>);return false;">Удалить</li>
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor22de2d29ad4fb5a24684f0fa187aaaa7';
+$macro_executor_class='MacroTemplateExecutoraaca35f3881e2b8d51f19cfa9c6076ff';
