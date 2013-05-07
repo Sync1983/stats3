@@ -37,7 +37,7 @@ class spDataTools extends spTools {
     $roots = explode(',', $data);
     $result = array();
     foreach ($roots as $root) {
-      $temp = $this->_pharse($root);      
+      $temp = $this->_pharse($root);        
       $result[$root] = $this->calculate($temp);       
     }
     $result = $this->toolkit->createViewData($chart_id, &$result);
@@ -89,9 +89,9 @@ class spDataTools extends spTools {
   }
 
 
-  private function calculate(&$action) {
+  private function calculate(&$action) {    
     if(!isset($action['f']))
-      return;
+      return $this->loadChart($action[0], $this->_start,  $this->_stop);;
     $funct = $action['f'];
     $params = $action['p'];    
     foreach ($params as $key=>$param)
