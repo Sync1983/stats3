@@ -51,7 +51,7 @@ class spDataTools extends spTools {
       return $this->_pharse($this->_presets[$preset_key]);
     }
     
-    $parts = split("[\(#\)]", $root);    
+    $parts = preg_split("[\(#\)]", $root);    
     // parts - набор команд и параметров    
     foreach ($parts as $key=>$part) {
       $preset_key = $this->_pid."&".$part;

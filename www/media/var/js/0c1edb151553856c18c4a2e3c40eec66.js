@@ -122,6 +122,8 @@ function main_funct(parent) {
       main.selectedTabName = $('.etabs>li>a')[0].text;
     }    
     $('.chart').remove();
+    if(main.selectedTabId==='add_tab')
+      return;
     main.ajax('main_page','ajax_load_tab',{project_id:project_id, page_id:main.selectedTabId},
                     function(data){                      
                       data = JSON.parse(data);
