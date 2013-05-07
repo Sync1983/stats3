@@ -132,7 +132,7 @@ class MainPageController extends spController
       $page = new PageView();
       $page->set('page_id',$page_id);
       $page->set('position',$key);
-      $chart_vid = split("_", $value);
+      $chart_vid = explode("_", $value);
       $chart_vid = $chart_vid[1];
       echo "Chart id: $chart_vid\r\n";
       $value = $charts[$chart_vid];        
