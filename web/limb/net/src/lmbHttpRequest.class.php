@@ -222,10 +222,10 @@ class lmbHttpRequest extends lmbSet
       $port = isset($items[1]) ? $items[1] : null;
     }
 
-    if(isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'], 'on'))
+    //if(isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'], 'on'))
       $protocol = 'https';
-    else
-      $protocol = 'http';
+    //else
+    //  $protocol = 'http';
 
     if(!isset($port) || $port != intval($port))
       $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 80;
