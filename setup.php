@@ -19,7 +19,6 @@ lmb_env_setor('stats_projects_dir', dirname(__FILE__). '/var/stats/');
 lmb_env_setor('stats_access_log',   dirname(__FILE__). '/var/stats_access.log');
 lmb_env_setor('LIMB_VAR_DIR',       dirname(__FILE__). '/var/');
 lmb_env_set('LIMB_DOCUMENT_ROOT',   dirname(__FILE__).'/www/');
-lmb_env_set('LIMB_HTTP_BASE_PATH',  'https://stats3.bitdotgames.com');
 
 require_once('common.inc.php');
 require_once('setup.override.php');
