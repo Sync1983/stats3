@@ -26,18 +26,28 @@ class spChartConverter extends spTools {
     if(!is_array($data))
       return array();
     $series = array();    
+    $linear = false;
+    
     foreach ($data as $key=>$chart) {
       $parse_chart = array();
+      $parse_keys = array();
       if(!is_array($chart))
         continue;
+      
       foreach ($chart as $c_key=>$value) {
         unset($chart[$c_key]);
-        $parse_chart[]=array($c_key*1000,$value*1);
+        if($c_key<100000) {
+          $parse_chart[]=array($c_key,$value*1);          
+          $parse_keys[] = $c_key;
+          $linear = true;
+        } else
+          $parse_chart[]=array($c_key*1000,$value*1);
+        
       }     
       if(count($data)==1)
         $key = isset($this->_presets[$c_id])?$this->_presets[$c_id]:$key;
       if($type==0)
-        $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key);
+        $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> $parse_keys);
       elseif($type==1)
         $series[] = array('data'=>$parse_chart,'type'=>'bar','name'=>$key,'columns'=>  array_keys($parse_chart));
       elseif($type==2)
@@ -45,7 +55,17 @@ class spChartConverter extends spTools {
       elseif($type==3)
         $series[] = array('data'=>$parse_chart,'type'=>'areaspline','name'=>$key,'columns'=>  array_keys($parse_chart));
     }
-    return $series;
+    
+    if($linear)
+      return array( 'series'=>$series,                    
+                    'xAxis'=>array(                        
+                            'type'=>'linear',
+                            'categories'=>$parse_keys,
+                            'title'=>array('text'=>'Параметр'),                            
+                          )                    
+          );
+    else
+      return array('series'=>$series);
   }
   
 }

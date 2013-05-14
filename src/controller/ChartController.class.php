@@ -19,13 +19,12 @@ class ChartController extends spController {
     $db_result = $db->execute("SELECT * FROM preset WHERE id=" . $chart_id);    
     $result = array();
     while ($row = $db_result->fetch_assoc()) {
-        $result[] = array('series' => 
-                          $this->toolkit->getData(
+        $result[] = $this->toolkit->getData(
                                   $row['data'],
                                   $project_id,
                                   $view_char_id,
                                   $bday,
-                                  $eday));
+                                  $eday);
     };
     
     if(count($result)>0)

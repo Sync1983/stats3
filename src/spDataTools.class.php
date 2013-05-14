@@ -98,6 +98,7 @@ class spDataTools extends spTools {
       if(is_array($param)&&isset($param['f']))
         $params[$key] = $this->calculate($param);
     if(!method_exists($this, $funct)) {
+      print_r($action);
       echo "Math action $action not found\r\n";
       return array();
     }    
@@ -105,13 +106,20 @@ class spDataTools extends spTools {
   }
   
   private function loadChart($name,$start,$stop) {    
-    $data = $this->_db->execute("SELECT axist,value FROM counter2 WHERE name=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN $start and $stop GROUP BY stamp,axist");
+    $data = $this->_db->execute("SELECT stamp,axist,value FROM counter2 WHERE name=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN $start and $stop GROUP BY stamp,axist");
     $result = array();
     while ($row = $data->fetch_assoc()) 
       $result[$row['axist']] = $row['value'];
     return $result;
   }
-
+  
+  private function loadChartWithStamp($name,$start,$stop) {    
+    $data = $this->_db->execute("SELECT stamp,axist,value FROM counter2 WHERE name=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN $start and $stop GROUP BY stamp,axist");
+    $result = array();
+    while ($row = $data->fetch_assoc()) 
+      $result[$row['axist']][$row['stamp']] = $row['value'];
+    return $result;
+  }
 
   /*================================= Math part ==============================*/
   
@@ -125,7 +133,7 @@ class spDataTools extends spTools {
         $result[$key] = isset ($params[1][$key])?$value/$params[1][$key]:0;
       else
         $result[$key] = $value/$params[1];
-    }
+    }    
     return $result;
   }
   
@@ -166,6 +174,21 @@ class spDataTools extends spTools {
     $result = array();        
     while ($row = $data->fetch_assoc())
       $result[$row['stamp']] = $row['value'];
+    return $result;
+  }
+  
+  private function sumM($params) {
+    foreach ($params as $key=>$param)
+      if(!is_array($param)&&isset($param['f']))
+        $params[$key] = $this->loadChartWithStamp($param, $this->_start,  $this->_stop);    
+    $result = array();
+    foreach($params[0] as $key=>$values) {
+      $sum = 0;
+      foreach ($values as $value)        
+        $sum += $value;
+      $result[$key] = $sum;
+    }    
+    ksort($result,SORT_NUMERIC);
     return $result;
   }
   

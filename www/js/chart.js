@@ -17,7 +17,7 @@ function chart_funct(parent) {
        title: {text: 'Время'},
        type: 'datetime',
        dateTimeLabelFormats: { day: '%e of %b'},
-       maxZoom: 48 * 3600 * 1000,      
+       //maxZoom: 48 * 3600 * 1000,      
        labels: {rotation: -45, style: {fontSize: '10px',fontFamily: 'Verdana, sans-serif'} }
      },
      yAxis: { title: { text: 'Кол-во' } }, 
@@ -25,7 +25,7 @@ function chart_funct(parent) {
         crosshairs: [true],
         formatter: function(){
            return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x) + '<br><i>' +
-           Highcharts.numberFormat(this.y, 1)+"</i>";
+           Highcharts.numberFormat(this.y, 3)+"</i>";
           }
        }
     };
@@ -36,23 +36,36 @@ function chart_funct(parent) {
     chart.ajax_load = chartAjaxLoad;    
     return chart;
  };
+ 
+ function mergeRecursive(obj1, obj2) {
+  for (var p in obj2) {    
+    if (obj2[p].constructor===Object )
+      obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+    else
+      obj1[p] = obj2[p];      
+  }
+  return obj1;
+}
 
  function chartAjaxLoad(chart) {  
   function onLoaded(data) {    
     data = JSON.parse(data);
-    if(data.options) {
-      var opt = chart.getOptions();
-      for(var i in data.options) {
-        opt[i] = data.options[i];
-      }    
-      chart.setOptions(options);
+    var options = chart.options;
+    if(data.xAxis) {      
+      chart.xAxis[0].update(mergeRecursive(chart.xAxis[0].options,data.xAxis));      
+      chart.tooltip.options.formatter=function(){
+           return "<b>"+this.series.name+"</b><br> Позиция: <b>"+ this.x + '</b><br><i>' +
+           Highcharts.numberFormat(this.y, 1)+"</i>";
+          };
     };
+  
     if(data.series) {      
       for(var i in chart.series)
         chart.series[i].remove();
       for(var i in data.series)
         chart.addSeries(data.series[i],true);            
     }
+  
     if(data.error) {
       alert("Loading error:"+data.error);
       return;
