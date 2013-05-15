@@ -18,14 +18,17 @@ function chart_funct(parent) {
        type: 'datetime',
        dateTimeLabelFormats: { day: '%e of %b'},
        //maxZoom: 48 * 3600 * 1000,      
-       labels: {rotation: -45, style: {fontSize: '10px',fontFamily: 'Verdana, sans-serif'} }
+       labels: {rotation: -45, align:'right', style: {fontSize: '10px',fontFamily: 'Verdana, sans-serif'} }
      },
      yAxis: { title: { text: 'Кол-во' } }, 
      tooltip:{
         crosshairs: [true],
         formatter: function(){
+           var append = "";
+           if(this.series.userOptions.units)
+             append = this.series.userOptions.units;
            return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x) + '<br><i>' +
-           Highcharts.numberFormat(this.y, 3)+"</i>";
+           Highcharts.numberFormat(this.y, 3)+"</i> "+append;
           }
        }
     };
@@ -54,8 +57,11 @@ function chart_funct(parent) {
     if(data.xAxis) {      
       chart.xAxis[0].update(mergeRecursive(chart.xAxis[0].options,data.xAxis));      
       chart.tooltip.options.formatter=function(){
+           var append = "";           
+           if(this.series.userOptions.units)
+             append = this.series.userOptions.units;
            return "<b>"+this.series.name+"</b><br> Позиция: <b>"+ this.x + '</b><br><i>' +
-           Highcharts.numberFormat(this.y, 1)+"</i>";
+           Highcharts.numberFormat(this.y, 1)+"</i> "+append;
           };
     };
   
@@ -65,7 +71,7 @@ function chart_funct(parent) {
       for(var i in data.series)
         chart.addSeries(data.series[i],true);            
     }
-  
+    
     if(data.error) {
       alert("Loading error:"+data.error);
       return;

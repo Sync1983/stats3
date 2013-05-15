@@ -24,7 +24,8 @@ class ChartController extends spController {
                                   $project_id,
                                   $view_char_id,
                                   $bday,
-                                  $eday);
+                                  $eday,
+                                  $row['v_name']);
     };
     
     if(count($result)>0)

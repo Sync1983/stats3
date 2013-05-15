@@ -29,7 +29,7 @@ class spDataTools extends spTools {
       $this->_presets[$row['project_id']."&".$row['name']] = $row['data'];
   }
 
-  public function getData($data,$project_id,$chart_id,$start_time,$stop_time){    
+  public function getData($data,$project_id,$chart_id,$start_time,$stop_time,$units="units"){    
     $this->_pid = $project_id;
     $this->_start = $start_time;
     $this->_stop = $stop_time;
@@ -40,7 +40,7 @@ class spDataTools extends spTools {
       $temp = $this->_pharse($root);        
       $result[$root] = $this->calculate($temp);       
     }
-    $result = $this->toolkit->createViewData($chart_id, &$result);
+    $result = $this->toolkit->createViewData($chart_id, &$result,$units);
     return $result;
   }
   
