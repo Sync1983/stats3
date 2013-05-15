@@ -304,6 +304,15 @@ div#tab-content {
   background: #000;
 }
 
+#exportArea {
+  font-family: Arial; 
+  font-size: 13px; 
+  color: #0077CC;  
+  padding: 1px 1px 1px 1px;
+  width: 90%;
+  height: 90%;
+}
+
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; border: #000 double 1px; }
 .ui-dialog .ui-dialog-titlebar { padding: .4em 1em; position: relative;  }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; } 
