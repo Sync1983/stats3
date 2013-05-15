@@ -14,7 +14,7 @@ class spChartConverter extends spTools {
       $this->_presets[$row['id']] = $row['name'];
   }
   
-  public function createViewData($chart_vid,&$data) {        
+  public function createViewData($chart_vid,&$data,$units) {        
     $chart_id = $chart_vid&0xFFFF;
     $page_id = ($chart_vid>>16)&0xFFFF;        
     
@@ -47,13 +47,13 @@ class spChartConverter extends spTools {
       if(count($data)==1)
         $key = isset($this->_presets[$c_id])?$this->_presets[$c_id]:$key;
       if($type==0)
-        $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> $parse_keys);
+        $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> $parse_keys,'units'=>$units);
       elseif($type==1)
-        $series[] = array('data'=>$parse_chart,'type'=>'bar','name'=>$key,'columns'=>  array_keys($parse_chart));
+        $series[] = array('data'=>$parse_chart,'type'=>'bar','name'=>$key,'columns'=>  array_keys($parse_chart),'units'=>$units);
       elseif($type==2)
-        $series[] = array('data'=>$parse_chart,'type'=>'line','name'=>$key,'columns'=>  array_keys($parse_chart));
+        $series[] = array('data'=>$parse_chart,'type'=>'line','name'=>$key,'columns'=>  array_keys($parse_chart),'units'=>$units);
       elseif($type==3)
-        $series[] = array('data'=>$parse_chart,'type'=>'areaspline','name'=>$key,'columns'=>  array_keys($parse_chart));
+        $series[] = array('data'=>$parse_chart,'type'=>'areaspline','name'=>$key,'columns'=>  array_keys($parse_chart),'units'=>$units);
     }
     
     if($linear)
