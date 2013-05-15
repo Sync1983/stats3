@@ -161,6 +161,80 @@ function chart_funct(parent) {
     }  
     main.ajax('chart','ajax_change_view_chart',{vid:vid,type:type}, onViewChanged);
   };
+
+  chart.exportCSV = function (vid) {
+    
+    function showDialog(chartName,csvText) {
+      var dialog = $( '<div>'+
+                      "\""+chartName+"\"<br>"+
+                      '<textarea id="exportArea" readonly>'+csvText+'</textarea>'+                      
+                    '</div>').dialog({
+                      width:800,
+                      height:500,
+                      resizable:true,
+                      title: "Экспорт CSV",
+                      close: function(event, ui) {                    
+                       dialog.remove();                    
+                      },                      
+                 });     
+    };
+  
+    function constructString(chart) {      
+      var categories = chart.xAxis[0].categories;      
+      var series = chart.series; 
+      var lines = series.length;
+      var cols = new Array();      
+      var result = new Array();      
+      for(var index in series) {
+        var seria = series[index];
+        var name = seria.name;
+        for(var point in seria.data) {
+          var x = seria.data[point].x;
+          if(!categories)
+            x = seria.data[point].x;
+          else
+            x = seria.data[point].name;
+          var y = seria.data[point].y;
+          console.log(name,x,y);          
+          if(!result[x])
+            result[x] = new Array();
+          if(cols.indexOf(name)==-1)
+            cols.push(name);
+          result[x][name] = y;
+        }      
+      }
+      console.log(result);      
+       var str = new String();
+      //Header
+      str = "Row";
+      for(var index in cols)
+        str += ","+cols[index];      
+      //Data
+      for(var index in result){
+        if(categories)
+          str += "\r\n"+index;
+        else {
+          var date = new Date(index*1);          
+          str += "\r\n"+date.getUTCDate()+"-"+(date.getUTCMonth()+1)+"-"+date.getFullYear();          
+        }        
+        for(var point in cols)
+          if(result[index][cols[point]])
+            str += ","+result[index][cols[point]];
+          else
+            str += ",0";
+      }
+      console.log(str);      
+      return str;
+    }
+    
+    var charts = Highcharts.charts;
+    charts.forEach(function (item) {        
+      if(item.hasOwnProperty('chart_vid')&&(item.chart_vid===vid)) {
+        var exprt = constructString(item);
+        showDialog(item.options.title.text, exprt);
+      }    
+    });
+  };
   
   return chart;
 }

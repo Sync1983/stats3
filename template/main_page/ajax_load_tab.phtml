@@ -11,7 +11,7 @@
           <li onclick="window.chart.changeView(0,{$item.id});return false;">Сплайн</li>
           <li onclick="window.chart.changeView(3,{$item.id});return false;">Область</li>
           <li onclick="window.chart.changeView(1,{$item.id});return false;">Столбцы</li>
-          <li>Экспорт CSV</li>
+          <li onclick="window.chart.exportCSV({$item.id});return false;">Экспорт CSV</li>
           <li onclick="window.main.deleteChart({$item.id});return false;">Удалить</li>
         </ul>
       </div>
