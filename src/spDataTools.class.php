@@ -192,4 +192,15 @@ class spDataTools extends spTools {
     return $result;
   }
   
+  private function  byFinDay($params) {
+    $name   = $params[0];    
+    //$start  = $this->_start;
+    $stop   = $this->_stop;        
+    $data = $this->_db->execute("SELECT axist,value FROM counter2 WHERE name=\"$name\" and project_id=".$this->_pid." and stamp=$stop ORDER BY axist");
+    $result = array();        
+    while ($row = $data->fetch_assoc())
+      $result[$row['axist']] = $row['value'];
+    return $result;
+  }
+  
 }
