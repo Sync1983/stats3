@@ -13,7 +13,6 @@ class spDataTools extends spTools {
       'byFinDay'  => array('arg_cnt'=>1),      
   );
   
-  private $_raw_data = array();
   private $_presets = array();
   private $_db = null;
   private $_pid = 0;
@@ -200,6 +199,7 @@ class spDataTools extends spTools {
     $result = array();        
     while ($row = $data->fetch_assoc())
       $result[$row['axist']] = $row['value'];
+    ksort($result,SORT_NUMERIC);
     return $result;
   }
   
