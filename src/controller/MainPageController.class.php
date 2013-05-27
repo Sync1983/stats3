@@ -128,17 +128,19 @@ class MainPageController extends spController
       unset($charts[$key]);
     }
     
-    foreach ($query as $key => $value) {
+    foreach ($query as $key => $value) {      
       $page = new PageView();
       $page->set('page_id',$page_id);
       $page->set('position',$key);
       $chart_vid = explode("_", $value);
       $chart_vid = $chart_vid[1];
       echo "Chart id: $chart_vid\r\n";
-      $value = $charts[$chart_vid];        
-      $page->set('data_type',$value['data_type']);
-      $page->set('view_preset',$value['view_preset']);          
-      $page->set('counter_id',$value['counter_id']);
+      $value = $charts[$chart_vid];     
+      if(!isset($value['counter_id']))
+        continue;
+      $page->set('data_type',   isset($value['data_type'])  ?$value['data_type']  :0);
+      $page->set('view_preset', isset($value['view_preset'])?$value['view_preset']:0);          
+      $page->set('counter_id',  $value['counter_id']);
       $page->save();      
     };
     $this->sendAjaxSuccess();
