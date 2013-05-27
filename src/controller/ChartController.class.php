@@ -10,23 +10,40 @@ class ChartController extends spController {
     $project_id = $request['project_id'];
     $chart_id = $request['id'];
     $view_char_id = $request['vid'];
+    $data_type = $request['data_type'];
     $bday = $request['bday'];
     $eday = $request['eday'];
     /** @var Member */
     $member = $this->toolkit->getMember();
 
-    $db = $this->toolkit->getDefaultDbConnection();    
-    $db_result = $db->execute("SELECT * FROM preset WHERE id=" . $chart_id);    
-    $result = array();
-    while ($row = $db_result->fetch_assoc()) {
-        $result[] = $this->toolkit->getData(
-                                  $row['data'],
-                                  $project_id,
-                                  $view_char_id,
-                                  $bday,
-                                  $eday,
-                                  $row['v_name']);
-    };
+    $db = $this->toolkit->getDefaultDbConnection(); 
+    if($data_type==0) {
+      $db_result = $db->execute("SELECT * FROM preset WHERE id=" . $chart_id);    
+      $result = array();
+      while ($row = $db_result->fetch_assoc()) {
+          $result[] = $this->toolkit->getData(
+                                    $row['data'],
+                                    $project_id,
+                                    0,
+                                    $view_char_id,
+                                    $bday,
+                                    $eday,
+                                    $row['v_name']);
+      };
+    } else if($data_type==1){
+      $db_result = $db->execute("SELECT * FROM logger_chart WHERE id=" . $chart_id);    
+      $result = array();
+      while ($row = $db_result->fetch_assoc()) {
+          $result[] = $this->toolkit->getData(
+                                    $row['query'],
+                                    $project_id,
+                                    1,
+                                    $view_char_id,
+                                    $bday,
+                                    $eday,
+                                    $row['y_values']);
+      };
+    }
     
     if(count($result)>0)
       $this->sendAjaxResponce($result[0]);

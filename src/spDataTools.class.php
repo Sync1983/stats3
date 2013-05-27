@@ -14,6 +14,7 @@ class spDataTools extends spTools {
   );
   
   private $_presets = array();
+  private $_logger = array();
   private $_db = null;
   private $_pid = 0;
   private $_start = 0;
@@ -26,21 +27,40 @@ class spDataTools extends spTools {
     
     while ($row = $presets->fetch_assoc())      
       $this->_presets[$row['project_id']."&".$row['name']] = $row['data'];
+    
+    $logger = $this->_db->execute("SELECT name,project_id,query FROM logger_chart");    
+    while ($row = $logger->fetch_assoc())      
+      $this->_logger[$row['project_id']."&".$row['name']] = $row['query'];
   }
 
-  public function getData($data,$project_id,$chart_id,$start_time,$stop_time,$units="units"){    
+  public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units"){    
     $this->_pid = $project_id;
     $this->_start = $start_time;
     $this->_stop = $stop_time;
-    
-    $roots = explode(',', $data);
     $result = array();
-    foreach ($roots as $root) {
-      $temp = $this->_pharse($root);        
-      $result[$root] = $this->calculate($temp);       
-    }
-    $result = $this->toolkit->createViewData($chart_id, &$result,$units);
+    if($data_type==0) {
+      $roots = explode(',', $data);      
+      foreach ($roots as $root) {
+        $temp = $this->_pharse($root);        
+        $result[$root] = $this->calculate($temp);       
+      }      
+    } else if($data_type==1) {
+      $result[] = $this->_getLoggerData($data);
+    }    
+    $result = $this->toolkit->createViewData($chart_id, &$result,$units);    
     return $result;
+  }
+  
+  private function _getLoggerData($data) {
+    $tstamp = "stamp BETWEEN ".$this->_start." and ".  $this->_stop;
+    $data = str_replace("@[stamp_round]", $tstamp, $data);
+    $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);    
+    $result = $this->_db->execute($data);
+    $return = array();
+    while($row=$result->fetch_assoc())
+      $return[$row['x']] = $row['y'];
+    ksort($return);
+    return $return;
   }
   
   private function _pharse($root){    

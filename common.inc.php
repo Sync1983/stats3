@@ -7,6 +7,7 @@ $classes['Project'] = 'src/model/Project.class.php';
 $classes['PageView'] = 'src/model/PageView.class.php';
 $classes['Page'] = 'src/model/Page.class.php';
 $classes['Preset'] = 'src/model/Preset.class.php';
+$classes['LoggerChart'] = 'src/model/LoggerChart.class.php';
 /*$classes['Counter'] = 'src/model/Counter.class.php';
 $classes['Referrer'] = 'src/model/Referrer.class.php';
 $classes['Chart'] = 'src/model/Chart.class.php';

@@ -1,10 +1,25 @@
 <div>
   Выберите формулу или создайте новую!
-  <select style="width: 90%" class="active-counter-id">    
+  <div>
+  Общие:<br>
+  <select id="standart_selector" style="width: 90%" class="active-counter-id">    
+    <option value="-">---</option>
     {{list using="$#names" as="$item"}}
       {{list:item}}
       <option value="{$item.id}">{$item.title}</option>
       {{/list:item}}
     {{/list}}   
   </select>
+  </div>
+  <div>
+  Лог:<br>
+  <select id="logger_selector" style="width: 90%" class="active-counter-id">
+    <option value="-">---</option>
+    {{list using="$#logger_names" as="$item"}}
+      {{list:item}}
+      <option value="{$item.id}">{$item.title}</option>
+      {{/list:item}}
+    {{/list}}   
+  </select>  
+  </div>
 </div>
