@@ -5,7 +5,7 @@ function chart_funct(parent) {
    if(parent.chart)
      chart = parent.chart;
    
-  chart.addChart = function (container,id,chart_name,chart_id) {    
+  chart.addChart = function (container,id,chart_name,chart_id,data_type) {    
      var options = {
      title: { text: chart_name },    
      chart: { renderTo: container, type: 'areaspline', zoomType: 'none',
@@ -36,6 +36,7 @@ function chart_funct(parent) {
     chart.isLoaded = false;
     chart.chart_id = id;
     chart.chart_vid = chart_id;
+    chart.data_type = data_type;
     chart.ajax_load = chartAjaxLoad;    
     return chart;
  };
@@ -81,6 +82,7 @@ function chart_funct(parent) {
   data.id = chart.chart_id;
   data.vid = chart.chart_vid;
   data.project_id = project_id;
+  data.data_type = chart.data_type;
   window.main.ajax('chart','ajax_load_chart',data,onLoaded);
   return;
  }
@@ -122,8 +124,17 @@ function chart_funct(parent) {
                },
                buttons: {
                 "Добавить": function() {                  
-                  var selector_id = $("#add-dialog .active-counter-id option:selected").val();                  
-                  main.ajax('page','ajax_add_chart',{project_id:project_id,page_id:main.selectedTabId,counter_id:selector_id},
+                  var data = 0;
+                  var selector_id = $("#add-dialog #standart_selector option:selected").val();
+                  var logger_selector_id = $("#add-dialog #logger_selector option:selected").val();
+                  console.log("Selector: "+selector_id+" Logger selector: "+logger_selector_id);
+                  if(selector_id=='-') {
+                    data = 1;
+                    if(logger_selector_id=='-')
+                      return;
+                    selector_id = logger_selector_id;
+                  }
+                  main.ajax('page','ajax_add_chart',{project_id:project_id,page_id:main.selectedTabId,counter_id:selector_id,data:data},
                     function(data){                      
                       data = JSON.parse(data);
                       if(data.error) {

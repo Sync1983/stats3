@@ -13,22 +13,37 @@ class PageView extends lmbActiveRecord {
     public function __construct($page_id = null) {
       parent::__construct();
       if(!$page_id)
-        return;      
-      $view_records = $this->findAllRecords("page_id=".$page_id,array('position'=>'asc'));
-      foreach ($view_records as $record) {        
+        return;    
+      
+      $db = lmbActiveRecord::getDefaultConnection();      
+      $result = $db->execute("SELECT preset.*,page_view.* FROM preset,page_view WHERE page_view.counter_id=preset.id and page_view.page_id=$page_id and page_view.data_type=0;");
+      while($record = $result->fetch_assoc()) {         
         $counter_id   = $record['counter_id'];        
         $view_preset  = $record['view_preset'];
         $data_type    = $record['data_type'];
-        $this->_views[] = array(  'id'          =>  ($record['page_id']<<16)+$record['position'],
+        $this->_views[$record['position']*1] = 
+                          array(  'id'          =>  ($record['page_id']<<16)+$record['position'],
                                   'counter_id'  => $counter_id,
                                   'view_preset' => $view_preset,
-                                  'data_type'   => $data_type);
-      }
-      foreach ($this->_views as $key=>$view) {
-        $preset = lmbActiveRecord::findOneBySql('Preset', "SELECT name FROM preset WHERE id=".$view['counter_id']);
-        $view['name'] = $preset->_getRaw('name');
-        $this->_views[$key] = $view;
-      }      
+                                  'data_type'   => $data_type,
+                                  'name'        => $record['name']);
+      };        
+      $result->free();  
+      
+      $result = $db->execute("SELECT logger_chart.*,page_view.* FROM logger_chart,page_view WHERE page_view.counter_id=logger_chart.id and page_view.page_id=$page_id and page_view.data_type=1;");
+      while($record = $result->fetch_assoc()) {         
+        $counter_id   = $record['counter_id'];        
+        $view_preset  = $record['view_preset'];
+        $data_type    = $record['data_type'];
+        $this->_views[$record['position']*1] = 
+                          array(  'id'          =>  ($record['page_id']<<16)+$record['position'],
+                                  'counter_id'  => $counter_id,
+                                  'view_preset' => $view_preset,
+                                  'data_type'   => $data_type,
+                                  'name'        => $record['name']);
+      };        
+      $result->free(); 
+      ksort($this->_views,SORT_NUMERIC);      
       return;
     }
     
