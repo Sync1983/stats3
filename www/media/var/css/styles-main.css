@@ -20,7 +20,7 @@ html,body {
   height: 100%;  
   margin: 0;
   overflow: hidden;
-  background-image: url(/_/1tkheyn/images/bg_pattern.png);
+  background-image: url(/_/1aqgd0l/images/bg_pattern3.jpg);
 }
 
 #login_form{
@@ -215,8 +215,8 @@ div#tab-content {
 
 .chart {
   min-width: 250px; 
-  width: 250px; 
-  height: 200px; 
+  width: 350px; 
+  height: 300px; 
   margin: 70px 20px auto; 
   border: 1px solid #666666;
   padding-top: 40px; 
@@ -237,7 +237,7 @@ div#tab-content {
 .chart_graph {  
   margin: 0px;
   margin-top: -25px;
-  height:250px;
+  height:350px;
 }
 
 .chart h1 {
@@ -302,6 +302,15 @@ div#tab-content {
   color:white;
   border-color: white;
   background: #000;
+}
+
+#exportArea {
+  font-family: Arial; 
+  font-size: 13px; 
+  color: #0077CC;  
+  padding: 1px 1px 1px 1px;
+  width: 90%;
+  height: 90%;
 }
 
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; border: #000 double 1px; }
