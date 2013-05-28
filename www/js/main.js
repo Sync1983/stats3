@@ -59,8 +59,8 @@ function main_funct(parent) {
     var bday = new Date(split[0]);
     var eday = new Date(split[1]);    
     var ret_obj = {};
-    ret_obj.bday = bday.getTime()/1000;
-    ret_obj.eday = eday.getTime()/1000;
+    ret_obj.bday = (bday.getTime()/1000);
+    ret_obj.eday = (eday.getTime()/1000);
     return ret_obj;
   };
 
