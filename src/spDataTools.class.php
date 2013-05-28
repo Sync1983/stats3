@@ -211,15 +211,21 @@ class spDataTools extends spTools {
     return $result;
   }
   
-  private function  byFinDay($params) {
+  private function  byFinDay($params) {    
     $name   = $params[0];    
     //$start  = $this->_start;
     $stop   = $this->_stop;        
-    $data = $this->_db->execute("SELECT axist,value FROM counter2 WHERE name=\"$name\" and project_id=".$this->_pid." and stamp=$stop ORDER BY axist");
+    $SQL = "SELECT axist,value FROM counter2 WHERE `name`=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN (ROUND($stop/86400)-1)*86400 and (ROUND($stop/86400))*86400 ORDER BY axist";
+    $data = $this->_db->execute($SQL);    
     $result = array();        
-    while ($row = $data->fetch_assoc())
+    if(!$data) {
+      echo $this->_db->error."\r\n";      
+      return $result;
+    }     
+    while ($row = $data->fetch_assoc()){      
       $result[$row['axist']] = $row['value'];
-    ksort($result,SORT_NUMERIC);
+    }
+    //ksort($result,SORT_NUMERIC);
     return $result;
   }
   
