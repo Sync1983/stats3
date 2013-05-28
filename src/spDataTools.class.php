@@ -216,7 +216,7 @@ class spDataTools extends spTools {
     $name   = $params[0];    
     //$start  = $this->_start;
     $stop   = $this->_stop;        
-    $SQL = "SELECT axist,value FROM counter2 WHERE `name`=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN (ROUND($stop/86400)-1)*86400 and (ROUND($stop/86400))*86400 ORDER BY axist";
+    $SQL = "SELECT axist,value FROM counter2 WHERE `name`=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN (ROUND($stop/86400)-0.5)*86400 and (ROUND($stop/86400)+0.5)*86400 ORDER BY axist";
     $data = $this->_db->execute($SQL);    
     $result = array();        
     if(!$data) {
