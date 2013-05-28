@@ -80,7 +80,7 @@ class spDataTools extends spTools {
       if(count($parts[$key])==1)
         $parts[$key] = $parts[$key][0];
       }
-    }
+    }    
     if(count($parts)>1)
       $parts = $this->constructTree($parts);       
     return $parts;    
@@ -89,10 +89,11 @@ class spDataTools extends spTools {
   private function constructTree(&$root){    
     $start_pos = array_search('', $root);  
     $pos = 0;    
-    //Находим первую команду выше    
-    for($pos = $start_pos; $pos >= 0; $pos--)
-      if(!is_array($root[$pos]) && array_key_exists($root[$pos], $this->commands))
-        break;
+    //Находим первую команду выше 
+    if($start_pos>=0)
+      for($pos = $start_pos; $pos >= 0; $pos--)
+        if(!is_array($root[$pos]) && array_key_exists($root[$pos], $this->commands))
+          break;
     //Вырезаем часть с командой и параметрами
     $params = array_splice($root, $pos, $start_pos-$pos);            
     //Переводим первый элемент в команду
@@ -101,7 +102,7 @@ class spDataTools extends spTools {
     array_splice($params, 0, 1);
     //Удаляем пустой разделитель параметров
     array_splice($params, count($params), 1);        
-    $root[$pos] = array('f'=>$action,'p'=>$params);    
+    $root[$pos] = array('f'=>$action,'p'=>$params);       
     if(count($root)>1)
       $this->constructTree ($root);
     return $root[0];
@@ -221,11 +222,15 @@ class spDataTools extends spTools {
     if(!$data) {
       echo $this->_db->error."\r\n";      
       return $result;
-    }     
+    }
+    $num = true;
     while ($row = $data->fetch_assoc()){      
+      if(!is_numeric($row['axist']))
+        $num = false;
       $result[$row['axist']] = $row['value'];
     }
-    //ksort($result,SORT_NUMERIC);
+    if($num)
+      ksort($result,SORT_NUMERIC);
     return $result;
   }
   
