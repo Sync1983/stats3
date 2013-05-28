@@ -51,7 +51,7 @@ class PageController extends spController {
     $db_page = new PageView($page);
     $db_page->set('page_id',$page);
     $db_page->set('position',$count+1);
-    $db_page->set('data_type',0);
+    $db_page->set('data_type',$data_type);
     $db_page->set('counter_id',$counter_id);
     $db_page->set('view_preset',0);
     $db_page->save();
