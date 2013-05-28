@@ -27,7 +27,7 @@ function chart_funct(parent) {
            var append = "";
            if(this.series.userOptions.units)
              append = this.series.userOptions.units;
-           return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x) + '<br><i>' +
+           return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x+86400000) + '<br><i>' +
            Highcharts.numberFormat(this.y, 3)+"</i> "+append;
           }
        }
