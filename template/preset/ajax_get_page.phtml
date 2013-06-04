@@ -1,0 +1,57 @@
+<div>
+  <div id="radio">
+    <input type="radio" id="radio1" name="radio" checked="checked"/><label for="radio1">Формулы</label>
+    <input type="radio" id="radio2" name="radio" /><label for="radio2">Логгер</label>    
+  </div>  
+  <div id="presets-place">
+    <div id="preset-div">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="preset-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Имя</th>
+          <th>Формула</th>
+          <th>Размерность по Y</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{list using="$#presets" as="$item"}}
+        {{list:item}}
+          <tr>
+            <td fixed="fixed">{$item.id}</td>
+            <td row="{$item.id}" name="name">{$item.name}</td>
+            <td row="{$item.id}" name="data">{$item.data}</td>
+            <td row="{$item.id}" name="v_name">{$item.v_name}</td>
+        </tr>
+        {{/list:item}}
+      {{/list}}     
+      </tbody>
+    </table>
+    </div>
+    <div id="logger-div" style="display: none;">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="logger-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Имя</th>
+          <th>Запрос</th>
+          <th>Значения по X</th>
+          <th>Значения по Y</th>
+        </tr>
+      </thead>
+      <tbody>{{list using="$#loggers" as="$item"}}
+        {{list:item}}
+          <tr>
+            <td fixed="fixed">{$item.id}</td>
+            <td row="{$item.id}" name="name">{$item.name}</td>
+            <td row="{$item.id}" name="query">{$item.query}</td>
+            <td row="{$item.id}" name="x_values">{$item.x_values}</td>
+            <td row="{$item.id}" name="y_values">{$item.y_values}</td>
+        </tr>
+        {{/list:item}}
+      {{/list}}     
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>

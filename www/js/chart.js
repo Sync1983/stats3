@@ -113,6 +113,85 @@ function chart_funct(parent) {
    }     
  }
  
+ function showAddPreset() {
+   
+   function onPageLoad(data) {
+     data = JSON.parse(data);
+     if(data.error) 
+       return;
+     html = data.html;     
+     var dialog1 = $('<div id="preset-dialog">'+html+'<div class="error" style="display:none;color:red"></div></div>')
+      .dialog({               
+        width:  "80%",        
+        height: 600,
+        resizable:true,
+        title: "Формулы",
+        close: function(event, ui) {                    
+                dialog.remove();                    
+               },
+      });
+      $( "#radio" ).buttonset();
+      $("input#radio1").change(function(event) {        
+        $('#preset-div').css("display","block");
+        $('#logger-div').css("display","none");
+        return false;
+      });
+     $("input#radio2").change(function(event) {        
+        $('#preset-div').css("display","none");
+        $('#logger-div').css("display","block");
+        return false;
+      });
+      var tbl1 = $('#preset-table').dataTable();
+      var tbl2 = $('#logger-table').dataTable();      
+      // Insert editable for preset table
+      tbl1.$('td[fixed!="fixed"]').editable( '/preset/ajax_change_row/', {
+        "callback": function( sValue, y ) {
+            if(!sValue)
+              return;
+            var aPos = tbl1.fnGetPosition( this );
+            tbl1.fnUpdate( sValue, aPos[0], aPos[1] );
+        },
+        "submitdata": function ( value, settings ) {
+          if (confirm("Изменить поле "+this.getAttribute('name')+"?"))
+            return {
+                "table" : "preset", 
+                "pid": project_id,
+                "row_id": this.getAttribute('row'),
+                "name": this.getAttribute('name'),
+            };
+          else
+            return false;
+        },
+        "height": "100%",
+        "width": "100%"
+       });
+     // Insert editable for logger table
+     tbl2.$('td[fixed!="fixed"]').editable( '/preset/ajax_change_row/', {
+        "callback": function( sValue, y ) {
+            if(!sValue)
+              return;
+            var aPos = tbl2.fnGetPosition( this );
+            tbl2.fnUpdate( sValue, aPos[0], aPos[1] );
+        },
+        "submitdata": function ( value, settings ) {   
+            if (confirm("Изменить поле "+this.getAttribute('name')+"?"))
+              return {
+                  "table" : "logger", 
+                  "pid": project_id,
+                  "row_id": this.getAttribute('row'),
+                  "name": this.getAttribute('name')
+              };
+            else
+              return false;
+        },
+        "height": "100%",
+        "width": "100%"
+       });      
+   }
+   
+   main.ajax('preset','ajax_get_page',{project_id:project_id},onPageLoad);
+ }
+ 
  function showAddDialog(html,page_id) {
    var dialog = $('<div id="add-dialog">'+html+'<div class="error" style="display:none;color:red"></div></div>')
              .dialog({               
@@ -146,9 +225,10 @@ function chart_funct(parent) {
                       window.main.loadTab();
                     });
                 },
-                "Создать": function() {
-                  // TODO Добавить конструктор
-                }
+                "Создать": function () {                  
+                    dialog.dialog('close');
+                    showAddPreset();
+                    },
                }                
              });        
  };
