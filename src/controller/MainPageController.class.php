@@ -21,6 +21,7 @@ class MainPageController extends spController
       $projects[] = $item;
     }
     $this->view->set('projects',  $projects);
+    $this->view->set('exit',"Выйти");
     $this->setTimeInterval();
   }
   
