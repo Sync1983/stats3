@@ -64,83 +64,95 @@ function main_funct(parent) {
     return ret_obj;
   };
 
-  main.changeTab = function (event, clicked, targetPanel, settings) {    
-    var id = clicked.attr('id');    
-    if(id === 'add_tab') {
-       main.ajax('main_page','ajax_add_tab',null,
-        function(data){
-          data = JSON.parse(data);  
-          var pid = project_id;
-          var mid = data.mid;
-          var dialog = $('<div>'+data.html+'<div class="error" style="display:none;color:red"></div></div>')
-             .dialog({               
-               width:  500,               
-               resizable:false,
-               title: "Добавить вкладку",
-               close: function(event, ui) {                    
-                dialog.remove();                    
-               },
-               buttons: {
-                "Сохранить": function() {                  
-                  var save_data = {};                  
-                  save_data['name'] = $('#name').val();
-                  save_data['pid'] = pid;
-                  save_data['mid'] = mid;                  
-                  main.ajax('main_page','ajax_save_tab',save_data,
-                    function(data){                      
-                      data = JSON.parse(data);
-                      if(data.error) {
-                        dialog.children(".error").css('display','block');
-                        dialog.children(".error").text(data.error);
-                        return;
-                      }                      
-                      dialog.dialog('close');
-                      location.href = "?project_id="+pid;;
-                    });
-                },
-               },               
-               modal: true
-              });         
-        });
+  main.addTab = function () { 
+    var pid;
+    var mid;
+    var dialog;
+    
+    function save(data) {
+      if(!(data = validateJSON(data)))
+        return false;
+    
+      if(data.error) {
+        dialog.children(".error").css('display','block');
+        dialog.children(".error").text(data.error);
+        return;
+      }                      
+      dialog.dialog('close');
+      main.selectProject(pid);
+    }
+    
+    function onSave() {      
+      var save_data = {};                  
+      save_data['name'] = $('#name').val();
+      save_data['pid'] = pid;
+      save_data['mid'] = mid;                  
+      main.ajax('main_page','ajax_save_tab',save_data,save);
       return false;
-    }    
-    main.selectedTabId = clicked[0].getAttribute('id');
-    main.selectedTabName = clicked[0].text;
-    main.loadTab();
-    return true;
+    };
+    
+    function onAnswer(data) {
+      if(!(data = validateJSON(data)))
+        return false;
+      
+      pid = project_id;
+      mid = data.mid;
+      dialog = $('<div>'+data.html+'<div class="error" style="display:none;color:red"></div></div>')
+        .dialog({
+          width:  500,               
+          resizable:false,
+          title: "Добавить вкладку",
+          close: function(event, ui) {                    
+           dialog.remove();                    
+          },buttons: { "Сохранить": onSave },               
+          modal: true
+      });
+    };
+      
+    main.ajax('main_page','ajax_add_tab',null,onAnswer);
+    return false;
   };
 
   main.pageReload = function() {
     main.loadTab();
-    return;
+    return false;
   };
 
   main.loadPage = function(page_id) {
+    $('ul.nav.nav-tabs>li').each( function (index,item) {
+      $(item).attr('class','');
+    });    
     main.selectedTabId = page_id;
+    //$('ul.nav.nav-tabs>li').eq(0).attr('class','active');
+    $('ul.nav.nav-tabs>li>a#navTab'+main.selectedTabId).parent().attr('class','active');    
     main.loadTab();
     return false;
   };
 
   main.loadTab = function() {
     if(main.selectedTabId===-1) {
-      main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
-      main.selectedTabName = $('.etabs>li>a')[0].text;
+      console.log("Undefined tab for loading");
+      return;
     }    
     $('.chart').remove();
-    if(main.selectedTabId==='add_tab')
-      return;
-    main.ajax('main_page','ajax_load_tab',{project_id:project_id, page_id:main.selectedTabId},
-                    function(data){                      
-                      data = JSON.parse(data);
-                      if(data.error) {
-                        alert(data.error);                        
-                        return;
-                      } else if(data.html) {
-                        $('#chartspace').html(data.html);
-                        if(data.charts)
-                          loadCharts(data.charts);
-                      }                      
-                    });
+    
+    function onAnswer(data) {      
+      if(!(data = validateJSON(data)))
+        return false;
+      
+      if(data.error) {
+        alert(data.error);                        
+        return false;
+      } else if(data.html) {
+        $('#chartspace').html(data.html);
+        if(data.charts)
+          loadCharts(data.charts);
+      }                      
+      return false;
+    }
+    
+    main.ajax('main_page','ajax_load_tab',{project_id:project_id, page_id:main.selectedTabId}, onAnswer);
+    return false;                    
   };
 
   function updateChartPosition(event,ui) {
@@ -153,8 +165,8 @@ function main_funct(parent) {
         pos.push(id);
     }
     if(main.selectedTabId===-1) {
-       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
-       main.selectedTabName = $('.etabs>li>a')[0].text;
+       console.log("Undefined page id");
+       return false;
      }    
   
     function onSaved(data) {
@@ -179,14 +191,28 @@ function main_funct(parent) {
     $("#main-view").disableSelection();
   }
 
-  main.renameTabAlert = function(tabs) {
-    if(main.selectedTabId === -1) {      
-      main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
-      main.selectedTabName = $('.etabs>li>a')[0].text;
+  function getActiveTabName() {
+    return $('#navTab'+main.selectedTabId).text();
+  }
+
+  function validateJSON(data) {
+    try {
+        data = JSON.parse(data);          
+      } catch(e) {
+        console.log("Error in answer "+e+" in data "+data);
+        return null;
+      }
+    return data;
+  }
+
+  main.renameTab = function() {
+    if(main.selectedTabId===-1) {
+      console.log("Undefined tab for loading");
+      return false;
     }
   
     var dialog = $( '<div>'+
-                      "Переименовать \""+main.selectedTabName+"\"? <br>"+
+                      "Переименовать \""+getActiveTabName()+"\"? <br>"+
                       '<input type="text" id="rename_text" style="margin-top: 5px; width:98%;" value="'+main.selectedTabName+'"/>'+
                       '<div class="error" style="display:none;color:red"></div>'+
                     '</div>').dialog({               
@@ -207,46 +233,53 @@ function main_funct(parent) {
     };
   
     function onAnswer(data) {
-      data = JSON.parse(data);
+      if(!(data = validateJSON(data)))
+        return false;
       if(data.error) {
         dialog.children(".error").css('display','block');
         dialog.children(".error").text(data.error);
         return;
       }                      
       dialog.dialog('close');
-      location.href = location.href;
+      main.selectProject(project_id);
     };
+    return false;
   };
 
-  main.deleteTabAlert = function(tabs) {
-    if(main.selectedTabId === -1) {      
-      main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
-      main.selectedTabName = $('.etabs>li>a')[0].text;
-    }    
-    var dialog = $('<div>'+"Удалить вкладку \""+main.selectedTabName+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
+  main.deleteTab = function() {    
+    var dialog;
+    
+    if(main.selectedTabId===-1) {
+      console.log("Undefined tab for loading");
+      return false;
+    }
+  
+    function onDeleteAnswer(data) {  
+      if(!(data = validateJSON(data)))
+        return false;
+      
+      if(data.error) {
+        dialog.children(".error").css('display','block');
+        dialog.children(".error").text(data.error);
+        return;
+      }                      
+      dialog.dialog('close');
+      main.selectProject(project_id);
+    };
+  
+    function onDelete() {      
+      main.ajax('main_page','ajax_delete_tab',{id:main.selectedTabId}, onDeleteAnswer);                
+    };
+    
+    dialog = $('<div>'+"Удалить вкладку \""+getActiveTabName()+"\"?"+'<div class="error" style="display:none;color:red"></div></div>')
              .dialog({               
                width:  500,               
                resizable:false,
                title: "Удалить вкладку?",
-               close: function(event, ui) {                    
-                dialog.remove();                    
-               },
-               buttons: {
-                "Удалить": function() {                  
-                  main.ajax('main_page','ajax_delete_tab',{id:main.selectedTabId},
-                    function(data){                      
-                      data = JSON.parse(data);
-                      if(data.error) {
-                        dialog.children(".error").css('display','block');
-                        dialog.children(".error").text(data.error);
-                        return;
-                      }                      
-                      dialog.dialog('close');
-                      main.pageReload();
-                    });
-                }
-               }                
-             });             
+               close: function(event, ui) { dialog.remove(); },
+               buttons: { "Удалить": onDelete }
+             });   
+    return false;
   };
 
   main.deleteChart = function(id) {
