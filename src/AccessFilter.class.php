@@ -13,7 +13,7 @@ class AccessFilter implements lmbInterceptingFilter
         $controller->getName() !== 'stats_logger' &&
         $controller->getName() !== 'from_client' &&            
         $controller->getName() !== 'statslogger' &&
-        ($toolkit->getMember()->isLoggedIn()) ) {
+        !($toolkit->getMember()->isLoggedIn()) ) {
       
       $toolkit->redirect('login');      
       return;
