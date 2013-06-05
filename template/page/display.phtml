@@ -19,7 +19,22 @@
   <div id = "chart-header">
     <input class="text-center" id="dateRange-txt">
     <input class="btn" type="submit" value="Загрузить" />
+    
+    <div class="btn-group-setting">
+      <a class="btn dropdown-toggle" id ="settings-group" data-toggle="dropdown" data-target="#">
+        Управление
+      <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#" onclick="return window.chart.addChartClick();">Добавить диаграмму</a></li>
+        <li><a href="#" onclick="return false;">Добавить страницу</a></li>
+        <li><a href="#" onclick="return false;">Переименовать страницу</a></li>
+        <li><a href="#" onclick="return false;">Удалить страницу</a></li>
+      </ul>
+    </div>
+    
   </div>
+  
   <div id = "chartspace">
     
   </div>
@@ -29,14 +44,25 @@
 
 {{ainto slot="js_ready"}}
   $('ul.nav.nav-tabs>li').eq(0).attr('class','active');
-  window.main.loadPage({$#active_id});
-  $('#dateRange-txt').DatePicker({
-    format:'m/d/Y',
+  
+  $('btn dropdown-toggle').dropdown();
+  
+  var bday = new Date({$#bday}*1000);
+  var eday = new Date({$#eday}*1000);  
+  $("#dateRange-txt").DatePicker(
+  { 
+    flat: false,
+    date: [bday,eday],
     calendars: 3,
-    mode: 'range',
-    date: $('#dateRange-txt').val(),
-    current: $('#dateRange-txt').val(),        
+    mode: "range",   
+    starts: 1,
+    onChange: function(formated) {         
+      $('#dateRange-txt').val(formated.join(' - '));
+    },
   });
+  
+  $("#dateRange-txt").val($.datepicker.formatDate('yy-mm-dd', bday)+' - '+$.datepicker.formatDate('yy-mm-dd', eday));  
+  window.main.loadPage({$#active_id});
 {{/ainto}}
 
 {{/wrap}}

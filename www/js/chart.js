@@ -52,8 +52,13 @@ function chart_funct(parent) {
 }
 
  function chartAjaxLoad(chart) {  
-  function onLoaded(data) {    
-    data = JSON.parse(data);
+  function onLoaded(data) {   
+    try{
+      data = JSON.parse(data);      
+    } catch (e) {
+      console.log("Error "+e+" in answer "+data);
+      return;
+    }
     var options = chart.options;
     if(data.xAxis) {      
       chart.xAxis[0].update(mergeRecursive(chart.xAxis[0].options,data.xAxis));      
@@ -236,6 +241,11 @@ function chart_funct(parent) {
  chart.addEvents = function() {
     $("#chart_add").bind('click',onMouseClick);    
   };
+
+  chart.addChartClick = function () {
+    onAddNewChart();
+    return false;
+  }
   
   chart.onFull = function (vid,counter_id) {            
     $('#main-chart').css('display','block');

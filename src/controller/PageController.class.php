@@ -13,6 +13,8 @@ class PageController extends spController {
     $pages = $page_model->findAllRecords("project_id=$p_id");    
     $this->view->set('pages', $pages); 
     $this->view->set('active_id',isset($pages[0])?$pages[0]->get('id'):-1);
+    $this->view->set('project_id', $p_id); 
+    $this->setTimeInterval();
   }
   
   function doAjaxGetPresets() {
@@ -67,6 +69,18 @@ class PageController extends spController {
   
   function doAjaxUpdateChart() {
     
+  }
+  
+  private function setTimeInterval() {
+    $request = $this->toolkit->request;
+    $bday = $request['bday'];
+    $eday = $request['eday'];
+    if(!$bday)
+      $bday = strtotime ('-30 days');
+    if(!$eday)
+      $eday = time();
+    $this->view->set('bday', $bday);
+    $this->view->set('eday', $eday);
   }
   
 }

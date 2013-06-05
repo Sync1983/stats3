@@ -54,7 +54,7 @@ function main_funct(parent) {
   };
 
   main.getPeriod = function() {    
-    var range = $("#dateRange-txt").text();
+    var range = $("#dateRange-txt").val();
     var split = range.split(' - ');
     var bday = new Date(split[0]);
     var eday = new Date(split[1]);    
