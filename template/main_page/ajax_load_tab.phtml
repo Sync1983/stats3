@@ -1,9 +1,8 @@
 <ul style="margin-left: 10px;padding: 0;" id="main-view">
   {{list using="$#charts" as="$item"}}
     {{list:item}}
-    <li class="chart" id="chart_{$item.id}"></div>
-      <div class="chart_graph"></div>
-      <div class="chart-to-full" onclick="window.chart.onFull({$item.id},{$item.counter_id});return false;"></div>
+    <li class="chart" id="chart_{$item.id}" style="list-style: none;"></div>
+      <div class="chart_graph"></div>      
       <div class="chart-toolbox" onclick="showToolbox(this);return false;"></div>
       <div class="toolbox">
         <ul>
@@ -17,15 +16,15 @@
       </div>
     </li>
     {{/list:item}}
-  {{/list}}     
-  <li class="chart sortable-disabled" id="chart_add" style="list-style: none;"><h1>Добавьте диаграмму</h1><img src="images/addChart.png" width="200" height="200" style="top:30px;position: relative;"/></li>
+  {{/list}}  
 </ul>
 
-<script>
+
+{{ainto slot="js_ready"}}
   window.chart.addEvents();
   
   function showToolbox(item) {
     var box = $(item).parent().children(".toolbox");
     $(box).css('display','block');
   }
-</script>
+{{/ainto}}

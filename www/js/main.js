@@ -34,6 +34,7 @@ function main_funct(parent) {
   main.loginClick = function(item) {    
     var login = $('#login').val();    
     var password = $('#password').val();
+    
     main.ajax('login','ajax_login',{login:login,password:password},function(returnData){
       var data = JSON.parse(returnData);      
       if(data.error) {
@@ -48,13 +49,12 @@ function main_funct(parent) {
     return false;
   };
 
-  main.selectProject = function(dom) {
-    var select = $(dom);
-    location.href = window.myjs.server_vars.base_path+'?project_id='+select.val();
+  main.selectProject = function(new_project_id) {    
+    location.href = window.myjs.server_vars.base_path+'page/?project_id='+new_project_id;
   };
 
   main.getPeriod = function() {    
-    var range = $("#dateRange-txt").text();
+    var range = $("#dateRange-txt").val();
     var split = range.split(' - ');
     var bday = new Date(split[0]);
     var eday = new Date(split[1]);    
@@ -115,6 +115,12 @@ function main_funct(parent) {
     return;
   };
 
+  main.loadPage = function(page_id) {
+    main.selectedTabId = page_id;
+    main.loadTab();
+    return false;
+  };
+
   main.loadTab = function() {
     if(main.selectedTabId===-1) {
       main.selectedTabId = $('.etabs>li>a')[0].getAttribute('id');
@@ -130,7 +136,7 @@ function main_funct(parent) {
                         alert(data.error);                        
                         return;
                       } else if(data.html) {
-                        $('#content').html(data.html);
+                        $('#chartspace').html(data.html);
                         if(data.charts)
                           loadCharts(data.charts);
                       }                      

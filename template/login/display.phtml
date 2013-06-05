@@ -1,25 +1,51 @@
 {{wrap file="_include/page.phtml"}}
-<center>
-  <p style="vertical-align: central;">Please Login first!</p>
-</center>
-<div id="login_form">
-  <form id="-js-login-form" method="post">
-    <dl>
-      <dt><label for="login">{{i m='Логин'/}}</label></dt>
-      <dd><input class="textfield" type="text" name="login" id="login" /></dd>
-      <dt><label for="password">{{i m='Пароль'/}}</label></dt>
-      <dd><input class="textfield" type="password" name="password" id="password" /></dd>
-    </dl>
-    <button id="-js-submit" onclick="window.main.loginClick('login_form');return false;">{{i m='Войти'/}}</button>
-    <p class="errors" style="display: none">Ошибки</p>
-  </form>
-  
-</div>
+<style type="text/css">
+  body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+  }
 
-  {{ainto slot="js_ready"}}
-    $('#login_form').bPopup({
-            modalClose: true,
-            opacity: 0.5,            
-        });  
-  {{/ainto}}
+  .form-signin {
+    max-width: 300px;
+    padding: 19px 29px 29px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+       -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  }
+  .form-signin .form-signin-heading,
+  .form-signin .checkbox {
+    margin-bottom: 10px;
+  }
+  .form-signin input[type="text"],
+  .form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+  }
+  
+  .form-signin errors {
+    color: #CC0000;
+    margin: -3px 20px;
+    padding: 0;
+    display: none; 
+    font-size: 15pt;
+  }
+
+</style>
+
+<form class="form-signin" method="post">
+  <h2 class="form-signin-heading">Please sign in</h2>
+  <input type="text" class="input-block-level" placeholder="Login" name="login" id="login">
+  <input type="password" class="input-block-level" placeholder="Password" name="password" id="password">  
+  <button class="btn btn-large btn-primary" type="submit" onclick="window.main.loginClick('form-signin');return false;">Sign in</button>  
+  <p class="errors" style="display: none">Ошибки</p>
+</form> 
 {{/wrap}}

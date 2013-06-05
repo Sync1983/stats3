@@ -69,3 +69,10 @@ span.prev-tab, span.next-tab { background: #ccc; }
 
 /* Styles for Twitter Boostrap */
 #twitter-bootstrap-container { background: #fff; padding: 10px; height: 75px; margin-bottom: 15px; }
+
+.ptabs { margin: 0; margin-left: 0; margin-top: -30px; padding: 0; float: left; }
+.tabs {display: inline-block; zoom:1; *display:inline; background: #CCC; border: solid 1px #000; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; box-shadow: 10px 10px 0 rgba(0,0,0,0.3);}
+.tabs a { font-size: 14px; line-height: 2em; display: block; padding: 5px 5px; outline: none; color: #000}
+.tabs a:hover { text-decoration: underline; }
+.tabs.active { background: #fff; position: relative; top: -1px; border-color: #000; }
+.tabs a.active { font-weight: bold; }
