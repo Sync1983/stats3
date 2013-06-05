@@ -113,14 +113,6 @@ function chart_funct(parent) {
    });
  };
  
- function onMouseClick(event) {
-   var target = event.currentTarget;
-   var id = target.getAttribute('id');   
-   if(id==="chart_add") {
-     onAddNewChart();
-     return;
-   }     
- }
  
  function showAddPreset() {
    
@@ -139,17 +131,17 @@ function chart_funct(parent) {
                 dialog.remove();                    
                },
       });
-      $( "#radio" ).buttonset();
-      $("input#radio1").change(function(event) {        
-        $('#preset-div').css("display","block");
-        $('#logger-div').css("display","none");
-        return false;
-      });
-     $("input#radio2").change(function(event) {        
-        $('#preset-div').css("display","none");
-        $('#logger-div').css("display","block");
-        return false;
-      });
+      $('#radio').button();
+      $('#radio>button').click(function () {
+        if(this.id=="radio1") {
+          $('#preset-div').css("display","block");
+          $('#logger-div').css("display","none");
+        }
+        else if(this.id=="radio2") {
+          $('#preset-div').css("display","none");
+          $('#logger-div').css("display","block");
+        }        
+      });      
       var tbl1 = $('#preset-table').dataTable();
       var tbl2 = $('#logger-table').dataTable();      
       // Insert editable for preset table
@@ -246,19 +238,11 @@ function chart_funct(parent) {
     $("#chart_add").bind('click',onMouseClick);    
   };
 
-  chart.addChartClick = function () {
+ chart.addChartClick = function () {
     onAddNewChart();
     return false;
   }
   
-  chart.onFull = function (vid,counter_id) {            
-    $('#main-chart').css('display','block');
-    //container,id,chart_name,chart_id
-    console.log(counter_id,vid);
-    var chart = this.addChart("main-chart",counter_id,'',vid);    
-    chartAjaxLoad(chart); 
-  };
-
   chart.changeView = function (type,vid) {
     function onViewChanged() {
       var charts = Highcharts.charts;
@@ -272,6 +256,26 @@ function chart_funct(parent) {
     }  
     main.ajax('chart','ajax_change_view_chart',{vid:vid,type:type}, onViewChanged);
   };
+
+  chart.addPresetLine = function() {
+    var type = 0;
+    
+    function onAnswer(data) {
+      data = JSON.parse(data);
+      var table = $('#preset-table').dataTable();
+      if(data.type=="logger")
+        table = $('#logger-table').dataTable();
+      table.fnAddData( [data.item.id] );
+      return false;
+    }
+    
+    if ($('#preset-div').css("display")=="block")
+      type = "preset";
+    else if($('#logger-div').css("display")=="block")
+      type = "logger";
+    main.ajax('chart','ajax_add_preset_line',{pid:project_id,type:type}, onAnswer);
+    return false;
+  }
 
   chart.exportCSV = function (vid) {
     

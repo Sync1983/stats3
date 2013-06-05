@@ -65,6 +65,20 @@ class ChartController extends spController {
     else
       $this->sendAjaxError ('Type not changed');
   }
+  
+  function doAjaxAddPresetLine () {
+    $request = $this->toolkit->request;
+    $pid = $request['pid'];
+    $type = $request['type'];
+    if($type == "preset")
+      $control = new Preset();
+    else if($type=="logger")
+      $control = new LoggerChart();
+    
+    $control->set('project_id',$pid);    
+    $control->save();
+    $this->sendAjaxResponce(array('type'=>$type,'item'=>$control));
+  }
 
 }
 
