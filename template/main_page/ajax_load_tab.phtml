@@ -3,15 +3,15 @@
     {{list:item}}
     <li class="chart" id="chart_{$item.id}" style="list-style: none;"></div>
       <div class="chart_graph"></div>      
-      <div class="chart-toolbox" onclick="showToolbox(this);return false;"></div>
+      <div class="chart-toolbox" onclick="return window.main.showToolbox(this);"></div>
       <div class="toolbox">
         <ul>
-          <li onclick="window.chart.changeView(2,{$item.id});return false;">Линия</li>
-          <li onclick="window.chart.changeView(0,{$item.id});return false;">Сплайн</li>
-          <li onclick="window.chart.changeView(3,{$item.id});return false;">Область</li>
-          <li onclick="window.chart.changeView(1,{$item.id});return false;">Столбцы</li>
-          <li onclick="window.chart.exportCSV({$item.id});return false;">Экспорт CSV</li>
-          <li onclick="window.main.deleteChart({$item.id});return false;">Удалить</li>
+          <li onclick="window.chart.changeView(2,{$item.id}); return false;">Линия</li>
+          <li onclick="window.chart.changeView(0,{$item.id}); return false;">Сплайн</li>
+          <li onclick="window.chart.changeView(3,{$item.id}); return false;">Область</li>
+          <li onclick="window.chart.changeView(1,{$item.id}); return false;">Столбцы</li>
+          <li onclick="window.chart.exportCSV({$item.id});    return false;">Экспорт CSV</li>
+          <li onclick="window.main.deleteChart({$item.id});   return false;">Удалить</li>
         </ul>
       </div>
     </li>
@@ -22,9 +22,4 @@
 
 {{ainto slot="js_ready"}}
   window.chart.addEvents();
-  
-  function showToolbox(item) {
-    var box = $(item).parent().children(".toolbox");
-    $(box).css('display','block');
-  }
 {{/ainto}}

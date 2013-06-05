@@ -5,8 +5,57 @@ function main_funct(parent) {
   if(parent.main)
     main = parent.main;
   
-  main.selectedTabId = -1;
-  main.selectedTabName = '';
+  main.selectedTabId = -1;  
+  
+  function updateChartPosition(event,ui) {
+    console.log("Change");
+    var items = $('#main-view').children('li.chart');
+    var pos = new Array();    
+    for(var i = 0;i<items.length;i++) {      
+      var id = items[i].getAttribute('id');
+      if(id!=="chart_add")
+        pos.push(id);
+    }
+    if(main.selectedTabId===-1) {
+       console.log("Undefined page id");
+       return false;
+     }    
+  
+    function onSaved(data) {
+      console.log(data);
+      return;
+    };
+  
+    main.ajax('main_page','ajax_change_positions',{project_id:project_id, page_id:main.selectedTabId,query:pos}, onSaved);
+  }
+
+  function loadCharts(charts){    
+    for(var i in charts) {
+      var chart_item = charts[i];  
+      var item = $("#chart_"+chart_item.id+" .chart_graph")[0];      
+      var chart = new window.chart.addChart(item,chart_item.counter_id,chart_item.name,chart_item.id,chart_item.data_type);
+      chart.ajax_load(chart);      
+    }
+    $("#main-view").sortable({
+     stop: updateChartPosition,
+     cancel: ".sortable-disabled",
+    });
+    $("#main-view").disableSelection();
+  }
+
+  function getActiveTabName() {
+    return $('#navTab'+main.selectedTabId).text();
+  }
+
+  function validateJSON(data) {
+    try {
+        data = JSON.parse(data);          
+      } catch(e) {
+        console.log("Error in answer "+e+" in data "+data);
+        return null;
+      }
+    return data;
+  }
   
   main.ajax = function(controller,action,data,success) {
     main.showLoader();
@@ -155,56 +204,6 @@ function main_funct(parent) {
     return false;                    
   };
 
-  function updateChartPosition(event,ui) {
-    console.log("Change");
-    var items = $('#main-view').children('li.chart');
-    var pos = new Array();    
-    for(var i = 0;i<items.length;i++) {      
-      var id = items[i].getAttribute('id');
-      if(id!=="chart_add")
-        pos.push(id);
-    }
-    if(main.selectedTabId===-1) {
-       console.log("Undefined page id");
-       return false;
-     }    
-  
-    function onSaved(data) {
-      console.log(data);
-      return;
-    };
-  
-    main.ajax('main_page','ajax_change_positions',{project_id:project_id, page_id:main.selectedTabId,query:pos}, onSaved);
-  }
-
-  function loadCharts(charts){    
-    for(var i in charts) {
-      var chart_item = charts[i];  
-      var item = $("#chart_"+chart_item.id+" .chart_graph")[0];      
-      var chart = new window.chart.addChart(item,chart_item.counter_id,chart_item.name,chart_item.id,chart_item.data_type);
-      chart.ajax_load(chart);      
-    }
-    $("#main-view").sortable({
-     stop: updateChartPosition,
-     cancel: ".sortable-disabled",
-    });
-    $("#main-view").disableSelection();
-  }
-
-  function getActiveTabName() {
-    return $('#navTab'+main.selectedTabId).text();
-  }
-
-  function validateJSON(data) {
-    try {
-        data = JSON.parse(data);          
-      } catch(e) {
-        console.log("Error in answer "+e+" in data "+data);
-        return null;
-      }
-    return data;
-  }
-
   main.renameTab = function() {
     if(main.selectedTabId===-1) {
       console.log("Undefined tab for loading");
@@ -315,18 +314,18 @@ function main_funct(parent) {
   
   };
 
+  main.showToolbox = function(item) {
+    var box = $(item).parent().children(".toolbox");
+    var state = $(box).css('display');    
+    if((state=="none")||(!state))
+      $(box).css('display','block');
+    else
+      $(box).css('display','none');
+  };
+
   return main;
 }
 
 window.main = main_funct(window);
-
-$(window).bind('click',function(event) {
-  if(event.target.className!=='chart-to-full')
-    $('#main-chart').css('display','none');
-  if(event.target.className!=='chart-toolbox')
-    $(".toolbox").each(function (num,item){    
-      $(item).css('display','none');
-    });
-});
 
 
