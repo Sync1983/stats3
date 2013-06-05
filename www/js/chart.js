@@ -23,12 +23,16 @@ function chart_funct(parent) {
      yAxis: { title: { text: 'Кол-во' } }, 
      tooltip:{
         crosshairs: [true],
-        formatter: function(){
-           var append = "";
-           if(this.series.userOptions.units)
-             append = this.series.userOptions.units;
-           return "<b>"+this.series.name+"</b><br>"+Highcharts.dateFormat("%d-%m-%Y", this.x+86400000) + '<br><i>' +
-           Highcharts.numberFormat(this.y, 3)+"</i> "+append;
+        shared: true,
+        formatter: function(){           
+           var text = "<b>"+Highcharts.dateFormat("%d-%m-%Y", this.x+86400000) + "</b>";
+           for(var i in this.points) {
+            var append = "";
+            if((this.points[i].userOptions)&&(this.points[i].series.userOptions.units))
+             append = this.points[i].series.userOptions.units;
+            text += "<br>"+this.points[i].series.name+": <i>"+Highcharts.numberFormat(this.points[i].y, 3)+"</i> "+append;
+           }
+           return text;
           }
        }
     };
