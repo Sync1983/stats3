@@ -5,47 +5,74 @@
   <base href="<?=LIMB_HTTP_BASE_PATH?>" />  
   <script type="text/javascript">
     window.myjs = window.myjs || {}; 
-    window.myjs.server_vars = <?=json_encode($this->toolkit->getJsVars())?>
+    window.myjs.server_vars = <?=json_encode($this->toolkit->getJsVars())?>;
+    var project_id = {$#project_id}+1*0;  
   </script>  
-  {{file_versions_to_js js_var="ammo.file_versions" /}}  
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css"></style>
-  {{css_compiled src="styles/main.css" dir="media/var/css" /}}  
-  {{css_compiled src="styles/tabs.css" dir="media/var/css" /}}
-  {{css_compiled src="styles/datepicker.css" dir="media/var/css" /}}
-  {{css_compiled src="styles/jquery.dataTables.css" dir="media/var/css" /}}  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js" type="text/javascript"></script>    
+  
+  {{file_versions_to_js js_var="ammo.file_versions" /}}  
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css"></style>
+  {{css_compiled src="styles/bootstrap.min.css" dir="media/var/css" /}}
+  {{css_compiled src="styles/bootstrap-responsive.min.css" dir="media/var/css" /}}  
+  {{css_compiled src="styles/jquery.dataTables.css" dir="media/var/css" /}}
+  {{css_compiled src="styles/main.css" dir="media/var/css" /}}
+  {{css_compiled src="styles/datepicker.css" dir="media/var/css" /}}
   {{slot id="head" /}}    
+  
   {{js_combined dir="media/var/js/"}}
-    {{js_once src="js/datepicker.js" /}}
-    {{js_once src="js/jquery.hashchange.min.js" /}}
-    {{js_once src="js/jquery.easytabs.min.js" /}}    
+    {{js_once src="js/bootstrap.min.js" /}}
+    {{js_once src="js/main.js" /}}  
     {{js_once src="js/jquery.dataTables.min.js" /}}
-    {{js_once src="js/jquery.jeditable.mini.js" /}}
+    {{js_once src="js/chart.js" /}}
     {{js_once src="js/highcharts.js" /}}    
-    {{js_once src="js/exporting.js" /}}    
+    {{js_once src="js/datepicker.js" /}}
+    
+    <!--
+    j123s_once src="js/jquery.hashchange.min.js" /}}
+    j123s_once src="js/jquery.easytabs.min.js" /}}        
+    j123s_once src="js/jquery.jeditable.mini.js" /}}    
+    j123s_once src="js/exporting.js" /}}    
+    -->    
+    {{slot id="js_include" /}}
   {{/js_combined}}
-  <script>
-    var project_id = {$#project_id};
-  </script>
+  
 </head>
-<body>
-<center>
-{{slot id="menu" /}}
-{{slot id="content_wrapper" /}}
-</center>
-
-{{js:i18n_dictonary dir="media/var/i18n/" js_var="ammo.i18n_dictonary" /}}
-{{js_combined dir="media/var/js/"}}  
-  {{js_once src="js/main.js" /}}  
-  {{js_once src="js/chart.js" /}}
-{{/js_combined}}
+  <body>    
+    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="">Stats</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            
+            }}
+          </ul>
+          <ul class="nav pull-right">
+            
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  
+<div id="content">
+  {{slot id="content_wrapper" /}}
+</div>
 
 <div class="ajax-loader" style="display: none;">&nbsp;</div>
-{{slot id="js_include" /}}
-<script type="text/javascript">
-jQuery(document).ready(function() {  
-  {{aslot id='js_ready'/}}
-});
-</script>
+
+  <script type="text/javascript">
+    jQuery(document).ready(function() {  
+      {{aslot id='js_ready'/}}
+    });
+  </script>
+  
+</body>
+  
 </html>

@@ -1,0 +1,42 @@
+{{wrap file="_include/page.phtml"}}
+
+{{into slot="content_wrapper"}} 
+<h1>{$#title}</h1>
+<ul class="breadcrumb">
+  <li><a href="/">Projects</a> <span class="divider">/</span></li>
+  <li class="active">{$#title}</li>  
+</ul>
+
+<ul class="nav nav-tabs">
+  {{list using="$#pages" as="$item"}}
+    {{list:item}}
+      <li><a onclick="return window.main.loadPage({$item.id});" href="#">{$item.name}</a></li>        
+    {{/list:item}}
+  {{/list}}     
+</ul>
+
+<div id="workspace">
+  <div id = "chart-header">
+    <input class="text-center" id="dateRange-txt">
+    <input class="btn" type="submit" value="Загрузить" />
+  </div>
+  <div id = "chartspace">
+    
+  </div>
+</div>
+
+{{/into}}  
+
+{{ainto slot="js_ready"}}
+  $('ul.nav.nav-tabs>li').eq(0).attr('class','active');
+  window.main.loadPage({$#active_id});
+  $('#dateRange-txt').DatePicker({
+    format:'m/d/Y',
+    calendars: 3,
+    mode: 'range',
+    date: $('#dateRange-txt').val(),
+    current: $('#dateRange-txt').val(),        
+  });
+{{/ainto}}
+
+{{/wrap}}

@@ -1,9 +1,8 @@
 <ul style="margin-left: 10px;padding: 0;" id="main-view">
   {{list using="$#charts" as="$item"}}
     {{list:item}}
-    <li class="chart" id="chart_{$item.id}"></div>
-      <div class="chart_graph"></div>
-      <div class="chart-to-full" onclick="window.chart.onFull({$item.id},{$item.counter_id});return false;"></div>
+    <li class="chart" id="chart_{$item.id}" style="list-style: none;"></div>
+      <div class="chart_graph"></div>      
       <div class="chart-toolbox" onclick="showToolbox(this);return false;"></div>
       <div class="toolbox">
         <ul>

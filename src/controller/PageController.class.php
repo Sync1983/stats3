@@ -1,11 +1,18 @@
 <?php
-/**
- * @author Sync
- */
+
 class PageController extends spController {
   
   function doDisplay() {
+    $request = $this->toolkit->request;
+    $p_id = $request['project_id'];        
     
+    $this->setTemplate('page/display.phtml');
+    $title = lmbActiveRecord::findById('Project',$p_id)->get('title');
+    $this->view->set('title',  $title); 
+    $page_model = new Page();
+    $pages = $page_model->findAllRecords("project_id=$p_id");    
+    $this->view->set('pages', $pages); 
+    $this->view->set('active_id',isset($pages[0])?$pages[0]->get('id'):-1);
   }
   
   function doAjaxGetPresets() {
