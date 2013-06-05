@@ -12,6 +12,10 @@ class Preset extends lmbActiveRecord {
     $this->loadById($id);
   }
   
+  public function getTable() {
+    return $this->_db_table_name;
+  }
+
   public function getData() {
     return $this->get('data');
   }

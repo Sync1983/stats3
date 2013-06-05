@@ -37,7 +37,7 @@ class PresetController extends spController {
       $control = new Preset();
     else if($type=="logger")
       $control = new LoggerChart();
-    $class_name = $control->getDbTable();    
+    $class_name = $control->getTable();    
     $item = $control->findOneBySql($control->getClass(), "SELECT * FROM $class_name WHERE project_id=$p_id and id=$id");
     $item->set($name,$value);
     $item->save();
