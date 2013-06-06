@@ -30,7 +30,13 @@ function chart_funct(parent) {
             var append = "";
             if((this.points[i].userOptions)&&(this.points[i].series.userOptions.units))
              append = this.points[i].series.userOptions.units;
-            text += "<br>"+this.points[i].series.name+": <i>"+Highcharts.numberFormat(this.points[i].y, 3)+"</i> "+append;
+            text += "<br>"+this.points[i].series.name+": <i>";
+            var y = this.points[i].y;
+            if(y%1!==0)
+              text += Highcharts.numberFormat(this.points[i].y, 3);
+            else
+              text += this.points[i].y;
+            text += "</i> "+append;
            }
            return text;
           }
