@@ -74,7 +74,7 @@ function chart_funct(parent) {
       chart.xAxis[0].update(mergeRecursive(chart.xAxis[0].options,data.xAxis));      
       chart.tooltip.options.formatter=function(){
            var append = "";            
-           if((this.series.userOptions)&&(this.series.userOptions.units))
+           if((this.series.userOptions!==undefined)&&(this.series.userOptions.units))
              append = this.series.userOptions.units;
            return "<b>"+this.series.name+"</b><br> Позиция: <b>"+ this.x + '</b><br><i>' +
            Highcharts.numberFormat(this.y, 1)+"</i> "+append;
