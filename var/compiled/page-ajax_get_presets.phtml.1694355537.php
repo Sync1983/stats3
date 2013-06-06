@@ -1,13 +1,16 @@
 <?php /* This file is generated from page/ajax_get_presets.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutora78d600bf2b4d6ab7648f8deecb6ecc7', false)){
+if(!class_exists('MacroTemplateExecutor9b78cc03793ca4bc0d0f2837290dd266', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutora78d600bf2b4d6ab7648f8deecb6ecc7 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutor9b78cc03793ca4bc0d0f2837290dd266 extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
  ?><div>
   Выберите формулу или создайте новую!
-  <select style="width: 90%" class="active-counter-id">    
+  <div>
+  Общие:<br>
+  <select id="standart_selector" style="width: 90%" class="active-counter-id">    
+    <option value="-">---</option>
     <?php $E = 0;$G = $this->names;
 
 if(!is_array($G) && !($G instanceof Iterator) && !($G instanceof IteratorAggregate)) {
@@ -30,9 +33,37 @@ echo htmlspecialchars($K,3); ?></option>
 
     <?php } ?>   
   </select>
+  </div>
+  <div>
+  Лог:<br>
+  <select id="logger_selector" style="width: 90%" class="active-counter-id">
+    <option value="-">---</option>
+    <?php $Q = 0;$S = $this->logger_names;
+
+if(!is_array($S) && !($S instanceof Iterator) && !($S instanceof IteratorAggregate)) {
+$S = array();}
+$R = $S;
+foreach($R as $item) {if($Q == 0) { ?>
+
+      <?php } ?>
+
+      <option value="<?php $U='';
+$V = $item;
+if((is_array($V) || ($V instanceof ArrayAccess)) && isset($V['id'])) { $U = $V['id'];
+}else{ $U = '';}
+echo htmlspecialchars($U,3); ?>"><?php $W='';
+$X = $item;
+if((is_array($X) || ($X instanceof ArrayAccess)) && isset($X['title'])) { $W = $X['title'];
+}else{ $W = '';}
+echo htmlspecialchars($W,3); ?></option>
+      <?php $Q++;}if($Q > 0) { ?>
+
+    <?php } ?>   
+  </select>  
+  </div>
 </div><?php 
 }
 
 }
 }
-$macro_executor_class='MacroTemplateExecutora78d600bf2b4d6ab7648f8deecb6ecc7';
+$macro_executor_class='MacroTemplateExecutor9b78cc03793ca4bc0d0f2837290dd266';

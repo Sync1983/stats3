@@ -57,8 +57,9 @@ class spDataTools extends spTools {
     $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);    
     $result = $this->_db->execute($data);
     $return = array();
-    while($row=$result->fetch_assoc())
-      $return[$row['x']] = $row['y'];
+    while($row=$result->fetch_assoc()){
+        $return[$row['x']] = $row['y'];
+    }
     ksort($return);
     return $return;
   }
