@@ -73,12 +73,26 @@ function chart_funct(parent) {
     if(data.xAxis) {      
       chart.xAxis[0].update(mergeRecursive(chart.xAxis[0].options,data.xAxis));      
       chart.tooltip.options.formatter=function(){
-           var append = "";            
+           /*var append = "";            
            if((this.series.userOptions!==undefined)&&(this.series.userOptions.units))
              append = this.series.userOptions.units;
            return "<b>"+this.series.name+"</b><br> Позиция: <b>"+ this.x + '</b><br><i>' +
-           Highcharts.numberFormat(this.y, 1)+"</i> "+append;
-          };
+           Highcharts.numberFormat(this.y, 1)+"</i> "+append;*/
+        var text = "Позиция: <b>"+ this.x + '</b><br>';
+        for(var i in this.points) {
+         var append = "";
+         if((this.points[i].userOptions)&&(this.points[i].series.userOptions.units))
+          append = this.points[i].series.userOptions.units;
+         text += "<br>"+this.points[i].series.name+": <i>";
+         var y = this.points[i].y;
+         if(y%1!==0)
+           text += Highcharts.numberFormat(this.points[i].y, 1);
+         else
+           text += this.points[i].y;
+         text += "</i> "+append;
+        }
+        return text;
+      };
     };
   
     if(data.series) {      
