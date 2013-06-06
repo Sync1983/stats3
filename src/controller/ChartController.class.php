@@ -44,7 +44,6 @@ class ChartController extends spController {
                                     $row['y_values']);
       };
     }
-    
     if(count($result)>0)
       $this->sendAjaxResponce($result[0]);
     else
