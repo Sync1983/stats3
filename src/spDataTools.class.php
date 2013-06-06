@@ -64,13 +64,14 @@ class spDataTools extends spTools {
     return $return;
   }
   
-  private function _pharse($root){    
+  private function _pharse($root){        
     $preset_key = $this->_pid."&".$root;    
-    if(array_key_exists($preset_key, $this->_presets)) {
-      // Корень - это указатель на другую формулу, нужно подменить его      
-      return $this->_pharse($this->_presets[$preset_key]);
+    if(array_key_exists($preset_key, $this->_presets)&&($root!=="")) {
+      // Корень - это указатель на другую формулу, нужно подменить его            
+      return $this->_pharse($this->_presets[$preset_key]);      
     }
-    
+    if($root=="")
+      return null;    
     $parts = preg_split("/[\(#\)]/", $root);    
     // parts - набор команд и параметров    
     foreach ($parts as $key=>$part) {
