@@ -179,7 +179,7 @@ class spDataTools extends spTools {
       if(is_array($params[1]))
         $result[$key] = isset ($params[1][$key])?$value/$params[1][$key]:0;
       else
-        $result[$key] = $value/$params[1];
+        $result[$key] = isset($params[1])?$value/$params[1]:0;
     }    
     return array($root=>$result);
   }
