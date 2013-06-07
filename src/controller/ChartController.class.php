@@ -76,7 +76,7 @@ class ChartController extends spController {
     
     $control->set('project_id',$pid);    
     $control->save();
-    $this->sendAjaxResponce(array('type'=>$type,'item'=>$control));
+    $this->sendAjaxResponce(array('type'=>$type,'item'=>array($control->get('id'),$control->get('name'),0,0,0)));
   }
 
 }

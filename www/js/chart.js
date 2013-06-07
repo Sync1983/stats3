@@ -163,8 +163,7 @@ function chart_funct(parent) {
       tbl1.$('td[fixed!="fixed"]').editable( '/preset/ajax_change_row/', {
         "callback": function( sValue, y ) {
             if(!sValue)
-              return;
-            var aPos = tbl1.fnGetPosition( this );
+              return;            
             tbl1.fnUpdate( sValue, aPos[0], aPos[1] );
         },
         "submitdata": function ( value, settings ) {
@@ -280,7 +279,34 @@ function chart_funct(parent) {
       var table = $('#preset-table').dataTable();
       if(data.type=="logger")
         table = $('#logger-table').dataTable();
-      table.fnAddData( [data.item.id] );
+      console.log(data.item);
+      var added = table.fnAddData( data.item, true );
+      for(i in added) {
+        var node = table.fnGetNodes(i);        
+        console.log(node);
+        $(node).children('td').editable( '/preset/ajax_change_row/', {
+            "callback": function( sValue, y ) {
+                if(!sValue)
+                  return;
+                var aPos = table.fnGetPosition( this );
+                table.fnUpdate( sValue, aPos[0], aPos[1] );
+            },
+            "submitdata": function ( value, settings ) {   
+                if (confirm("Изменить поле "+this.getAttribute('name')+"?"))
+                  return {
+                      "table" : "logger", 
+                      "pid": project_id,
+                      "row_id": this.getAttribute('row'),
+                      "name": this.getAttribute('name')
+                  };
+                else
+                  return false;
+            },
+            "height": "100%",
+            "width": "100%"
+        });
+        
+      }
       return false;
     }
     
