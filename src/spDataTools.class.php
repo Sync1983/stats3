@@ -55,8 +55,10 @@ class spDataTools extends spTools {
   
   private function _getLoggerData($data) {
     $tstamp = "stamp BETWEEN ".$this->_start." and ".  $this->_stop;
+    $rstamp = "reg_time>=".$this->_start." and reg_time<=".$this->_stop;
     $data = str_replace("@[stamp_round]", $tstamp, $data);
-    $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);        
+    $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);
+    $tmp = str_replace("@[time_range]", $rstamp, $tmp);
     
     $y_fields = array();
     $matches = array();
