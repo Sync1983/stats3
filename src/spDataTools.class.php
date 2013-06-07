@@ -10,7 +10,8 @@ class spDataTools extends spTools {
       'split' => array('arg_cnt'=>2),
       'sumM'  => array('arg_cnt'=>1),
       'sumAll'    => array('arg_cnt'=>1),
-      'byFinDay'  => array('arg_cnt'=>1),      
+      'byFinDay'  => array('arg_cnt'=>1),
+      'splitByValues' => array('arg_cnt'=>1),
   );
   
   private $_presets = array();
@@ -42,10 +43,11 @@ class spDataTools extends spTools {
       $roots = explode(',', $data);      
       foreach ($roots as $root) {
         $temp = $this->_pharse($root);        
-        $result[$root] = $this->calculate($temp);       
+        $result = array_merge($result,$this->calculate($temp,$root));
+        //$result[$root] = $this->calculate($temp,$root);       
       }      
     } else if($data_type==1) {
-      $result[] = $this->_getLoggerData($data);
+      $result = array_merge($result,$this->_getLoggerData($data));
     }    
     $result = $this->toolkit->createViewData($chart_id, &$result,$units);    
     return $result;
@@ -54,13 +56,33 @@ class spDataTools extends spTools {
   private function _getLoggerData($data) {
     $tstamp = "stamp BETWEEN ".$this->_start." and ".  $this->_stop;
     $data = str_replace("@[stamp_round]", $tstamp, $data);
-    $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);    
-    $result = $this->_db->execute($data);
-    $return = array();
-    while($row=$result->fetch_assoc())
-      $return[$row['x']] = $row['y'];
-    ksort($return);
-    return $return;
+    $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);        
+    
+    $y_fields = array();
+    $matches = array();
+    $reg_exp = "/as (y(\d*)_(\w*))/";
+    preg_match_all($reg_exp, $data, $matches,PREG_SET_ORDER);
+    
+    foreach ($matches as $expr)
+      $y_fields[$expr[1]] = array('name'=>$expr[3],'is_id'=>false);
+    
+    $result = $this->_db->execute($data);    
+    $charts = array();
+    
+    while($row = $result->fetch_assoc()) {      
+      $x = $row['x'];
+      unset($row['x']);
+      foreach ($row as $key=>$value) {
+        $chart = $y_fields[$key]['name'];
+        if(!isset($charts[$chart]))
+          $charts[$chart] = array();
+        $charts[$chart][$x] = $value;
+      }
+    }
+    //  $return[$row['x']] = $row['y'];    
+    foreach ($charts as &$chart)
+      ksort($chart);
+    return $charts;
   }
   
   private function _pharse($root){        
@@ -110,20 +132,22 @@ class spDataTools extends spTools {
   }
 
 
-  private function calculate(&$action) {    
+  private function calculate(&$action,$root) {    
     if(!isset($action['f']))
       return $this->loadChart($action[0], $this->_start,  $this->_stop);;
     $funct = $action['f'];
     $params = $action['p'];    
     foreach ($params as $key=>$param)
-      if(is_array($param)&&isset($param['f']))
-        $params[$key] = $this->calculate($param);
+      if(is_array($param)&&isset($param['f'])) {
+        $calc_result = $this->calculate($param,$key); 
+        $params[$key] = $calc_result[$key];
+      }
     if(!method_exists($this, $funct)) {
       print_r($action);
       echo "Math action $action not found\r\n";
       return array();
     }    
-    return $this->$funct($params);
+    return $this->$funct($params,$root);
   }
   
   private function loadChart($name,$start,$stop) {    
@@ -144,7 +168,7 @@ class spDataTools extends spTools {
 
   /*================================= Math part ==============================*/
   
-  private function div($params) {     
+  private function div($params,$root) {      
     foreach ($params as $key=>$param)
       if(!is_array($param)&&isset($param['f']))
         $params[$key] = $this->loadChart($param, $this->_start,  $this->_stop);
@@ -155,10 +179,10 @@ class spDataTools extends spTools {
       else
         $result[$key] = $value/$params[1];
     }    
-    return $result;
+    return array($root=>$result);
   }
   
-  private function diff($params) {
+  private function diff($params,$root) {
     foreach ($params as $key=>$param)
       if(!is_array($param)&&isset($param['f']))
         $params[$key] = $this->loadChart($param, $this->_start,  $this->_stop);
@@ -169,10 +193,10 @@ class spDataTools extends spTools {
       else
         $result[$key] = $value-$params[1];
     }
-    return $result;
+    return array($root=>$result);
   }
   
-  private function perc($params) {
+  private function perc($params,$root) {
     foreach ($params as $key=>$param)
       if(!is_array($param)&&isset($param['f']))
         $params[$key] = $this->loadChart($param, $this->_start,  $this->_stop);
@@ -183,10 +207,10 @@ class spDataTools extends spTools {
       else
         $result[$key] = $value*100/$params[1];
     }
-    return $result;
+    return array($root=>$result);
   }
   
-  private function split($params) {
+  private function split($params,$root) {
     $name   = $params[0];
     $axist  = $params[1];
     $start  = $this->_start;
@@ -195,10 +219,10 @@ class spDataTools extends spTools {
     $result = array();        
     while ($row = $data->fetch_assoc())
       $result[$row['stamp']] = $row['value'];
-    return $result;
+    return array($root=>$result);
   }
   
-  private function sumM($params) {
+  private function sumM($params,$root) {
     foreach ($params as $key=>$param)
       if(!is_array($param)&&isset($param['f']))
         $params[$key] = $this->loadChartWithStamp($param, $this->_start,  $this->_stop);    
@@ -210,10 +234,10 @@ class spDataTools extends spTools {
       $result[$key] = $sum;
     }    
     ksort($result,SORT_NUMERIC);
-    return $result;
+    return array($root=>$result);
   }
   
-  private function  byFinDay($params) {    
+  private function  byFinDay($params,$root) {    
     $name   = $params[0];    
     //$start  = $this->_start;
     $stop   = $this->_stop;        
@@ -232,7 +256,22 @@ class spDataTools extends spTools {
     }
     if($num)
       ksort($result,SORT_NUMERIC);
-    return $result;
+    return array($root=>$result);
   }
+  
+   private function splitByValues($params,$root) {
+     $name   = $params[0];
+     $start  = $this->_start;
+     $stop   = $this->_stop; 
+     $data = $this->_db->execute("SELECT stamp,axist,value FROM counter2 WHERE name=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN $start and $stop GROUP BY stamp,axist");
+      $result = array();
+      while ($row = $data->fetch_assoc()) {
+        if(!isset($result[$row['axist']]))
+          $result[$row['axist']] = array();
+        $result[$row['axist']][$row['stamp']*1] = $row['value'];    
+      }     
+     return $result;
+  }
+
   
 }
