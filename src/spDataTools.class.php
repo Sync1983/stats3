@@ -59,7 +59,7 @@ class spDataTools extends spTools {
     $data = str_replace("@[stamp_round]", $tstamp, $data);
     $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);
     $data = str_replace("@[time_range]", $rstamp, $data);
-    
+//   echo "SQL: $data\r\n"; 
     $y_fields = array();
     $matches = array();
     $reg_exp = "/as (y(\d*)_(\w*))/";
