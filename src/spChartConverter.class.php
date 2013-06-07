@@ -27,7 +27,7 @@ class spChartConverter extends spTools {
       return array();
     $series = array();    
     $linear = false;
-    
+    //print_r($data);
     foreach ($data as $key=>$chart) {
       $parse_chart = array();
       $parse_keys = array();
@@ -35,15 +35,15 @@ class spChartConverter extends spTools {
         continue;
       
       foreach ($chart as $c_key=>$value) {
-        unset($chart[$c_key]);
+        unset($chart[$c_key]);         
         if($c_key<100000) {
           $parse_chart[]=array($c_key,$value*1);          
           $parse_keys[] = $c_key;
           $linear = true;
         } else
-          $parse_chart[]=array($c_key*1000,$value*1);
-        
-      }     
+          $parse_chart[]=array($c_key*1000,$value*1);        
+      }
+      
       if(count($data)==1)
         $key = isset($this->_presets[$c_id])?$this->_presets[$c_id]:$key;
       if($type==0)
