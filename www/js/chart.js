@@ -143,7 +143,7 @@ function chart_funct(parent) {
         resizable:true,
         title: "Формулы",
         close: function(event, ui) {                    
-                dialog.remove();                    
+                dialog1.remove();                    
                },
       });
       $('#radio').button();
