@@ -58,7 +58,7 @@ class spDataTools extends spTools {
     $rstamp = "reg_time>=".$this->_start." and reg_time<=".$this->_stop;
     $data = str_replace("@[stamp_round]", $tstamp, $data);
     $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);
-    $tmp = str_replace("@[time_range]", $rstamp, $tmp);
+    $data = str_replace("@[time_range]", $rstamp, $data);
     
     $y_fields = array();
     $matches = array();
