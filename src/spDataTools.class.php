@@ -235,5 +235,5 @@ class spDataTools extends spTools {
       ksort($result,SORT_NUMERIC);
     return $result;
   }
-  
+ 
 }
