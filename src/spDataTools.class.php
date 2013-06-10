@@ -20,6 +20,7 @@ class spDataTools extends spTools {
   private $_pid = 0;
   private $_start = 0;
   private $_stop = 0;
+  private $_filter = null;
   
   public function __construct() {
     parent::__construct();
@@ -34,31 +35,37 @@ class spDataTools extends spTools {
       $this->_logger[$row['project_id']."&".$row['name']] = $row['query'];
   }
 
-  public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units"){    
+  public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units",$filter=null){    
     $this->_pid = $project_id;
     $this->_start = $start_time;
     $this->_stop = $stop_time;
+    $this->_filter = json_decode($filter,true);
+    
     $result = array();
     if($data_type==0) {
       $roots = explode(',', $data);      
       foreach ($roots as $root) {
         $temp = $this->_pharse($root);        
-        $result = array_merge($result,$this->calculate($temp,$root));
-        //$result[$root] = $this->calculate($temp,$root);       
+        $result = array_merge($result,$this->calculate($temp,$root));        
       }      
     } else if($data_type==1) {
       $result = array_merge($result,$this->_getLoggerData($data));
     }    
-    $result = $this->toolkit->createViewData($chart_id, &$result,$units);    
+    $result = $this->toolkit->createViewData($chart_id, $result, $units);    
     return $result;
   }
   
+  private function _filterConvert($filter) {
+    
+  }
+
   private function _getLoggerData($data) {
     $tstamp = "stamp BETWEEN ".$this->_start." and ".  $this->_stop;
     $rstamp = "reg_time>=".$this->_start." and reg_time<=".$this->_stop;
     $data = str_replace("@[stamp_round]", $tstamp, $data);
     $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);
     $data = str_replace("@[time_range]", $rstamp, $data);
+    $data = str_replace("@[filter]", $this->_filterConvert($this->_filter), $data);
     
     $y_fields = array();
     $matches = array();
@@ -67,6 +74,8 @@ class spDataTools extends spTools {
     
     foreach ($matches as $expr)
       $y_fields[$expr[1]] = array('name'=>$expr[3],'is_id'=>false);
+    
+    echo "SQL: $data\r\n";
     
     $result = $this->_db->execute($data);    
     $charts = array();
@@ -82,7 +91,7 @@ class spDataTools extends spTools {
       }
     }
     //  $return[$row['x']] = $row['y'];    
-    foreach ($charts as &$chart)
+    foreach ($charts as $chart)
       ksort($chart);
     return $charts;
   }
@@ -111,7 +120,7 @@ class spDataTools extends spTools {
     return $parts;    
   }
   
-  private function constructTree(&$root){    
+  private function constructTree($root){    
     $start_pos = array_search('', $root);  
     $pos = 0;    
     //Находим первую команду выше 
@@ -134,7 +143,7 @@ class spDataTools extends spTools {
   }
 
 
-  private function calculate(&$action,$root) {    
+  private function calculate($action,$root) {    
     if(!isset($action['f']))
       return array($action[0]=>$this->loadChart($action[0], $this->_start,  $this->_stop));
     $funct = $action['f'];

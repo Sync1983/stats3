@@ -14,7 +14,7 @@ class spChartConverter extends spTools {
       $this->_presets[$row['id']] = $row['name'];
   }
   
-  public function createViewData($chart_vid,&$data,$units) {        
+  public function createViewData($chart_vid,$data,$units) {        
     $chart_id = $chart_vid&0xFFFF;
     $page_id = ($chart_vid>>16)&0xFFFF;        
     

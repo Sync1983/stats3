@@ -22,6 +22,7 @@ class MainPageController extends spController
     }
     $this->view->set('projects',  $projects);
     $this->view->set('exit',"Выйти");
+    
     $this->setTimeInterval();
   }
   
@@ -130,6 +131,12 @@ class MainPageController extends spController
       $page->save();      
     };
     $this->sendAjaxSuccess();
+  }
+  
+  function doAjaxLoadFilter() {
+    $this->view = $this->toolkit->createViewByTemplate('main_page/ajax_load_filter.phtml');
+    //$this->view->set('charts', $views);    
+    $this->sendAjaxResponce(array(),true);
   }
 
 

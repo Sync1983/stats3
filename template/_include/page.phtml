@@ -17,6 +17,7 @@
   {{css_compiled src="styles/bootstrap-responsive.min.css" dir="media/var/css" /}}  
   {{css_compiled src="styles/jquery.dataTables.css" dir="media/var/css" /}}
   {{css_compiled src="styles/main.css" dir="media/var/css" /}}
+  {{css_compiled src="styles/filter.css" dir="media/var/css" /}}
   {{css_compiled src="styles/datepicker.css" dir="media/var/css" /}}
   {{slot id="head" /}}    
   
@@ -25,6 +26,7 @@
     {{js_once src="js/main.js" /}}  
     {{js_once src="js/jquery.dataTables.min.js" /}}
     {{js_once src="js/chart.js" /}}
+    {{js_once src="js/filter.js" /}}
     {{js_once src="js/highcharts.js" /}}    
     {{js_once src="js/datepicker.js" /}}
     {{js_once src="js/jquery.jeditable.mini.js" /}}
@@ -46,8 +48,19 @@
           <ul class="nav">
             
             
-          </ul>
+          </ul>          
           <ul class="nav pull-right">
+            <li class="dropdown">              
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Фильтр <b class="caret"></b></a>                
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                  {{list using="$#filters" as="$item"}}
+                    {{list:item}}
+                    <li><a href = "#" role="button" class="btn" onclick="return false;">{$item.name}-{$item.data}</a></li>
+                    {{/list:item}}
+                  {{/list}}
+                  <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Фильтр</a></li>
+                </ul>                
+            </li>              
             <li>
               <a href="login/logout">{$#exit}</a>            
             </li>
@@ -60,12 +73,27 @@
 <div id="content">
   {{slot id="content_wrapper" /}}
 </div>
+    
+<div id="filter" class="modal hide fade" data-show="false">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Фильтр</h3><span>Имя: </span><input type="text" name="name" style="width: 40%;" onkeydown="if($(this).val()!='') $('#filter-save').removeClass('disabled'); else  $('#filter-save').addClass('disabled');"/>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <a id="filter-apply" href="#" class="btn btn-primary"          onclick="return window.filter.apply(this);">Apply</a>
+    <a id="filter-save"  href="#" class="btn btn-primary disabled" onclick="return window.filter.save(this);">Save filter</a>
+  </div>
+</div>    
 
 <div class="ajax-loader" style="display: none;">&nbsp;</div>
 
   <script type="text/javascript">
-    jQuery(document).ready(function() {  
-      {{aslot id='js_ready'/}}
+    jQuery(document).ready(function() {
+      $('#filter').modal({show:false});
+      {{aslot id='js_ready'/}}      
     });
   </script>
   

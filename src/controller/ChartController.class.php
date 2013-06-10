@@ -13,6 +13,7 @@ class ChartController extends spController {
     $data_type = $request['data_type'];
     $bday = $request['bday'];
     $eday = $request['eday'];
+    $filter = $request['filter'];
     /** @var Member */
     $member = $this->toolkit->getMember();
 
@@ -28,7 +29,8 @@ class ChartController extends spController {
                                     $view_char_id,
                                     $bday,
                                     $eday,
-                                    $row['v_name']);
+                                    $row['v_name'],
+                                    $filter);
       };
     } else if($data_type==1){
       $db_result = $db->execute("SELECT * FROM logger_chart WHERE id=" . $chart_id);    
@@ -41,7 +43,8 @@ class ChartController extends spController {
                                     $view_char_id,
                                     $bday,
                                     $eday,
-                                    $row['y_values']);
+                                    $row['y_values'],
+                                    $filter);
       };
     }
     if(count($result)>0)
@@ -80,5 +83,3 @@ class ChartController extends spController {
   }
 
 }
-
-?>

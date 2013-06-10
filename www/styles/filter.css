@@ -1,0 +1,7 @@
+#filter {
+  width: 40%;
+}
+
+#filter table td{
+  text-align: center;
+}
