@@ -275,25 +275,24 @@ class spDataTools extends spTools {
      return $result;
   }
   
-  private function  summAll($params,$root) {    
+  private function  sumAll($params,$root) {    
     $name   = $params[0];    
-    //$start  = $this->_start;
+    $start  = $this->_start;
     $stop   = $this->_stop;        
-    $SQL = "SELECT axist,value FROM counter2 WHERE `name`=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN (ROUND($stop/86400)-0.5)*86400 and (ROUND($stop/86400)+0.5)*86400 ORDER BY axist";
+    $SQL = "SELECT stamp, sum(value) as val FROM counter2 WHERE `name`=\"$name\" and project_id=".$this->_pid." and stamp BETWEEN $start and $stop GROUP BY ROUND(stamp/86400)";
+    
     $data = $this->_db->execute($SQL);    
+    
     $result = array();        
     if(!$data) {
       echo $this->_db->error."\r\n";      
       return $result;
     }
-    $num = true;
-    while ($row = $data->fetch_assoc()){      
-      if(!is_numeric($row['axist']))
-        $num = false;
-      $result[$row['axist']] = $row['value'];
-    }
-    if($num)
-      ksort($result,SORT_NUMERIC);
+    
+    while ($row = $data->fetch_assoc())
+      $result[$row['stamp']] = $row['val'];
+    
+    //ksort($result,SORT_NUMERIC);
     return array($root=>$result);
   }
 
