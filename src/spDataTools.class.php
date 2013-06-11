@@ -17,6 +17,8 @@ class spDataTools extends spTools {
   private $_presets = array();
   private $_logger = array();
   private $_db = null;
+  /** @var RedisLogger */
+  private $_rd = null;
   private $_pid = 0;
   private $_start = 0;
   private $_stop = 0;
@@ -26,7 +28,7 @@ class spDataTools extends spTools {
     parent::__construct();
     $this->_db = $this->toolkit->getDefaultDbConnection();
     $presets = $this->_db->execute("SELECT name,data,project_id FROM preset");
-    
+    $this->_rd = new RedisLogger();
     while ($row = $presets->fetch_assoc())      
       $this->_presets[$row['project_id']."&".$row['name']] = $row['data'];
     
@@ -76,6 +78,10 @@ class spDataTools extends spTools {
       return "and (".$result.")";
     return "";
   }
+  
+  private function idToText($id) {    
+    return $this->_rd->map_get($id, 'file', $this->_pid);
+  }
 
   private function _getLoggerData($data) {
     $tstamp = "stamp BETWEEN ".$this->_start." and ".  $this->_stop;
@@ -97,13 +103,23 @@ class spDataTools extends spTools {
     $charts = array();
     
     while($row = $result->fetch_assoc()) {      
-      $x = $row['x'];
-      unset($row['x']);
+      $ids = false;
+      if(isset($row['x'])) {
+        $x = $row['x'];
+        unset($row['x']);
+      } elseif (isset($row['x_id'])) {
+        $x = $row['x_id'];
+        unset($row['x_id']);
+        $ids = true;
+      }
       foreach ($row as $key=>$value) {
         $chart = $y_fields[$key]['name'];
         if(!isset($charts[$chart]))
           $charts[$chart] = array();
-        $charts[$chart][$x] = $value;
+        if(!$ids)
+          $charts[$chart][$x] = $value;
+        else
+          $charts[$chart][$this->idToText ($x)] = $value;
       }
     }
     //  $return[$row['x']] = $row['y'];    
