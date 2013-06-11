@@ -14,6 +14,10 @@ class PageController extends spController {
     $this->view->set('pages', $pages); 
     $this->view->set('active_id',isset($pages[0])?$pages[0]->get('id'):-1);
     $this->view->set('project_id', $p_id); 
+    
+    $filter = new Filter();        
+    $this->view->set('filters', $filter->getFiltersForProject($p_id));
+    
     $this->view->set('exit',"Выйти");
     $this->setTimeInterval();
   }

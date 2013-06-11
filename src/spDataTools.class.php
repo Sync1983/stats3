@@ -20,6 +20,7 @@ class spDataTools extends spTools {
   private $_pid = 0;
   private $_start = 0;
   private $_stop = 0;
+  private $_filter = null;
   
   public function __construct() {
     parent::__construct();
@@ -33,33 +34,61 @@ class spDataTools extends spTools {
     while ($row = $logger->fetch_assoc())      
       $this->_logger[$row['project_id']."&".$row['name']] = $row['query'];
   }
+  
+  public function getFilter() {
+    return $this->_filter;
+  }
 
-  public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units"){    
+  public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units",$filter=null){    
     $this->_pid = $project_id;
     $this->_start = $start_time;
     $this->_stop = $stop_time;
+    $this->_filter = json_decode($filter,true);
+    
     $result = array();
     if($data_type==0) {
       $roots = explode(',', $data);      
       foreach ($roots as $root) {
         $temp = $this->_pharse($root);        
-        $result = array_merge($result,$this->calculate($temp,$root));
-        //$result[$root] = $this->calculate($temp,$root);       
+        //print_r($temp);
+        $calc = $this->calculate($temp,$root);
+        $result[$root] = $calc[$root];
+        //array_merge($result,$this->calculate($temp,$root)); 
+        //print_r($result);
       }      
     } else if($data_type==1) {
       $result = array_merge($result,$this->_getLoggerData($data));
     }    
-    $result = $this->toolkit->createViewData($chart_id, &$result,$units);    
+    $result = $this->toolkit->createViewData($chart_id, $result, $units);    
     return $result;
   }
   
+  private function _filterConvert($filter) {    
+    $result = "";
+    foreach ($filter as $field=>$descr){
+      if(!isset($descr['operation'])||($descr['operation']=="-"))
+        continue;
+      if(!isset($descr['value'])||($descr['value'])=="-")
+        continue;
+      $result .= $field.$descr['operation'].$descr['value']." ";
+      if(isset($descr['logic'])&&($descr['logic']!="-"))
+        $result .= $descr['logic']." ";
+      else
+        $result .= " ";
+    }
+    if($result!="")
+      return "and (".$result.")";
+    return "";
+  }
+
   private function _getLoggerData($data) {
     $tstamp = "stamp BETWEEN ".$this->_start." and ".  $this->_stop;
     $rstamp = "reg_time>=".$this->_start." and reg_time<=".$this->_stop;
     $data = str_replace("@[stamp_round]", $tstamp, $data);
     $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);
     $data = str_replace("@[time_range]", $rstamp, $data);
-//   echo "SQL: $data\r\n"; 
+    $data = str_replace("@[filter]", $this->_filterConvert($this->_filter), $data);
+    
     $y_fields = array();
     $matches = array();
     $reg_exp = "/as (y(\d*)_(\w*))/";
@@ -82,7 +111,7 @@ class spDataTools extends spTools {
       }
     }
     //  $return[$row['x']] = $row['y'];    
-    foreach ($charts as &$chart)
+    foreach ($charts as $chart)
       ksort($chart);
     return $charts;
   }
@@ -111,7 +140,7 @@ class spDataTools extends spTools {
     return $parts;    
   }
   
-  private function constructTree(&$root){    
+  private function constructTree($root){    
     $start_pos = array_search('', $root);  
     $pos = 0;    
     //Находим первую команду выше 
@@ -134,7 +163,7 @@ class spDataTools extends spTools {
   }
 
 
-  private function calculate(&$action,$root) {    
+  private function calculate($action,$root) {    
     if(!isset($action['f']))
       return array($action[0]=>$this->loadChart($action[0], $this->_start,  $this->_stop));
     $funct = $action['f'];

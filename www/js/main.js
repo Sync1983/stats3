@@ -65,6 +65,8 @@ function main_funct(parent) {
     ajaxRequest.url = controller+'/'+action;
     ajaxRequest.success = function(data) {
       main.hideLoader();
+      if(!success)
+        return;
       success(data);
     };
     $.ajax(ajaxRequest);

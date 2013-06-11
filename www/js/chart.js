@@ -107,6 +107,7 @@ function chart_funct(parent) {
   data.vid = chart.chart_vid;
   data.project_id = project_id;
   data.data_type = chart.data_type;
+  data.filter = window.filter.getParams();
   window.main.ajax('chart','ajax_load_chart',data,onLoaded);
   return;
  }
