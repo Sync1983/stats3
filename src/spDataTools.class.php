@@ -66,7 +66,7 @@ class spDataTools extends spTools {
         continue;
       if(!isset($descr['value'])||($descr['value'])=="-")
         continue;
-      $result .= $field.$descr['operation'].$descr['value']." ";
+      $result .= "`".$field."`".$descr['operation'].$descr['value']." ";
       if(isset($descr['logic'])&&($descr['logic']!="-"))
         $result .= $descr['logic']." ";
       else
