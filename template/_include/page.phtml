@@ -55,10 +55,10 @@
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                   {{list using="$#filters" as="$item"}}
                     {{list:item}}
-                    <li><a href = "#" role="button" class="btn" onclick="return false;">{$item.name}-{$item.data}</a></li>
+                    <li><a href = "#" onclick="return window.filter.setup({$item.data});">{$item.name}</a></li>
                     {{/list:item}}
                   {{/list}}
-                  <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Фильтр</a></li>
+                  <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Изменить</a></li>
                 </ul>                
             </li>              
             <li>

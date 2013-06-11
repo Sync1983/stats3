@@ -34,6 +34,10 @@ class spDataTools extends spTools {
     while ($row = $logger->fetch_assoc())      
       $this->_logger[$row['project_id']."&".$row['name']] = $row['query'];
   }
+  
+  public function getFilter() {
+    return $this->_filter;
+  }
 
   public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units",$filter=null){    
     $this->_pid = $project_id;
@@ -55,8 +59,22 @@ class spDataTools extends spTools {
     return $result;
   }
   
-  private function _filterConvert($filter) {
-    
+  private function _filterConvert($filter) {    
+    $result = "";
+    foreach ($filter as $field=>$descr){
+      if(!isset($descr['operation'])||($descr['operation']=="-"))
+        continue;
+      if(!isset($descr['value'])||($descr['value'])=="-")
+        continue;
+      $result .= $field.$descr['operation'].$descr['value']." ";
+      if(isset($descr['logic'])&&($descr['logic']!="-"))
+        $result .= $descr['logic']." ";
+      else
+        $result .= " ";
+    }
+    if($result!="")
+      return "and (".$result.")";
+    return "";
   }
 
   private function _getLoggerData($data) {
@@ -74,8 +92,6 @@ class spDataTools extends spTools {
     
     foreach ($matches as $expr)
       $y_fields[$expr[1]] = array('name'=>$expr[3],'is_id'=>false);
-    
-    echo "SQL: $data\r\n";
     
     $result = $this->_db->execute($data);    
     $charts = array();

@@ -6,12 +6,28 @@ function filter_funct(parent) {
     return JSON.stringify(activeParams);
   };
 
+  function setupFilter() {
+    var body = $('#filter > div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);    
+    $(body).children('tbody>tr').each(function(item,elem){      
+      var name = $(elem).attr('name');      
+      var fields = $(elem).children('td');      
+      if(!activeParams[name])
+        return;      
+      $(fields[1]).children("select").val(activeParams[name]['operation']);      
+      $(fields[2]).children('input').val(activeParams[name]['value']);
+      $(fields[3]).children('select').val(activeParams[name]['logic']);      
+    });
+    return;
+  }
+
   filter.show = function() {
-    console.log("Show filter");
-    function onAnswer(data) {
+    console.log("Show filter");    
+    function onAnswer(data) {      
       data = JSON.parse(data);
+      console.log(data);
       if(data.html) {
         $('#filter > div.modal-body').html(data.html);
+        setupFilter();
         $('#filter').modal({show:true});
         return;
       }
@@ -35,16 +51,31 @@ function constructParams(form){
   return result;
 }
 
-filter.apply = function(form) {
-  var params = constructParams(form);
-  activeParams = params;
-  console.log(params);
+filter.setup = function(data) {
+  activeParams = data;
   window.main.pageReload();
   return false;
 };
 
-filter.save = function(form) {  
-  filter.apply(form);  
+filter.apply = function(form) {
+  var params = constructParams(form);
+  activeParams = params;  
+  window.main.pageReload();
+  $(form).parent().parent().modal('hide');
+  return false;
+};
+
+filter.save = function(form) { 
+  var params = constructParams(form);
+  var name = $(form).parent().parent().children('div.modal-header').children('input').val();
+  if(name=="") {
+    $(form).addClass('disabled');
+    return false;
+  }  
+  main.ajax('filter','ajax_save_filter',{project_id:project_id, filter:params, name: name});
+  activeParams = params;  
+  window.main.pageReload();
+  $(form).parent().parent().modal('hide');
   return false;
 };
   
