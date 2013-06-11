@@ -1,7 +1,7 @@
 <?php /* This file is generated from page/ajax_get_presets.phtml*/?><?php
-if(!class_exists('MacroTemplateExecutor25912885d32c317997450b74ac77ed74', false)){
+if(!class_exists('MacroTemplateExecutorb3d7624adabdf8badaa61985cf956da0', false)){
 require_once('limb/macro/src/compiler/lmbMacroTemplateExecutor.class.php');
-class MacroTemplateExecutor25912885d32c317997450b74ac77ed74 extends lmbMacroTemplateExecutor {
+class MacroTemplateExecutorb3d7624adabdf8badaa61985cf956da0 extends lmbMacroTemplateExecutor {
 function render($args = array()) {
 if($args) extract($args);
 $this->_init();
@@ -66,4 +66,4 @@ echo htmlspecialchars($W,3); ?></option>
 
 }
 }
-$macro_executor_class='MacroTemplateExecutor25912885d32c317997450b74ac77ed74';
+$macro_executor_class='MacroTemplateExecutorb3d7624adabdf8badaa61985cf956da0';

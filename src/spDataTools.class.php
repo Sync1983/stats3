@@ -120,7 +120,7 @@ class spDataTools extends spTools {
     }
     if($root=="")
       return null;    
-    $parts = preg_split("/[\(#\)]/", $root);    
+    $parts = preg_split("/[\(#\)]/", $root);        
     // parts - набор команд и параметров    
     foreach ($parts as $key=>$part) {
       $preset_key = $this->_pid."&".$part;
@@ -130,9 +130,9 @@ class spDataTools extends spTools {
       if(count($parts[$key])==1)
         $parts[$key] = $parts[$key][0];
       }
-    }    
+    }        
     if(count($parts)>1)
-      $parts = $this->constructTree($parts);       
+      $parts = $this->constructTree($parts);           
     return $parts;    
   }
   
@@ -154,16 +154,16 @@ class spDataTools extends spTools {
     array_splice($params, count($params), 1);        
     $root[$pos] = array('f'=>$action,'p'=>$params);       
     if(count($root)>1)
-      $this->constructTree ($root);
+      $root[0] = $this->constructTree ($root);
     return $root[0];
   }
 
 
   private function calculate($action,$root) {    
     if(!isset($action['f']))
-      return array($action[0]=>$this->loadChart($action[0], $this->_start,  $this->_stop));
+      return array($action[0]=>$this->loadChart($action[0], $this->_start,  $this->_stop));    
     $funct = $action['f'];
-    $params = $action['p'];    
+    $params = $action['p'];       
     foreach ($params as $key=>$param)
       if(is_array($param)&&isset($param['f'])) {
         $calc_result = $this->calculate($param,$key); 
