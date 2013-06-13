@@ -3,3 +3,5 @@
 /www/media/var/*
 nbproject
 nbproject/*
+
+setup.override.php
