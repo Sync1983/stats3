@@ -1,11 +1,18 @@
 {{wrap file="_include/page.phtml"}}
 
 {{into slot="content_wrapper"}} 
+<div style="margin-top: 10px; margin-bottom: 10px;">
+  <?php
+  if($this->toolkit->getMember()->isAdmin())
+    echo '<button class="btn btn-primary" onclick="return main.createProject();">Создать</button>';
+  ?>
+</div>
 <table id="projects">
   <thead>
     <tr>
       <th>ID</th>
-      <th>Название</th>          
+      <th>Название</th>
+      <th style="width: 20%;">Key</th>
     </tr>
   </thead>
   <tbody>
@@ -14,6 +21,7 @@
       <tr>
         <td>{$item.id}</td>
         <td><a href="#" onclick ="window.main.selectProject({$item.id});return false;">{$item.title}</a></td>            
+        <td>{$item.key}</td>
       </tr>
     {{/list:item}}
   {{/list}}     

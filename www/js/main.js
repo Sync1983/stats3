@@ -100,6 +100,36 @@ function main_funct(parent) {
     return false;
   };
 
+  main.createProject = function () {
+    var dialog = $( '<div>'+
+                      "Создать проект? <br>"+
+                      '<input type="text" id="new-project-name" style="margin-top: 5px; width:95%;" value="Новый проект1"/>'+
+                      '<div class="error" style="display:none;color:red"></div>'+
+                    '</div>').dialog({               
+                      width:  500,               
+                      resizable:false,
+                      title: "Переименовать вкладку",
+                      close: function(event, ui) {                    
+                       dialog.remove();                    
+                      },
+                      buttons: {
+                       "Создать": onCreate
+                      }
+                 });  
+               
+    function onCreate() {
+      var name = $('#new-project-name').val();
+      if(name=="")
+        return;
+      main.ajax('main_page','ajax_create_project',{name:name}, function(data){
+        dialog.remove();
+        main.pageReload();
+      });
+    }
+  
+    return false;
+  }
+
   main.selectProject = function(new_project_id) {    
     location.href = window.myjs.server_vars.base_path+'page/?project_id='+new_project_id;
   };

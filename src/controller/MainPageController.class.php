@@ -15,7 +15,8 @@ class MainPageController extends spController
     $projects = array();
     //$projects[]=array('id'=>-1,'title'=> 'Выберите проект');
     foreach ($project_ids as $p_id) {
-      $item = array('id'=>$p_id,'title'=> lmbActiveRecord::findById('Project',$p_id)->get('title'),'select'=>"");
+      $project = lmbActiveRecord::findById('Project',$p_id);
+      $item = array('id'=>$p_id,'title'=> $project->get('title'),'key'=>$project->get('api_key'),'select'=>"");
       if($p_id==$project_id)
         $item['select'] = "selected";
       $projects[] = $item;
@@ -138,6 +139,17 @@ class MainPageController extends spController
     //$this->view->set('charts', $views);    
     $this->sendAjaxResponce(array(),true);
   }
+  
+  function doAjaxCreateProject() {
+    $request = $this->toolkit->request;    
+    $name   = $request['name'];  
+    $api_key = $this->regenApiKey();    
+    $project = new Project();
+    $project->set('title',$name);
+    $project->set('api_key',$api_key);
+    $project->save();
+    $this->sendAjaxSuccess();
+  }
 
 
   private function setTimeInterval() {
@@ -151,4 +163,12 @@ class MainPageController extends spController
     $this->view->set('bday', $bday);
     $this->view->set('eday', $eday);
   }
+  
+   private function regenApiKey()
+   {
+     $key = '';
+     while(strlen($key) < 32)
+       $key .= base_convert(abs(crc32(microtime())), 10, 32);
+     return substr($key, 0, 32);
+   }
 }

@@ -25,20 +25,24 @@ function chart_funct(parent) {
         crosshairs: [true],
         shared: true,
         formatter: function(){           
-           var text = "<b>"+Highcharts.dateFormat("%d-%m-%Y", this.x+86400000) + "</b>";
+           var text_tip = "<b>"+Highcharts.dateFormat("%d-%m-%Y", this.x+86400000) + "</b>";
+           var lines = new Array();
            for(var i in this.points) {
-            var append = "";
-            if((this.points[i].userOptions)&&(this.points[i].series.userOptions.units))
-             append = this.points[i].series.userOptions.units;
-            text += "<br>"+this.points[i].series.name+": <i>";
-            var y = this.points[i].y;
+             var y = this.points[i].y;                          
+             var text = "<br>"+this.points[i].series.name+": <i>";             
             if(y%1!==0)
-              text += Highcharts.numberFormat(this.points[i].y, 3);
+              text += Highcharts.numberFormat(y, 3);
             else
-              text += this.points[i].y;
-            text += "</i> "+append;
+              text += y;
+            text += "</i> ";
+            if((this.points[i].userOptions)&&(this.points[i].series.userOptions.units))
+              text += this.points[i].series.userOptions.units;
+            lines[y] = text;
            }
-           return text;
+           lines = lines.reverse();           
+           for(var i in lines)
+             text_tip +=lines[i];
+           return text_tip;
           }
        }
     };

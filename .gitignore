@@ -15,3 +15,5 @@ gamectl.d
 gamectl.d/*
 gamectl
 gamectl.bat
+
+*.log
