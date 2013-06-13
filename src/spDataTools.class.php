@@ -126,7 +126,7 @@ class spDataTools extends spTools {
     foreach ($charts as $chart)
       ksort($chart);
     if(isset($ids)&&$ids) 
-      asort ($chart, 6);
+      ksort ($chart, 1);
     return $charts;
   }
   
