@@ -37,7 +37,7 @@ function chart_funct(parent) {
             text += "</i> ";
             if((this.points[i].userOptions)&&(this.points[i].series.userOptions.units))
               text += this.points[i].series.userOptions.units;
-            lines[y] = text;
+            lines[y*1000] = text;
            }
            lines = lines.reverse();           
            for(var i in lines)
