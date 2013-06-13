@@ -122,13 +122,25 @@ class spDataTools extends spTools {
           $charts[$chart][$this->idToText ($x)] = $value;
       }
     }
-    //  $return[$row['x']] = $row['y'];    
+    //  $return[$row['x']] = $row['y'];
+            
     foreach ($charts as $chart)
       ksort($chart);
-
-    if(isset($ids)&&$ids) {
-      foreach ($charts as &$chart)
-        ksort($chart,4);        
+    
+    if(isset($ids)&&$ids) {      
+      foreach ($charts as &$chart) {
+        $keys = array_keys($chart);
+        foreach($keys as $key=>$value) {
+          unset($keys[$key]);
+          $key = preg_replace('~[^0-9]+~','',$value); 
+          $keys[$value]=$key;
+        }
+        asort($keys);
+        $sort_chart = array();
+        foreach ($keys as $key=>&$value)
+          $sort_chart[$key] = $chart[$key];
+        $chart = $sort_chart;
+      }        
     }
     return $charts;
   }
