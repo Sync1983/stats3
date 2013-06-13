@@ -17,6 +17,31 @@ function filter_funct(parent) {
       $(fields[2]).children('input').val(activeParams[name]['value']);
       $(fields[3]).children('select').val(activeParams[name]['logic']);      
     });
+    var period = window.main.getPeriod();
+    var bday = new Date(period.bday*1000);
+    var eday = new Date(period.eday*1000);
+    $("#filter-datepicker").DatePicker(
+      { 
+        flat: true,
+        date: [bday,eday],
+        calendars: 3,
+        mode: "range",   
+        starts: 1,
+        onChange: function(formated) {     
+          console.log(formated);
+          var bd = new Date(formated[0]);
+          var ed = new Date(formated[1]);
+          console.log(bd,ed);
+          $('#filter-date').val(bd.getTime()/1000+' and '+ed.getTime()/1000);
+        },
+      });
+
+      $("#filter-date").val(bday.getTime()/1000+' and '+eday.getTime()/1000);  
+      $("#filter-datepicker").children('div').css('width',"590px");
+      $("#filter-datepicker").children('div').css('height',"160px");
+      $("#filter-datepicker").children('div').css('background-color',"#000");
+      $("#filter-datepicker").children('div').css('margin-left',"-300px");
+      $("#filter-datepicker").children('div').css('left',"50%");
     return;
   }
 

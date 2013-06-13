@@ -85,9 +85,12 @@ class RedisLogger
     return $this->redis()->hget(self::MAP_PREFIX.$name,$field);
   }
   
-  public  function map_names()
+  public  function map_names($project_id = null)          
   {
-    return $this->redis()->keys(self::MAP_PREFIX.'*');
+    $name = "";
+    if($project_id)
+      $name = "::".$project_id;      
+    return $this->redis()->keys(self::MAP_PREFIX.$name.'::*');
   }
 }
 
