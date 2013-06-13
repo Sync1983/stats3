@@ -43,8 +43,8 @@ class spChartConverter extends spTools {
         } else
           $parse_chart[]=array($c_key*1000,$value*1);        
       }
-      
-      if(count($data)==1)
+            
+      if(count($data)==0)
         $key = isset($this->_presets[$c_id])?$this->_presets[$c_id]:$key;
       if($type==0)
         $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> $parse_keys,'units'=>$units);

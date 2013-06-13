@@ -52,7 +52,7 @@ class spDataTools extends spTools {
       $roots = explode(',', $data);      
       foreach ($roots as $root) {
         $temp = $this->_pharse($root);        
-        $result = array_merge($result,$this->calculate($temp,$root));        
+        $result = array_merge($result,$this->calculate($temp,$root)); 
       }      
     } else if($data_type==1) {
       $result = array_merge($result,$this->_getLoggerData($data));
@@ -80,7 +80,7 @@ class spDataTools extends spTools {
   }
   
   private function idToText($id) {    
-    return $this->_rd->map_get($id, 'title', $this->_pid);
+    return $this->_rd->map_get($id, 'file', $this->_pid);
   }
 
   private function _getLoggerData($data) {
@@ -125,8 +125,11 @@ class spDataTools extends spTools {
     //  $return[$row['x']] = $row['y'];    
     foreach ($charts as $chart)
       ksort($chart);
-    if(isset($ids)&&$ids) 
-      ksort ($chart, 1);
+
+    if(isset($ids)&&$ids) {
+      foreach ($charts as &$chart)
+        ksort($chart,4);        
+    }
     return $charts;
   }
   
@@ -338,6 +341,4 @@ class spDataTools extends spTools {
     //ksort($result,SORT_NUMERIC);
     return array($root=>$result);
   }
-
-  
 }
