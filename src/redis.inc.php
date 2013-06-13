@@ -88,9 +88,9 @@ class RedisLogger
   public  function map_names($project_id = null)          
   {
     $name = "";
-    if($project_id)
-      $name = "::".$project_id;      
-    return $this->redis()->keys(self::MAP_PREFIX.$name.'::*');
+    if($project_id!=null)
+      $name = $project_id."::";      
+    return $this->redis()->keys(self::MAP_PREFIX.$name.'*');
   }
 }
 
