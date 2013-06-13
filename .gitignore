@@ -5,3 +5,13 @@ nbproject
 nbproject/*
 
 setup.override.php
+
+share_php
+share_php/*
+
+map
+map/*
+gamectl.d
+gamectl.d/*
+gamectl
+gamectl.bat

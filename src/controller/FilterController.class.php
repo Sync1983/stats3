@@ -7,9 +7,13 @@ class FilterController extends spController {
     $project_id = $request['project_id'];
     $rd = new RedisLogger();
     $keys = $rd->map_names($project_id);
+    $tmp = array();
     $redis_keys = array();
     foreach ($keys as $key) 
-      $redis_keys[] = array('id'=>$key,'file'=>$rd->redis()->hget($key,'file'));
+      $tmp[$rd->redis()->hget($key,'file')] = str_replace (RedisLogger::MAP_PREFIX.$project_id."::", "", $key);    
+    ksort($tmp,6);
+    foreach ($tmp as $key => $value)
+      $redis_keys[] = array('id'=>$value*1,'file'=> $key);
     
     $this->view = $this->toolkit->createViewByTemplate('filter/ajax_load_constructor.phtml');    
     $this->view->set('keys', $redis_keys);

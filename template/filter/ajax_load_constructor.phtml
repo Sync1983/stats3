@@ -9,13 +9,17 @@
       <td>ID ассета</td>
       <td><select><option value="-">-</option><option value="=">=</option> <option value=">">></option><option value=">=">>=</option><option value="<="><=</option><option value="<">><</option><option value="!=">!=</option><option value="LIKE">LIKE</option><option value="BETWEEN">BETWEEN</option><option value="IN">IN</option></select></td>
       <td><input type="text" style="float:left;margin-right: -35px"/><button class="btn dropdown-toggle" style="float:left;" onclick=" if($('#item_id-selector').css('display')=='block') $('#item_id-selector').css('display','none'); else $('#item_id-selector').css('display','block');"><span class="caret"></span></button>
-        <div id="item_id-selector" style="width: 100%;height:200px; display: block;border: 1px solid #000; margin-top: 40px; display: none">
+        <div id="item_id-selector" style="width: 550px; left:-250px; position: relative; background-color: #999; height:200px; display: block;border: 1px solid #000; margin-top: 40px; display: none; overflow-y: scroll">
           <table>
+            <tr>
+              <th style="width: 30%;border-right: 1px solid #000">ID</th>
+              <th>FILE</th>
+            </tr>
             {{list using="$#keys" as="$item"}}
               {{list:item}}
               <tr>
-                <td>{$item.id}</td>
-                <td>{$item.file}</td>
+                <td style="text-align: left;border-right: 1px solid #000">{$item.id}</td>
+                <td style="text-align: left">{$item.file}</td>
               </tr>                
               {{/list:item}}
             {{/list}}     
