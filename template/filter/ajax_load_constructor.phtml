@@ -7,8 +7,21 @@
   <tbody>
     <tr name="item_id">
       <td>ID ассета</td>
-      <td><select><option value="-">-</option><option value="=">=</option> <option value=">">></option><option value=">=">>=</option><option value="<="><=</option><option value="<">><</option><option value="!=">!=</option><option value="LIKE">LIKE</option><option value="BETWEEN">BETWEEN</option></select></td>
-      <td><input type="text"/></td>
+      <td><select><option value="-">-</option><option value="=">=</option> <option value=">">></option><option value=">=">>=</option><option value="<="><=</option><option value="<">><</option><option value="!=">!=</option><option value="LIKE">LIKE</option><option value="BETWEEN">BETWEEN</option><option value="IN">IN</option></select></td>
+      <td><input type="text" style="float:left;margin-right: -35px"/><button class="btn dropdown-toggle" style="float:left;" onclick=" if($('#item_id-selector').css('display')=='block') $('#item_id-selector').css('display','none'); else $('#item_id-selector').css('display','block');"><span class="caret"></span></button>
+        <div id="item_id-selector" style="width: 100%;height:200px; display: block;border: 1px solid #000; margin-top: 40px; display: none">
+          <table>
+            {{list using="$#keys" as="$item"}}
+              {{list:item}}
+              <tr>
+                <td>{$item.id}</td>
+                <td>{$item.file}</td>
+              </tr>                
+              {{/list:item}}
+            {{/list}}     
+          </table>
+        </div>
+      </td>
       <td><select  style="width: 150px;"><option value="-"> </option><option value="and">AND</option><option value="or">OR</option></select></td>
     </tr>
     <tr name="level">
@@ -50,8 +63,9 @@
     <tr name ="reg_time">
       <td>Дата регистрации</td>
       <td><select><option value="-">-</option><option value="BETWEEN">BETWEEN</option></select></td>
-      <td><input type="text"/></td>
-      <td><select  style="width: 150px;"><option value="-"> </option><option value="and">AND</option><option value="or">OR</option></select></td>
+      <td><input type="text" id="filter-date" disabled/></td>
+      <td style="display: none;"><select  style="width: 150px;"><option value="-"> </option><option value="and">AND</option><option value="or">OR</option></select></td>
     </tr>
   </tbody>
 </table>
+<div id="filter-datepicker"></div>
