@@ -123,6 +123,7 @@ class spDataTools extends spTools {
       }
     }
     //  $return[$row['x']] = $row['y'];    
+    print_r($charts);
     foreach ($charts as $chart)
       ksort($chart);
 
