@@ -76,7 +76,8 @@ function constructParams(form){
   return result;
 }
 
-filter.setup = function(data) {
+filter.setup = function(data,item) {  
+  $(item).children('input').attr('checked','checked');
   activeParams = data;
   window.main.pageReload();
   return false;

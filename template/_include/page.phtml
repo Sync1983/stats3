@@ -50,12 +50,20 @@
             
           </ul>          
           <ul class="nav pull-right">
+            <li>
+              <input class="text-center input-medium search-query" id="dateRange-txt" style="margin-top: 4px;">
+              <input class="btn btn-primary" type="submit" onclick ="return window.main.pageReload();" value="Загрузить" />
+            </li>
             <li class="dropdown">              
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Фильтр <b class="caret"></b></a>                
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="filter-button">Фильтр <b class="caret"></b></a>                
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                   {{list using="$#filters" as="$item"}}
                     {{list:item}}
-                    <li><a href = "#" onclick="return window.filter.setup({$item.data});">{$item.name}</a></li>
+                    <li>
+                      <a href="#" onclick="return window.filter.setup({$item.data},this);">
+                        <input type="radio" name="optionsRadios" id="{$item.name}" value="{$item.name}" style="margin-right: 10px;margin-top: -2px;"/>{$item.name}
+                      </a>
+                    </li>
                     {{/list:item}}
                   {{/list}}
                   <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Изменить</a></li>
