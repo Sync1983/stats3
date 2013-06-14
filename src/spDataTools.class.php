@@ -106,6 +106,8 @@ class spDataTools extends spTools {
       $ids = false;
       if(isset($row['x'])) {
         $x = $row['x'];
+        if($x>10000000)
+          $x-=10;
         unset($row['x']);
       } elseif (isset($row['x_id'])) {
         $x = $row['x_id'];
