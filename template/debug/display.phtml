@@ -1,0 +1,34 @@
+{{wrap file="_include/page.phtml"}}
+
+{{into slot="content_wrapper"}} 
+<table>
+  <tr>
+    <th>
+      Записи nginx error.log      
+    </th>
+  </tr>
+  <tr>
+    <td>
+      {$#nginx_error|raw}
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Записи nginx combine.log      
+    </th>
+  </tr>
+  <tr>
+    <td>
+      {$#combine_error|raw}
+    </td>
+  </tr>
+  <tr></tr>
+</table>
+
+{{/into}}  
+
+{{ainto slot="js_ready"}}
+
+{{/ainto}}
+  
+{{/wrap}}
