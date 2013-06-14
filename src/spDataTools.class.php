@@ -98,10 +98,13 @@ class spDataTools extends spTools {
     
     foreach ($matches as $expr)
       $y_fields[$expr[1]] = array('name'=>$expr[3],'is_id'=>false);
-    $data = strtolower($data);
+    
     $data = str_replace("drop", "", $data);
     $data = str_replace("delete", "", $data);
     $data = str_replace("create", "", $data);
+    $data = str_replace("DROP", "", $data);
+    $data = str_replace("DELETE", "", $data);
+    $data = str_replace("CREATE", "", $data);
     
     $result = $this->_db->execute($data);    
     $charts = array();
