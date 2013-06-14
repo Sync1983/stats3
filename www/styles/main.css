@@ -159,9 +159,18 @@ html,body { background-color: white; }
 }
 
 .debug-row {
-  width: 100%;
+  width: 10%;
   height: 300px;
   border: 1px solid #000;
   overflow-y: scroll;
   overflow-x: auto;
+}
+
+.debug-tables table tr td,th{
+  border-right: 1px solid #000;
+}
+
+.debug-tables table tr th{
+  border-top: 1px solid #000;
+  background-color: #AAA;
 }
