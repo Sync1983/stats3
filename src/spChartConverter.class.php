@@ -14,7 +14,7 @@ class spChartConverter extends spTools {
       $this->_presets[$row['id']] = $row['name'];
   }
   
-  public function createViewData($chart_vid,$data,$units) {        
+  public function createViewData($chart_vid,$data,$units,$data_type) {        
     $chart_id = $chart_vid&0xFFFF;
     $page_id = ($chart_vid>>16)&0xFFFF;        
     
@@ -44,7 +44,8 @@ class spChartConverter extends spTools {
           $parse_chart[]=array($c_key*1000,$value*1);        
       }
             
-      if(count($data)==0)
+      if(   (($data_type==0)&& (count($data)==1))||
+            (($data_type==1)&& (count($data)==0))   )
         $key = isset($this->_presets[$c_id])?$this->_presets[$c_id]:$key;
       if($type==0)
         $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> $parse_keys,'units'=>$units);

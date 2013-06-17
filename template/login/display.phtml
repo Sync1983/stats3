@@ -47,7 +47,10 @@
   <h2 class="form-signin-heading">Please sign in</h2>
   <input type="text" class="input-block-level" placeholder="Login" name="login" id="login">
   <input type="password" class="input-block-level" placeholder="Password" name="password" id="password">  
-  <button class="btn btn-large btn-primary" type="submit" onclick="window.main.loginClick('form-signin');return false;">Sign in</button>  
+  <label class="checkbox">
+    <input type="checkbox" id="remember" value="remember"> Remember me
+  </label>
+  <button class="btn btn-large btn-primary" type="submit" onclick="window.main.loginClick('form-signin');return false;">Sign in</button>    
   <p class="errors" style="display: none">Ошибки</p>
 </form> 
 {{/wrap}}

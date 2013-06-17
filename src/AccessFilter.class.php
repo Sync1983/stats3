@@ -18,6 +18,7 @@ class AccessFilter implements lmbInterceptingFilter
       $toolkit->redirect('login');      
       return;
     }    
+    
     $filter_chain->next();
   }
 }

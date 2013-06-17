@@ -57,7 +57,7 @@ class spDataTools extends spTools {
     } else if($data_type==1) {
       $result = array_merge($result,$this->_getLoggerData($data));
     }    
-    $result = $this->toolkit->createViewData($chart_id, $result, $units);    
+    $result = $this->toolkit->createViewData($chart_id, $result, $units, $data_type);    
     return $result;
   }
   
