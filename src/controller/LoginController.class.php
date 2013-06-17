@@ -28,11 +28,7 @@ class LoginController extends spController
     $member->saveSkipValidation();
       
     $this->toolkit->setLoggedInMember($member);
-    $this->toolkit->setAutologinCookie($member);
-    
-    //if($remember) {            
-      
-    //}
+    $this->toolkit->setAutologinCookie($member,$remember);
     
     $this->sendAjaxResponce(array('redirect' => '?'),true);
   }
