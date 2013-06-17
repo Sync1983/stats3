@@ -33,15 +33,12 @@ class spLoginTools extends spTools
     return $this->member;
   }
 
-  function setAutologinCookie($member,$remember)
+  function setAutologinCookie($member)
   {
     $response = $this->toolkit->getResponse();
     $response->setCookie(self :: COOKIE_MEMBER_ID, $member->id, time() + 24 * 60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);    
-    $response->setCookie(self :: COOKIE_MEMBER_HASH, $member->getAutologinHash(), time() + 24 * 60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
-    if(!$remember)
-      $response->setCookie(self :: COOKIE_MEMBER_REMEMBER, true, time() +  30 * 60, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
-    else
-      $response->setCookie(self :: COOKIE_MEMBER_REMEMBER, true, time() +  24*60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
+    $response->setCookie(self :: COOKIE_MEMBER_HASH, $member->getAutologinHash(), time() + 24 * 60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);    
+    //$response->setCookie(self :: COOKIE_MEMBER_REMEMBER, true, time() +  24*60 * 60 * 30, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
   }
   
   function removeAutoLoginCookie()
@@ -49,7 +46,7 @@ class spLoginTools extends spTools
     $response = $this->toolkit->getResponse();
     $response->setCookie(self :: COOKIE_MEMBER_ID, 0, time() - 1, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
     $response->setCookie(self :: COOKIE_MEMBER_HASH, 0, time() - 1, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
-    $response->setCookie(self :: COOKIE_MEMBER_REMEMBER, 0, time() - 1, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
+    //$response->setCookie(self :: COOKIE_MEMBER_REMEMBER, 0, time() - 1, '/'.lmb_env_get('LIMB_HTTP_OFFSET_PATH'), null, false, true);
   }
   
   protected function _getAutologinCookie()
@@ -57,14 +54,14 @@ class spLoginTools extends spTools
     return array(
       $this->toolkit->request->getCookie(self :: COOKIE_MEMBER_ID), 
       $this->toolkit->request->getCookie(self :: COOKIE_MEMBER_HASH),
-      $this->toolkit->request->getCookie(self :: COOKIE_MEMBER_REMEMBER)
+      //$this->toolkit->request->getCookie(self :: COOKIE_MEMBER_REMEMBER)
     );  
   }
 
   protected function _getMemberByCookies()
   {
-    list($id, $hash,$remember) = $this->_getAutologinCookie();
-    if(!$id || !$hash || !$remember)
+    list($id, $hash) = $this->_getAutologinCookie();
+    if(!$id || !$hash )
       return false;
     $member = lmbActiveRecord :: findById('Member', $id, false);
     if($member && $member->getAutologinHash() === $hash)
