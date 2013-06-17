@@ -15,6 +15,8 @@ class LoginController extends spController
     $this->validator->addRequiredRule('password', lmb_i18n('Введите пароль'));
     $this->validator->addRequiredRule('login', lmb_i18n('Введите логин'));    
     $this->validate($this->request);
+    $remember = isset($this->request['remember'])?($this->request['remember']=='checked'):false;
+    
     if(!$this->error_list->isEmpty())
       return $this->sendAjaxErrorList();
 
@@ -22,10 +24,14 @@ class LoginController extends spController
     if(!$member)
       return $this->sendAjaxError(lmb_i18n('Неправильный логин или пароль!'));
     
-    $member->set('auto_login_sailt', $this->toolkit->getEncodeRealIp() . ':' . mt_rand(0, 2000000000));
-    $member->saveSkipValidation();    
-    $this->toolkit->setLoggedInMember($member);    
-    $this->toolkit->setAutologinCookie($member);
+    $this->toolkit->setLoggedInMember($member);
+    $this->toolkit->setAutologinCookie($member,$remember);
+    
+    if($remember) {            
+      $member->set('auto_login_sailt', $this->toolkit->getEncodeRealIp() . ':' . mt_rand(0, 2000000000));    
+      $member->saveSkipValidation();
+    }
+    
     $this->sendAjaxResponce(array('redirect' => '?'),true);
   }
 

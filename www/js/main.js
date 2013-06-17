@@ -85,8 +85,9 @@ function main_funct(parent) {
   main.loginClick = function(item) {    
     var login = $('#login').val();    
     var password = $('#password').val();
+    var remember = $('#remember').attr('checked');
     
-    main.ajax('login','ajax_login',{login:login,password:password},function(returnData){
+    main.ajax('login','ajax_login',{login:login,password:password,remember:remember},function(returnData){
       var data = JSON.parse(returnData);      
       if(data.error) {
         $('.errors').css('display','block');

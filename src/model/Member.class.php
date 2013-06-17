@@ -2,7 +2,7 @@
 
 class Member extends lmbActiveRecord
 {
-  public function isLoggedIn() {
+  public function isLoggedIn() {    
     return $this->getId() && $this->_getRaw('is_logged_in');
   }
   
