@@ -135,17 +135,6 @@ function main_funct(parent) {
     location.href = window.myjs.server_vars.base_path+'page/?project_id='+new_project_id;
   };
 
-  main.getPeriod = function() {    
-    var range = $("#dateRange-txt").val();
-    var split = range.split(' - ');
-    var bday = new Date(split[0]);
-    var eday = new Date(split[1]);    
-    var ret_obj = {};
-    ret_obj.bday = (bday.getTime()/1000);
-    ret_obj.eday = (eday.getTime()/1000);
-    return ret_obj;
-  };
-
   main.addTab = function () { 
     var pid;
     var mid;
