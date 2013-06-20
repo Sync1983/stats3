@@ -123,6 +123,10 @@ class spDataTools extends spTools {
       }
       foreach ($row as $key=>$value) {
         $chart = $y_fields[$key]['name'];
+        if($chart=="")
+          continue;
+        if($x=="")
+          continue;
         if(!isset($charts[$chart]))
           $charts[$chart] = array();
         if(!$ids)

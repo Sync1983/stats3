@@ -24,13 +24,13 @@ class DebugController extends spController {
 
    while($row=$tables_db->fetch_row())
     $tables[] = $row[0];
-
+    $tables=array('log_QuestTaskComplete');
    $result = array();
 
    foreach($tables as $table_name){
     if($table_name=="log_MAU")
       continue;
-    $table_db = $db->execute("SELECT * FROM $table_name WHERE project_id=1 ORDER BY id DESC limit 1,50;");
+    $table_db = $db->execute("SELECT * FROM $table_name WHERE project_id=1 ORDER BY id DESC limit 1,10;");
     $tmp = array();
     while($row = $table_db->fetch_assoc())
       $tmp[] = $row;
