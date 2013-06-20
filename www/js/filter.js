@@ -1,115 +1,123 @@
-function filter_funct(parent) {
-  var filter = {};
+function filter_funct(parent) {  
+  
   var activeParams = {};
   
-  filter.getParams = function() {
+  function setupFilter() {
+    var body = $('#filter > div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);    
+    return;
+  }
+  
+  function constructParams(form){
+    var filter = $(form).parent().parent();
+    filter = $(filter).children('div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);  
+    var result = {};  
+    return result;
+  }
+
+  /* ======================================= Public ===========================================*/
+  
+  this.addRule = function(item) {
+    var parent = $(item).parent().parent().parent();
+    var html = "<tr><td>"+
+      "<div class=\"btn-group\">"+
+      "  <button name =\"btn_name\" btn_id =\"-1\" class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">Поле</button>"+
+      "  <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>       "+           
+      "  <ul class=\"dropdown-menu\">"+
+      "    <li><a href=\"#\" btn_id=\"item_id\"  onclick=\"return window.filter.changeColumn(this);\">ID ассета         </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"level\"    onclick=\"return window.filter.changeColumn(this);\">Уровень           </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"energy\"   onclick=\"return window.filter.changeColumn(this);\">Энергия           </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"real\"     onclick=\"return window.filter.changeColumn(this);\">Реал              </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"bonus\"    onclick=\"return window.filter.changeColumn(this);\">Бонус             </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"money\"    onclick=\"return window.filter.changeColumn(this);\">Валюта приложения </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"referal\"  onclick=\"return window.filter.changeColumn(this);\">Реферал           </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"reg_time\" onclick=\"return window.filter.changeColumn(this);\">Дата регистрации  </a></li>"+         
+      "  </ul>"+
+      "</div>"+
+      "<div class=\"btn-group\">  "+
+      "  <button name =\"btn_name\" btn_id =\"-1\" class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">Действие</button>"+
+      "  <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>                  "+
+      "  <ul class=\"dropdown-menu\">"+
+      "    <li><a href=\"#\" btn_id=\">\"     onclick=\"return window.filter.changeColumn(this);\">> </a></li>"+
+      "    <li><a href=\"#\" btn_id=\">=\"    onclick=\"return window.filter.changeColumn(this);\">>=</a></li>"+
+      "    <li><a href=\"#\" btn_id=\"<=\"    onclick=\"return window.filter.changeColumn(this);\"><=</a></li>"+
+      "    <li><a href=\"#\" btn_id=\"<\"     onclick=\"return window.filter.changeColumn(this);\">< </a></li>"+
+      "    <li><a href=\"#\" btn_id=\"!=\"    onclick=\"return window.filter.changeColumn(this);\">!=</a></li>"+
+      "    <li><a href=\"#\" btn_id=\"IN\"    onclick=\"return window.filter.changeColumn(this);\">IN</a></li>"+
+      "    <li><a href=\"#\" btn_id=\"LIKE\"  onclick=\"return window.filter.changeColumn(this);\">LIKE</a></li>          "+
+      "  </ul>"+
+      "</div>"+
+      "  <input class=\"input-medium\" type=\"text\" value=\"-\" style=\"margin-top: 10px;width: 450px;\"/>"+
+      "</td></tr>"+
+      "<tr>"+
+      "  <td>"+
+      "  <input type=\"button\" class=\"btn btn-primary\" value=\"Добавить строку\" onclick=\"return window.filter.addRule(this);\"/>"+
+      "  </td>     "+
+      "</tr>";
+    $(parent).append(html);
+    return false;
+  };
+  
+  this.changeColumn = function (item) {    
+    var name = $(item).text();
+    var id = $(item).attr('btn_id');    
+    var button = $(item).parent().parent().parent().children('button[name*="btn_name"]');    
+    button.text(name);
+    button.attr('btn_id',id);
+    return false;
+  };
+  
+  this.getParams = function() {
     return JSON.stringify(activeParams);
   };
 
-  function setupFilter() {
-    var body = $('#filter > div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);    
-    $(body).children('tbody>tr').each(function(item,elem){      
-      var name = $(elem).attr('name');      
-      var fields = $(elem).children('td');      
-      if(!activeParams[name])
-        return;      
-      $(fields[1]).children("select").val(activeParams[name]['operation']);      
-      $(fields[2]).children('input').val(activeParams[name]['value']);
-      $(fields[3]).children('select').val(activeParams[name]['logic']);      
-    });
-    var period = window.timeController.getPeriod();
-    var bday = new Date(period.bday*1000);
-    var eday = new Date(period.eday*1000);
-    $("#filter-datepicker").DatePicker(
-      { 
-        flat: true,
-        date: [bday,eday],
-        calendars: 3,
-        mode: "range",   
-        starts: 1,
-        onChange: function(formated) {     
-          console.log(formated);
-          var bd = new Date(formated[0]);
-          var ed = new Date(formated[1]);
-          console.log(bd,ed);
-          $('#filter-date').val(bd.getTime()/1000+' and '+ed.getTime()/1000);
-        },
-      });
-
-      $("#filter-date").val(bday.getTime()/1000+' and '+eday.getTime()/1000);  
-      $("#filter-datepicker").children('div').css('width',"590px");
-      $("#filter-datepicker").children('div').css('height',"160px");
-      $("#filter-datepicker").children('div').css('background-color',"#000");
-      $("#filter-datepicker").children('div').css('margin-left',"-300px");
-      $("#filter-datepicker").children('div').css('left',"50%");
-    return;
-  }
-
-  filter.show = function() {
-    console.log("Show filter");    
+  this.show = function() {    
     function onAnswer(data) {      
-      data = JSON.parse(data);
-      console.log(data);
+      data = JSON.parse(data);      
       if(data.html) {
-        $('#filter > div.modal-body').html(data.html);
-        setupFilter();
+        $('#filter > div.modal-body').html(data.html);        
         $('#filter').modal({show:true});
         return;
-      }
+      } else
+        console.log(data);
     }
     main.ajax('filter','ajax_load_constructor',{project_id:project_id, page_id:main.selectedTabId}, onAnswer);
     return false;
   };
 
-function constructParams(form){
-  var filter = $(form).parent().parent();
-  filter = $(filter).children('div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);  
-  var result = {};
-  $(filter).children('tbody>tr').each(function(item,elem){
-    var name = $(elem).attr('name');
-    var fields = $(elem).children('td');
-    var op = $(fields[1]).children('select').val();
-    var value = $(fields[2]).children('input').val();
-    var logic = $(fields[3]).children('select').val();
-    result[name] = {operation:op,value:value,logic:logic};    
-  });
-  return result;
-}
-
-filter.setup = function(data,item) {  
-  $(item).children('input').attr('checked','checked');  
-  $('#filter-button').text('Фильтр: '+$(item).text());  
-  activeParams = data;
-  window.main.pageReload();
-  return false;
-};
-
-filter.apply = function(form) {
-  var params = constructParams(form);
-  activeParams = params;  
-  window.main.pageReload();
-  $(form).parent().parent().modal('hide');
-  $('#filter-button').html('<span style="color:red">*&nbsp'+$('#filter-button').text()+'</span>');
-  return false;
-};
-
-filter.save = function(form) { 
-  var params = constructParams(form);
-  var name = $(form).parent().parent().children('div.modal-header').children('input').val();
-  if(name=="") {
-    $(form).addClass('disabled');
+  this.setup = function(data,item) {  
+    $(item).children('input').attr('checked','checked');  
+    $('#filter-button').text('Фильтр: '+$(item).text());  
+    activeParams = data;
+    window.main.pageReload();
     return false;
-  }  
-  main.ajax('filter','ajax_save_filter',{project_id:project_id, filter:params, name: name});
-  activeParams = params;  
-  window.main.pageReload();  
-  $(form).parent().parent().modal('hide');
-  return false;
-};
+  };
+
+  this.apply = function(form) {
+    var params = constructParams(form);
+    activeParams = params;  
+    window.main.pageReload();
+    $(form).parent().parent().modal('hide');
+    $('#filter-button').html('<span style="color:red">*&nbsp'+$('#filter-button').text()+'</span>');
+    return false;
+  };
+
+  this.save = function(form) { 
+    var params = constructParams(form);
+    var name = $(form).parent().parent().children('div.modal-header').children('input').val();
+    if(name=="") {
+      $(form).addClass('disabled');
+      return false;
+    }  
+    main.ajax('filter','ajax_save_filter',{project_id:project_id, filter:params, name: name});
+    activeParams = params;  
+    window.main.pageReload();  
+    $(form).parent().parent().modal('hide');
+    return false;
+  };
   
-  return filter;
+  return this;
 }
 
-window.filter = filter_funct(window);
+window.filter = filter_funct();
 
 
