@@ -5,6 +5,8 @@ class spChartConverter extends spTools {
   private $_db;
   private $_presets;
   
+  private $_type_to_text= array(0=>'spline',1=>'bar',2=>'line',3=>'areaspline');
+  
   public function __construct() {
     parent::__construct();    
     $this->_db = $this->toolkit->getDefaultDbConnection();
@@ -27,14 +29,29 @@ class spChartConverter extends spTools {
       return array();
     $series = array();    
     $linear = false;
-//    print_r($data);
+    //print_r($data);
+    $keys = array();
     foreach ($data as $key=>$chart) {
-      $parse_chart = array();
-      $parse_keys = array();
+      if(!is_array($chart))
+        continue;
+      foreach ($chart as $c_key=>$value)
+        $keys[$c_key] = $c_key;
+    }
+    
+    foreach ($data as $name=>$chart) {
       if(!is_array($chart))
         continue;
       
-      foreach ($chart as $c_key=>$value) {
+      $data_array = array();      
+      foreach ($keys as $key) {
+        if($key<100000) {
+          $data_array[] = array($key,isset($chart[$key])?$chart[$key]*1:0);
+          $linear = true;
+        } else
+          $data_array[] = array($key*1000,isset($chart[$key])?$chart[$key]*1:0);
+      }
+      
+      /*foreach ($chart as $c_key=>$value) {
         unset($chart[$c_key]);         
         if($c_key<100000) {
           $parse_chart[]=array($c_key,$value*1);          
@@ -42,26 +59,16 @@ class spChartConverter extends spTools {
           $linear = true;
         } else
           $parse_chart[]=array($c_key*1000,$value*1);        
-      }
-            
-      if(   (($data_type==0)&& (count($data)==1))||
-            (($data_type==1)&& (count($data)==0))   )
-        $key = isset($this->_presets[$c_id])?$this->_presets[$c_id]:$key;
-      if($type==0)
-        $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> array_values($parse_keys),'units'=>$units);
-      elseif($type==1)
-        $series[] = array('data'=>$parse_chart,'type'=>'bar','name'=>$key,'columns'=>  array_keys($parse_chart),'units'=>$units);
-      elseif($type==2)
-        $series[] = array('data'=>$parse_chart,'type'=>'line','name'=>$key,'columns'=>  array_keys($parse_chart),'units'=>$units);
-      elseif($type==3)
-        $series[] = array('data'=>$parse_chart,'type'=>'areaspline','name'=>$key,'columns'=>  array_keys($parse_chart),'units'=>$units);
+      }*/
+      
+      $series[] = array('data'=>array_values($data_array), 'name'=>$name, 'columns'=> array_keys($keys), 'units'=>$units, 'type'=>$this->_type_to_text[$type]);       
     }
     
     if($linear)
       return array( 'series'=>$series,                    
                     'xAxis'=>array(                        
                             'type'=>'linear',
-                            'categories'=>array_values($parse_keys),
+                            'categories'=>array_values($keys),
                             'title'=>array('text'=>'Параметр'),                            
                           )                    
           );
