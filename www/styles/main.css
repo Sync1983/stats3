@@ -18,7 +18,14 @@ html{min-height:100%;position:relative}/* make sure it is at least as tall as th
 html,body { background-color: white; }
 #content { top: 40px; overflow-y: auto; position: relative; min-height: 800px; width: 80%; left:10%; }
 #dateRange-txt { width: 200px; height: 25px; margin-left: 20px; margin-right: 20px; float: left; text-align: center; color: #000; }
+.datepicker {
+  z-index: 10000;
+}
 
+.time-text {
+  width: 220px;
+  display: none;  
+}
 
 
 #delete-tab {

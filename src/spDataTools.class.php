@@ -43,8 +43,10 @@ class spDataTools extends spTools {
 
   public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units",$filter=null){    
     $this->_pid = $project_id;
-    $this->_start = $start_time;
-    $this->_stop = $stop_time;
+    $time = getdate($start_time);
+    $this->_start = mktime(0,0,0,$time["mon"],$time["mday"],$time["year"]);
+    $time = getdate($stop_time);
+    $this->_stop = mktime(23,59,59,$time["mon"],$time["mday"],$time["year"]);    
     $this->_filter = json_decode($filter,true);
     
     $result = array();
@@ -84,7 +86,7 @@ class spDataTools extends spTools {
   }
 
   private function _getLoggerData($data) {
-    $tstamp = "stamp BETWEEN ".$this->_start." and ".  $this->_stop;
+    $tstamp = "stamp>=".$this->_start." and stamp<=".  $this->_stop;    
     $rstamp = "reg_time>=".$this->_start." and reg_time<=".$this->_stop;
     $data = str_replace("@[stamp_round]", $tstamp, $data);
     $data = str_replace("@[pid]", "project_id=".$this->_pid, $data);

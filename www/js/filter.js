@@ -78,6 +78,10 @@ function constructParams(form){
 
 filter.setup = function(data,item) {  
   $(item).children('input').attr('checked','checked');
+  if($(item).children('input').val()!=='all')
+    $('#filter-button').text('Фильтр: '+$(item).text());
+  else
+    $('#filter-button').text('Фильтр');
   activeParams = data;
   window.main.pageReload();
   return false;
@@ -88,6 +92,7 @@ filter.apply = function(form) {
   activeParams = params;  
   window.main.pageReload();
   $(form).parent().parent().modal('hide');
+  $('#filter-button').html('<span style="color:red">*&nbsp'+$('#filter-button').text()+'</span>');
   return false;
 };
 
@@ -100,7 +105,7 @@ filter.save = function(form) {
   }  
   main.ajax('filter','ajax_save_filter',{project_id:project_id, filter:params, name: name});
   activeParams = params;  
-  window.main.pageReload();
+  window.main.pageReload();  
   $(form).parent().parent().modal('hide');
   return false;
 };

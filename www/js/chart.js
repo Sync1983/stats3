@@ -106,7 +106,7 @@ function chart_funct(parent) {
       return;
     }
   }
-  var data = window.main.getPeriod();
+  var data = window.timeController.getPeriod();
   data.id = chart.chart_id;
   data.vid = chart.chart_vid;
   data.project_id = project_id;

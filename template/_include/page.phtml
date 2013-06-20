@@ -27,6 +27,7 @@
     {{js_once src="js/jquery.dataTables.min.js" /}}
     {{js_once src="js/chart.js" /}}
     {{js_once src="js/filter.js" /}}
+    {{js_once src="js/time_control.js" /}}
     {{js_once src="js/highcharts.js" /}}    
     {{js_once src="js/datepicker.js" /}}
     {{js_once src="js/jquery.jeditable.mini.js" /}}
@@ -50,10 +51,38 @@
             
           </ul>          
           <ul class="nav pull-right">
-            <li>
-              <input class="text-center input-medium search-query" id="dateRange-txt" style="margin-top: 4px;">
-              <input class="btn btn-primary" type="submit" onclick ="return window.main.pageReload();" value="Загрузить" />
-            </li>
+            <li class="dropdown">              
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="time-button">Время<b class="caret"></b></a>                
+                <ul class="dropdown-menu" role="menu" aria-labelledby="time-filter" id="time-filter">
+                  <li>
+                      <a href="#" onclick="return window.timeController.selectPeriod(this);">
+                        <input type="radio" name="optionsRadios" id="time-week" value="time-week" style="margin-right: 10px;margin-top: -2px;"/>Неделя
+                      </a>
+                  </li>                  
+                  <li>
+                      <a href="#" onclick="return window.timeController.selectPeriod(this);">
+                        <input type="radio" name="optionsRadios" id="time-mounth" value="time-mounth" style="margin-right: 10px;margin-top: -2px;" checked/>Месяц
+                      </a>
+                  </li>                  
+                  <li>
+                      <a href="#" onclick="return window.timeController.selectPeriod(this);">
+                        <input type="radio" name="optionsRadios" id="time-2mounth" value="time-2mounth" style="margin-right: 10px;margin-top: -2px;"/>Два месяца
+                      </a>
+                  </li>                  
+                  <li>
+                      <a href="#" onclick="return window.timeController.selectPeriod(this);">
+                        <input type="radio" name="optionsRadios" id="time-custom" value="time-custom" style="margin-right: 10px;margin-top: -2px;"/>Настроить                      
+                      </a>
+                        <div style="margin-left: 20px;" class="time-text">
+                          <ul style="list-style: none;padding-right: 10px; padding-bottom: 10px;" >
+                            <li><span style="float: left; margin-top: 12px;">Начало: </span>   <input class="btn" type="button" id="time-custom-start" value="time-custom-start" style="float: right;"/></li>
+                            <li><span style="float: left; margin-top: 12px;">Окончание: </span><input class="btn" type="button" id="time-custom-stop"  value="time-custom-stop"  style="float: right;"/></li>
+                          </ul>
+                        </div>                    
+                  </li>
+                  <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.timeController.applyPeriod();">Изменить</a></li>
+                </ul>                
+            </li>            
             <li class="dropdown">              
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="filter-button">Фильтр <b class="caret"></b></a>                
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -66,6 +95,11 @@
                     </li>
                     {{/list:item}}
                   {{/list}}
+                  <li>
+                      <a href="#" onclick="return window.filter.setup({},this);">
+                        <input type="radio" name="optionsRadios" id="all" value="all" style="margin-right: 10px;margin-top: -2px;"/>Все пользователи
+                      </a>
+                  </li>
                   <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Изменить</a></li>
                 </ul>                
             </li>              
@@ -101,6 +135,36 @@
   <script type="text/javascript">
     jQuery(document).ready(function() {
       $('#filter').modal({show:false});
+      period = window.timeController.getPeriod();      
+      $('#time-custom-start').val($.datepicker.formatDate('yy-mm-dd', new Date(period.bday*1000)));      
+      $('#time-custom-stop').val($.datepicker.formatDate('yy-mm-dd', new Date(period.eday*1000)));      
+      
+      $('#time-custom-stop').DatePicker({
+        date: (new Date(period.eday*1000)),
+        current: (new Date(period.eday*1000)),
+        flat: false,
+        calendars: 1,        
+        position: 'right',        
+        onChange: function(formated, dates){
+          $('#time-custom-stop').val(formated);        
+          $('#time-custom-stop').DatePickerHide(); 
+          window.timeController.changeStop(dates);
+        },
+      });
+      
+      $('#time-custom-start').DatePicker({
+        date: (new Date(period.bday*1000)),
+        current: (new Date(period.bday*1000)),
+        flat: false,
+        calendars: 1,        
+        position: 'right',
+        onChange: function(formated, dates){
+          $('#time-custom-start').val(formated);        
+          $('#time-custom-start').DatePickerHide();        
+          window.timeController.changeStart(dates);
+        },
+      });
+    
       {{aslot id='js_ready'/}}      
     });
   </script>
