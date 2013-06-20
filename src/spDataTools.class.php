@@ -53,13 +53,17 @@ class spDataTools extends spTools {
     
     $result = array();
     if($data_type==0) {
-      $roots = explode(',', $data);      
-      foreach ($roots as $root) {
-        $temp = $this->_pharse($root);        
-        $result = array_merge($result,$this->calculate($temp,$root)); 
-      }      
+      // This part not used now
+      //$roots = explode(',', $data);      
+      //foreach ($roots as $root) {
+      //  $temp = $this->_pharse($root);        
+      //  $result = array_merge($result,$this->calculate($temp,$root)); 
+      //}      
     } else if($data_type==1) {
-      $result = array_merge($result,$this->_getLoggerData($data));
+      $queres = explode(";", $data);
+      foreach ($queres as $data) {
+        $result = array_merge($result,$this->_getLoggerData($data));
+      }      
     }    
     $result = $this->toolkit->createViewData($chart_id, $result, $units, $data_type);    
     return $result;
