@@ -27,8 +27,8 @@ var timeController = function() {
   };
 
   function updateText () {    
-    var start = $.datepicker.formatDate('yy-mm-dd', new Date(this.start_time*1000));    
-    var stop = $.datepicker.formatDate('yy-mm-dd', new Date(this.stop_time*1000));
+    var start = $.datepicker.formatDate('dd-mm-yy', new Date(this.start_time*1000));    
+    var stop = $.datepicker.formatDate('dd-mm-yy', new Date(this.stop_time*1000));
     $("#time-button").html("Время: <span style=\"color:white;\">"+start+" : "+stop+"</span><b class=\"caret\"></b>");
   };
 
@@ -67,6 +67,10 @@ var timeController = function() {
     var start = this.start_time/86400;
     var stop = this.stop_time/86400;
     return {bday:(Math.floor(start)*86400),eday:(Math.floor(stop)*86400)};
+  };
+
+  this.updateHeader = function() {
+    updateText();
   };
 
   return this;
