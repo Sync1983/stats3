@@ -77,11 +77,8 @@ function constructParams(form){
 }
 
 filter.setup = function(data,item) {  
-  $(item).children('input').attr('checked','checked');
-  if($(item).children('input').val()!=='all')
-    $('#filter-button').text('Фильтр: '+$(item).text());
-  else
-    $('#filter-button').text('Фильтр');
+  $(item).children('input').attr('checked','checked');  
+  $('#filter-button').text('Фильтр: '+$(item).text());  
   activeParams = data;
   window.main.pageReload();
   return false;

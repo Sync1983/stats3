@@ -66,7 +66,7 @@
                   </li>                  
                   <li>
                       <a href="#" onclick="return window.timeController.selectPeriod(this);">
-                        <input type="radio" name="optionsRadios" id="time-2mounth" value="time-2mounth" style="margin-right: 10px;margin-top: -2px;"/>Два месяца
+                        <input type="radio" name="optionsRadios" id="time-2mounth" value="time-2mounth" style="margin-right: 10px;margin-top: -2px;"/>Все время
                       </a>
                   </li>                  
                   <li>
@@ -84,7 +84,7 @@
                 </ul>                
             </li>            
             <li class="dropdown">              
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="filter-button">Фильтр <b class="caret"></b></a>                
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="filter-button">Фильтр: Все <b class="caret"></b></a>                
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                   {{list using="$#filters" as="$item"}}
                     {{list:item}}
@@ -97,7 +97,7 @@
                   {{/list}}
                   <li>
                       <a href="#" onclick="return window.filter.setup({},this);">
-                        <input type="radio" name="optionsRadios" id="all" value="all" style="margin-right: 10px;margin-top: -2px;"/>Все пользователи
+                        <input type="radio" name="optionsRadios" id="all" value="all" style="margin-right: 10px;margin-top: -2px;"/>Все
                       </a>
                   </li>
                   <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Изменить</a></li>
