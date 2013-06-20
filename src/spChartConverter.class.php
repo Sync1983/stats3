@@ -27,7 +27,7 @@ class spChartConverter extends spTools {
       return array();
     $series = array();    
     $linear = false;
-    //print_r($data);
+//    print_r($data);
     foreach ($data as $key=>$chart) {
       $parse_chart = array();
       $parse_keys = array();
@@ -38,7 +38,7 @@ class spChartConverter extends spTools {
         unset($chart[$c_key]);         
         if($c_key<100000) {
           $parse_chart[]=array($c_key,$value*1);          
-          $parse_keys[] = $c_key;
+          $parse_keys[$c_key] = $c_key;
           $linear = true;
         } else
           $parse_chart[]=array($c_key*1000,$value*1);        
@@ -48,7 +48,7 @@ class spChartConverter extends spTools {
             (($data_type==1)&& (count($data)==0))   )
         $key = isset($this->_presets[$c_id])?$this->_presets[$c_id]:$key;
       if($type==0)
-        $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> $parse_keys,'units'=>$units);
+        $series[] = array('data'=>$parse_chart,'type'=>'spline','name'=>$key,'columns'=> array_values($parse_keys),'units'=>$units);
       elseif($type==1)
         $series[] = array('data'=>$parse_chart,'type'=>'bar','name'=>$key,'columns'=>  array_keys($parse_chart),'units'=>$units);
       elseif($type==2)
@@ -61,7 +61,7 @@ class spChartConverter extends spTools {
       return array( 'series'=>$series,                    
                     'xAxis'=>array(                        
                             'type'=>'linear',
-                            'categories'=>$parse_keys,
+                            'categories'=>array_values($parse_keys),
                             'title'=>array('text'=>'Параметр'),                            
                           )                    
           );

@@ -62,6 +62,8 @@ class spDataTools extends spTools {
     } else if($data_type==1) {
       $queres = explode(";", $data);
       foreach ($queres as $data) {
+        if($data=="")
+          continue;
         $result = array_merge($result,$this->_getLoggerData($data));
       }      
     }    
