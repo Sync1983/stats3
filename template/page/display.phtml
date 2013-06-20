@@ -41,22 +41,6 @@
 
 {{ainto slot="js_ready"}}
   $('btn dropdown-toggle').dropdown();
-  
-  var bday = new Date({$#bday}*1000);
-  var eday = new Date({$#eday}*1000);  
-  $("#dateRange-txt").DatePicker(
-  { 
-    flat: false,
-    date: [bday,eday],
-    calendars: 3,
-    mode: "range",   
-    starts: 1,
-    onChange: function(formated) {         
-      $('#dateRange-txt').val(formated.join(' - '));
-    },
-  });
-  
-  $("#dateRange-txt").val($.datepicker.formatDate('yy-mm-dd', bday)+' - '+$.datepicker.formatDate('yy-mm-dd', eday));  
   window.main.loadPage({$#active_id});
 {{/ainto}}
 

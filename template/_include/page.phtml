@@ -61,7 +61,7 @@
                   </li>                  
                   <li>
                       <a href="#" onclick="return window.timeController.selectPeriod(this);">
-                        <input type="radio" name="optionsRadios" id="time-mounth" value="time-mounth" style="margin-right: 10px;margin-top: -2px;"/>Месяц
+                        <input type="radio" name="optionsRadios" id="time-mounth" value="time-mounth" style="margin-right: 10px;margin-top: -2px;" checked/>Месяц
                       </a>
                   </li>                  
                   <li>
@@ -71,25 +71,18 @@
                   </li>                  
                   <li>
                       <a href="#" onclick="return window.timeController.selectPeriod(this);">
-                        <input type="radio" name="optionsRadios" id="time-custom" value="time-custom" style="margin-right: 10px;margin-top: -2px;"/>Настроить
+                        <input type="radio" name="optionsRadios" id="time-custom" value="time-custom" style="margin-right: 10px;margin-top: -2px;"/>Настроить                      
                       </a>
-                  </li>
-                  <li style=""><a href="#" onclick="return false;">
-                    <div style="margin-left: 20px;">
-                      <ul style="list-style: none">
-                        <li><span style="float: left;">Начало: </span>   <input type="button"    id="time-custom-start" value="time-custom-start" style="float: right;"/></li>
-                        <li><span style="float: left;">Окончание: </span><input type="button" id="time-custom-stop"  value="time-custom-stop"  style="float: right;"/></li>
-                      </ul>
-                    </div>
-                    </a>
+                        <div style="margin-left: 20px;" class="time-text">
+                          <ul style="list-style: none;padding-right: 10px; padding-bottom: 10px;" >
+                            <li><span style="float: left; margin-top: 12px;">Начало: </span>   <input class="btn" type="button" id="time-custom-start" value="time-custom-start" style="float: right;"/></li>
+                            <li><span style="float: left; margin-top: 12px;">Окончание: </span><input class="btn" type="button" id="time-custom-stop"  value="time-custom-stop"  style="float: right;"/></li>
+                          </ul>
+                        </div>                    
                   </li>
                   <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.timeController.applyPeriod();">Изменить</a></li>
                 </ul>                
-            </li>     
-            <li>
-              <input class="text-center input-medium search-query" id="dateRange-txt" style="margin-top: 4px;">
-              
-            </li>
+            </li>            
             <li class="dropdown">              
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="filter-button">Фильтр <b class="caret"></b></a>                
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -142,33 +135,33 @@
   <script type="text/javascript">
     jQuery(document).ready(function() {
       $('#filter').modal({show:false});
-      period = window.timeController.getPeriod();
-      var date = new Date(period.bday*1000);
-      var start = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-      date = new Date(period.eday*1000);
-      var stop = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-      $('#time-custom-stop').val(stop);
-      $('#time-custom-start').val(start);      
+      period = window.timeController.getPeriod();      
+      $('#time-custom-start').val($.datepicker.formatDate('yy-mm-dd', new Date(period.bday*1000)));      
+      $('#time-custom-stop').val($.datepicker.formatDate('yy-mm-dd', new Date(period.eday*1000)));      
       
       $('#time-custom-stop').DatePicker({
         date: (new Date(period.eday*1000)),
+        current: (new Date(period.eday*1000)),
         flat: false,
         calendars: 1,        
-        position: 'r',
+        position: 'right',        
         onChange: function(formated, dates){
           $('#time-custom-stop').val(formated);        
-          $('#time-custom-stop').DatePickerHide();        
+          $('#time-custom-stop').DatePickerHide(); 
+          window.timeController.changeStop(dates);
         },
       });
       
       $('#time-custom-start').DatePicker({
         date: (new Date(period.bday*1000)),
+        current: (new Date(period.bday*1000)),
         flat: false,
         calendars: 1,        
-        position: 'r',
+        position: 'right',
         onChange: function(formated, dates){
-          $('#time-custom-stop').val(formated);        
-          $('#time-custom-stop').DatePickerHide();        
+          $('#time-custom-start').val(formated);        
+          $('#time-custom-start').DatePickerHide();        
+          window.timeController.changeStart(dates);
         },
       });
     

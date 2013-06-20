@@ -22,6 +22,11 @@ html,body { background-color: white; }
   z-index: 10000;
 }
 
+.time-text {
+  width: 220px;
+  display: none;  
+}
+
 
 #delete-tab {
   background: url('../images/delbutton.png') 0px 0px no-repeat;  

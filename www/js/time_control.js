@@ -22,21 +22,28 @@ var timeController = function() {
     this.stop_time  = date_stop.getTime()/1000;
   };
 
-  function showControl() {
-    
+  function showControl() {    
+    $('.time-text').css('display','block');
   };
 
-  function updateText () {
-    var date = new Date(this.start_time*1000);
-    var start = date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
-    date = new Date(this.stop_time*1000);
-    var stop = date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+  function updateText () {    
+    var start = $.datepicker.formatDate('yy-mm-dd', new Date(this.start_time*1000));    
+    var stop = $.datepicker.formatDate('yy-mm-dd', new Date(this.stop_time*1000));
     $("#time-button").html("Время: <span style=\"color:white;\">"+start+" : "+stop+"</span><b class=\"caret\"></b>");
+  };
+
+  this.changeStart = function (param) {
+    this.start_time = param.getTime()/1000;    
+  };
+
+  this.changeStop = function (param) {
+    this.stop_time  = param.getTime()/1000;    
   };
   
   this.selectPeriod = function (item) {
     var type = $(item).children('input').val();
     $(item).children('input').attr('checked','checked');
+    $('.time-text').css('display','none');
     if(type==="time-week")
       selectLastWeek();
     else if(type==="time-mounth")
@@ -46,8 +53,7 @@ var timeController = function() {
     else 
       showControl();
     
-    $('#time-filter').dropdown('toggle');
-    
+    $('#time-filter').dropdown('toggle');    
     return false;
   };
 
