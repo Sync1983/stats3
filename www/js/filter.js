@@ -17,7 +17,7 @@ function filter_funct(parent) {
       $(fields[2]).children('input').val(activeParams[name]['value']);
       $(fields[3]).children('select').val(activeParams[name]['logic']);      
     });
-    var period = window.main.getPeriod();
+    var period = window.timeController.getPeriod();
     var bday = new Date(period.bday*1000);
     var eday = new Date(period.eday*1000);
     $("#filter-datepicker").DatePicker(
