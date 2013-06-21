@@ -85,7 +85,7 @@
             </li>            
             <li class="dropdown">              
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="filter-button">Фильтр: Все <b class="caret"></b></a>                
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="filter-dropdown">
                   {{list using="$#filters" as="$item"}}
                     {{list:item}}
                     <li>

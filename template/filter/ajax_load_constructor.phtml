@@ -1,10 +1,10 @@
 <table style="width: 100%;" id="filter-param">
   <tbody>
     <tr><td>
-      <div class="btn-group">
-        <button name ="btn_name" btn_id ="-1" class="btn dropdown-toggle" data-toggle="dropdown">Поле</button>
+      <div class="btn-group" name="row_name">
+        <button name ="btn_name" btn_id ="-1" class="btn dropdown-toggle" data-toggle="dropdown" style="width:100px;">Поле</button>
         <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>                  
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" style="margin-left: 100px;">
           <li><a href="#" btn_id="item_id"  onclick="return window.filter.changeColumn(this);">ID ассета         </a></li>
           <li><a href="#" btn_id="level"    onclick="return window.filter.changeColumn(this);">Уровень           </a></li>
           <li><a href="#" btn_id="energy"   onclick="return window.filter.changeColumn(this);">Энергия           </a></li>
@@ -15,8 +15,8 @@
           <li><a href="#" btn_id="reg_time" onclick="return window.filter.changeColumn(this);">Дата регистрации  </a></li>          
         </ul>
       </div>
-      <div class="btn-group">  
-        <button name ="btn_name" btn_id ="-1" class="btn dropdown-toggle" data-toggle="dropdown">Действие</button>
+      <div class="btn-group" name="row_op">  
+        <button name ="btn_name" btn_id ="-1" class="btn dropdown-toggle" data-toggle="dropdown" style="width:80px;">Действие</button>
         <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>                  
         <ul class="dropdown-menu">
           <li><a href="#" btn_id=">"     onclick="return window.filter.changeColumn(this);">> </a></li>
@@ -28,11 +28,11 @@
           <li><a href="#" btn_id="LIKE"  onclick="return window.filter.changeColumn(this);">LIKE</a></li>          
         </ul>
       </div>
-        <input class="input-medium" type="text" value="-" style="margin-top: 10px;width: 450px;"/>
+        <input class="input-medium" type="text" value="-" style="margin-top: 10px;width: 400px;"/>        
     </td></tr>
     <tr>
       <td>
-        <input type="button" class="btn btn-primary" value="Добавить строку" onclick="return window.filter.addRule(this);"/>
+        <input type="button" class="btn btn-primary" value="Добавить строку" onclick="return window.filter.addRule(this);"/>        
       </td>     
     </tr>
 <!--    <tr name="item_id">

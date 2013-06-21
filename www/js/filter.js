@@ -9,8 +9,26 @@ function filter_funct(parent) {
   
   function constructParams(form){
     var filter = $(form).parent().parent();
-    filter = $(filter).children('div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);  
-    var result = {};  
+    filter = $(filter).children('div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);
+    var rows = filter.children('tr');
+    var result = new Array();      
+    for(i=0;i<rows.length;i+=2){
+      var row = rows[i];      
+      var items = $(row).children('td');
+      if(items.length<=0)
+        continue;
+      var item = $(items).children('[name*="row_name"]').children('button[name*="btn_name"]').attr('btn_id');
+      var op = $(items).children('[name*="row_op"]').children('button[name*="btn_name"]').attr('btn_id');
+      var value = $(items).children('input').val();
+      var logic = $(rows[i+1]).children('td').children('[name*="row_and"]').children('button[name*="btn_name"]').attr('btn_id');
+      if( (!item)||(item==="-1") || (!op)||(op==="-1") || (value==="-"))
+        continue;      
+      var rule = {item:item,operation:op,value:value};
+      if(logic)
+        rule['logic'] = logic;
+      result.push(rule);
+    }
+    console.log(result);
     return result;
   }
 
@@ -18,11 +36,19 @@ function filter_funct(parent) {
   
   this.addRule = function(item) {
     var parent = $(item).parent().parent().parent();
+    var button = "<div class=\"btn-group\" name=\"row_and\">"
+        +"  <button name =\"btn_name\" btn_id =\"AND\" class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">AND</button>"
+        +"  <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>"
+        +"  <ul class=\"dropdown-menu\">"
+        +"    <li><a href=\"AND\" btn_id=\"AND\"  onclick=\"return window.filter.changeColumn(this);\">AND</a></li>"
+        +"    <li><a href=\"OR\" btn_id=\"OR\"    onclick=\"return window.filter.changeColumn(this);\">OR</a></li>"
+        +"  </ul>"
+        +"</div>";  
     var html = "<tr><td>"+
-      "<div class=\"btn-group\">"+
-      "  <button name =\"btn_name\" btn_id =\"-1\" class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">Поле</button>"+
-      "  <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>       "+           
-      "  <ul class=\"dropdown-menu\">"+
+      "<div class=\"btn-group\" name=\"row_name\">"+
+      "  <button name =\"btn_name\" btn_id =\"-1\" class=\"btn dropdown-toggle\" data-toggle=\"dropdown\" style=\"width:100px;\">Поле</button>"+
+      "  <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>"+           
+      "  <ul class=\"dropdown-menu\" style=\"margin-left: 100px;\">"+
       "    <li><a href=\"#\" btn_id=\"item_id\"  onclick=\"return window.filter.changeColumn(this);\">ID ассета         </a></li>"+
       "    <li><a href=\"#\" btn_id=\"level\"    onclick=\"return window.filter.changeColumn(this);\">Уровень           </a></li>"+
       "    <li><a href=\"#\" btn_id=\"energy\"   onclick=\"return window.filter.changeColumn(this);\">Энергия           </a></li>"+
@@ -33,9 +59,9 @@ function filter_funct(parent) {
       "    <li><a href=\"#\" btn_id=\"reg_time\" onclick=\"return window.filter.changeColumn(this);\">Дата регистрации  </a></li>"+         
       "  </ul>"+
       "</div>"+
-      "<div class=\"btn-group\">  "+
-      "  <button name =\"btn_name\" btn_id =\"-1\" class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">Действие</button>"+
-      "  <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>                  "+
+      "<div class=\"btn-group\" name=\"row_op\">"+
+      "  <button name =\"btn_name\" btn_id =\"-1\" class=\"btn dropdown-toggle\" data-toggle=\"dropdown\" style=\"width:80px;\">Действие</button>"+
+      "  <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>"+
       "  <ul class=\"dropdown-menu\">"+
       "    <li><a href=\"#\" btn_id=\">\"     onclick=\"return window.filter.changeColumn(this);\">> </a></li>"+
       "    <li><a href=\"#\" btn_id=\">=\"    onclick=\"return window.filter.changeColumn(this);\">>=</a></li>"+
@@ -43,17 +69,26 @@ function filter_funct(parent) {
       "    <li><a href=\"#\" btn_id=\"<\"     onclick=\"return window.filter.changeColumn(this);\">< </a></li>"+
       "    <li><a href=\"#\" btn_id=\"!=\"    onclick=\"return window.filter.changeColumn(this);\">!=</a></li>"+
       "    <li><a href=\"#\" btn_id=\"IN\"    onclick=\"return window.filter.changeColumn(this);\">IN</a></li>"+
-      "    <li><a href=\"#\" btn_id=\"LIKE\"  onclick=\"return window.filter.changeColumn(this);\">LIKE</a></li>          "+
+      "    <li><a href=\"#\" btn_id=\"LIKE\"  onclick=\"return window.filter.changeColumn(this);\">LIKE</a></li>"+
       "  </ul>"+
       "</div>"+
-      "  <input class=\"input-medium\" type=\"text\" value=\"-\" style=\"margin-top: 10px;width: 450px;\"/>"+
+      "  <input class=\"input-medium\" type=\"text\" value=\"-\" style=\"margin-top: 10px;width: 380px;\"/>"+
+      "  <button class =\"btn\"><span class=\"icon-remove\" onclick=\"return window.filter.removeRule(this);\"></span></button>"+
       "</td></tr>"+
       "<tr>"+
       "  <td>"+
-      "  <input type=\"button\" class=\"btn btn-primary\" value=\"Добавить строку\" onclick=\"return window.filter.addRule(this);\"/>"+
-      "  </td>     "+
-      "</tr>";
+      "  <input type=\"button\" class=\"btn btn-primary\" value=\"Добавить строку\" onclick=\"return window.filter.addRule(this);\"/>"+            
+      "  </td>"+
+      "</tr>";    
     $(parent).append(html);
+    $(item).parent().html(button);
+    return false;
+  };
+
+  this.removeRule = function (item) {
+    var parent = $(item).parent().parent().parent();    
+    $(parent).prev('tr').remove();
+    $(parent).remove();
     return false;
   };
   
