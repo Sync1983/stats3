@@ -73,13 +73,9 @@ class spDataTools extends spTools {
   
   private function _filterConvert($filter) {    
     $result = "";
-    foreach ($filter as $field=>$descr){
-      if(!isset($descr['operation'])||($descr['operation']=="-"))
-        continue;
-      if(!isset($descr['value'])||($descr['value'])=="-")
-        continue;
-      $result .= "`".$field."` ".$descr['operation']." ".$descr['value']." ";
-      if(isset($descr['logic'])&&($descr['logic']!="-"))
+    foreach ($filter as $descr){      
+      $result .= "`".$descr['item']."` ".$descr['operation']." ".$descr['value']." ";
+      if(isset($descr['logic'])&&($descr['logic']!="-1"))
         $result .= $descr['logic']." ";
       else
         $result .= " ";

@@ -1,11 +1,41 @@
-<table style="width: 100%;height: 100%;" id="filter-param">
-  <thead>
-    <tr>
-      <th style="width: 25%;">Параметр</th><th style="width: 25%;">Операция</th><th style="width: 25%;">Значение</th><th style="width: 25%;">Отношение</th>          
-    </tr>
-  </thead>
+<table style="width: 100%;" id="filter-param">
   <tbody>
-    <tr name="item_id">
+    <tr><td>
+      <div class="btn-group" name="row_name">
+        <button name ="btn_name" btn_id ="-1" class="btn dropdown-toggle" data-toggle="dropdown" style="width:100px;">Поле</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>                  
+        <ul class="dropdown-menu" style="margin-left: 100px;">
+          <li><a href="#" btn_id="item_id"  onclick="return window.filter.changeColumn(this);">ID ассета         </a></li>
+          <li><a href="#" btn_id="level"    onclick="return window.filter.changeColumn(this);">Уровень           </a></li>
+          <li><a href="#" btn_id="energy"   onclick="return window.filter.changeColumn(this);">Энергия           </a></li>
+          <li><a href="#" btn_id="real"     onclick="return window.filter.changeColumn(this);">Реал              </a></li>
+          <li><a href="#" btn_id="bonus"    onclick="return window.filter.changeColumn(this);">Бонус             </a></li>
+          <li><a href="#" btn_id="money"    onclick="return window.filter.changeColumn(this);">Валюта приложения </a></li>
+          <li><a href="#" btn_id="referal"  onclick="return window.filter.changeColumn(this);">Реферал           </a></li>
+          <li><a href="#" btn_id="reg_time" onclick="return window.filter.changeColumn(this);">Дата регистрации  </a></li>          
+        </ul>
+      </div>
+      <div class="btn-group" name="row_op">  
+        <button name ="btn_name" btn_id ="-1" class="btn dropdown-toggle" data-toggle="dropdown" style="width:80px;">Действие</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>                  
+        <ul class="dropdown-menu">
+          <li><a href="#" btn_id=">"     onclick="return window.filter.changeColumn(this);">> </a></li>
+          <li><a href="#" btn_id=">="    onclick="return window.filter.changeColumn(this);">>=</a></li>
+          <li><a href="#" btn_id="<="    onclick="return window.filter.changeColumn(this);"><=</a></li>
+          <li><a href="#" btn_id="<"     onclick="return window.filter.changeColumn(this);">< </a></li>
+          <li><a href="#" btn_id="!="    onclick="return window.filter.changeColumn(this);">!=</a></li>
+          <li><a href="#" btn_id="IN"    onclick="return window.filter.changeColumn(this);">IN</a></li>
+          <li><a href="#" btn_id="LIKE"  onclick="return window.filter.changeColumn(this);">LIKE</a></li>          
+        </ul>
+      </div>
+        <input class="input-medium" type="text" value="-" style="margin-top: 10px;width: 400px;"/>        
+    </td></tr>
+    <tr>
+      <td>
+        <input type="button" class="btn btn-primary" value="Добавить строку" onclick="return window.filter.addRule(this);"/>        
+      </td>     
+    </tr>
+<!--    <tr name="item_id">
       <td>ID ассета</td>
       <td><select><option value="-">-</option><option value="=">=</option> <option value=">">></option><option value=">=">>=</option><option value="<="><=</option><option value="<">><</option><option value="!=">!=</option><option value="LIKE">LIKE</option><option value="BETWEEN">BETWEEN</option><option value="IN">IN</option></select></td>
       <td><input type="text" style="float:left;margin-right: -35px"/><button class="btn dropdown-toggle" style="float:left;" onclick=" if($('#item_id-selector').css('display')=='block') $('#item_id-selector').css('display','none'); else $('#item_id-selector').css('display','block');"><span class="caret"></span></button>
@@ -69,7 +99,6 @@
       <td><select><option value="-">-</option><option value="BETWEEN">BETWEEN</option></select></td>
       <td><input type="text" id="filter-date" disabled/></td>
       <td style="display: none;"><select  style="width: 150px;"><option value="-"> </option><option value="and">AND</option><option value="or">OR</option></select></td>
-    </tr>
+    </tr>-->
   </tbody>
 </table>
-<div id="filter-datepicker"></div>
