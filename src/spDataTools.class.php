@@ -54,11 +54,11 @@ class spDataTools extends spTools {
     $result = array();
     if($data_type==0) {
       // This part not used now
-      //$roots = explode(',', $data);      
-      //foreach ($roots as $root) {
-      //  $temp = $this->_pharse($root);        
-      //  $result = array_merge($result,$this->calculate($temp,$root)); 
-      //}      
+      $roots = explode(',', $data);      
+      foreach ($roots as $root) {
+        $temp = $this->_pharse($root);        
+        $result = array_merge($result,$this->calculate($temp,$root)); 
+      }      
     } else if($data_type==1) {
       $queres = explode(";", $data);
       foreach ($queres as $data) {
@@ -146,8 +146,7 @@ class spDataTools extends spTools {
       }
     }
     //  $return[$row['x']] = $row['y'];
-            
-    foreach ($charts as $chart)
+    foreach ($charts as &$chart)
       ksort($chart);
     
     if(isset($ids)&&$ids) {      

@@ -24,7 +24,7 @@ class DebugController extends spController {
 
    while($row=$tables_db->fetch_row())
     $tables[] = $row[0];
-    $tables=array('log_QuestTaskComplete');
+    //$tables=array('log_QuestTaskComplete');
    $result = array();
 
    foreach($tables as $table_name){

@@ -21,7 +21,7 @@ function cost($db,$time) {
   $time_stop   = round($time/86400);
   $time_start *= 86400;
   $time_stop  *= 86400;
-  $db_answer = $db->query("CREATE TEMPORARY TABLE tmp_costByTask (SELECT id,project_id,ext_id,stamp,reg_time,value as pay FROM log_costStoack WHERE stamp>=$time_start and stamp<=$time_stop and item_id IN (108683766,37710838))");
+  $db_answer = $db->query("CREATE TEMPORARY TABLE tmp_costByTask (SELECT id,project_id,ext_id,stamp,reg_time,value as pay FROM log_costStock WHERE stamp>=$time_start and stamp<=$time_stop and item_id IN (108683766,37710838))");
   var_dump($db_answer);
   if(!$db_answer) {
     echo "Error: ".$db->error."\r\n";
