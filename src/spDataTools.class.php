@@ -44,8 +44,8 @@ class spDataTools extends spTools {
   public function getData($data,$project_id,$data_type,$chart_id,$start_time,$stop_time,$units="units",$filter=null){    
     $this->_pid = $project_id;
     $time = getdate($start_time);
-    $this->_start = mktime(23,59,59,$time["mon"],$time["mday"],$time["year"]);    
-    $this->_start += 3*60*60+1;//1*86400+10;
+    $this->_start = mktime(0,0,0,$time["mon"],$time["mday"],$time["year"]);
+    $this->_start += 2*86400;
     $time = getdate($stop_time);
     $this->_stop = mktime(23,59,59,$time["mon"],$time["mday"],$time["year"]);    
     $this->_stop += 3*60*60+1+86400;//1*86400;
