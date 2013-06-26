@@ -2,14 +2,16 @@ function filter_funct(parent) {
   
   var activeParams = {};
   
-  function setupFilter() {    
-    var filter = $("#filter").children('div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);    
+  function setupFilter(data,name) {    
+    var filter = $("#filter").children('div.modal-body').eq(0).children('#filter-param').eq(0).children('tbody').eq(0);
+    var activeParams = data;
     for(var i in activeParams) {
       var param = activeParams[i];
       this.addRule(param.item,param.operation,param.value,param.logic);
     }
-    var name = $("#filter-button").text();
-    name = $.trim(name.replace("Фильтр: ",''));
+    //var name = $("#filter-button").text();
+    //name = $.trim(name.replace("Фильтр: ",''));
+    name = $(name).val();
     if(name!=="Все")
       $("#filter").children('div.modal-header').eq(0).children('input').val(name);
     return;
@@ -151,6 +153,36 @@ function filter_funct(parent) {
     return JSON.stringify(activeParams);
   };
 
+  this.change = function(data,name,item) {
+    var add_button = 
+      +"<tr>"
+      +"  <td colspan=4>"
+      +"    <input type=\"button\" class=\"btn btn-primary\" value=\"Добавить строку\" onclick=\"return window.filter.addRule();\"/>"
+      +"  </td>"     
+      +"</tr>";
+    $('#filter > div.modal-body').children('table').html(add_button);
+    $('#filter').modal({show:true});    
+    setupFilter(data,name);    
+    return false;
+  };
+
+  this.del = function(data,name,item) {    
+    
+    function onDelete() {
+      $("#filter-dropdown").children('li').each(function (index,item){        
+        var a = $(item).children('a');        
+        if($.trim(a.text())==="Все"){
+          a.click();          
+        }
+        if($.trim(a.text())===name)
+          $(item).remove();
+      });
+    };
+    
+    main.ajax('filter','ajax_delete_filter',{project_id:project_id, filter:data, name: name},onDelete);
+    return false;
+  };
+
   this.show = function() {    
    var add_button = 
     +"<tr>"
@@ -160,11 +192,7 @@ function filter_funct(parent) {
     +"</tr>";
    $('#filter > div.modal-body').children('table').html(add_button);
    $('#filter').modal({show:true}); 
-   
-   if(isEmpty(activeParams))
-    this.addRule(1,2,"qwert","OR");
-   else
-    setupFilter();
+   this.addRule(1,2,"qwert","OR");
    return false;
   };
 
@@ -200,10 +228,22 @@ function filter_funct(parent) {
       var html = '';
       for(var i in data) {
         var item = 
-           "<li>"
+          "<li class=\"dropdown-submenu\">"
           +"  <a href=\"#\" onclick='return window.filter.setup("+data[i]['data']+",this);'>"
           +"    <input type=\"radio\" name=\"optionsRadios\" id=\""+data[i]['name']+"\" value=\""+data[i]['name']+"\" style=\"margin-right: 10px;margin-top: -2px;\"/>"+data[i]['name']
           +"  </a>"
+          +"  <ul class=\"dropdown-menu\">"
+          +"    <li>"
+          +"      <a href=\"#\" onclick='return window.filter.change("+data[i]['data']+",\""+data[i]['name']+"\",this);'>"
+          +"        Изменить"
+          +"      </a>"
+          +"    </li>"
+          +"    <li>"
+          +"      <a href=\"#\" onclick='return window.filter.del("+data[i]['data']+",\""+data[i]['name']+"\",this);'>"
+          +"        Удалить"
+          +"      </a>"
+          +"    </li>"
+          +"  </ul>"
           +"</li>";
         html += item;
       }
@@ -213,8 +253,16 @@ function filter_funct(parent) {
         +"    <input type=\"radio\" name=\"optionsRadios\" id=\"all\" value=\"all\" style=\"margin-right: 10px;margin-top: -2px;\"/>Все"
         +"  </a>"
         +"</li>"
-        +"<li><a href=\"\" role=\"button\" class=\"btn\" data-toggle=\"modal\" onclick=\"return window.filter.show();\">Изменить</a></li>";
+        +"<li><a href=\"\" role=\"button\" class=\"btn\" data-toggle=\"modal\" onclick=\"return window.filter.show();\">Добавить</a></li>";
       $("#filter-dropdown").html(html+fin);
+      $("#filter-dropdown").children('li').each(function (index,item){
+        console.log(item);
+        var a = $(item).children('a');
+        console.log(a.text());
+        if($.trim(a.text())===name){
+          a.click();          
+        }
+      });
     };
   
     main.ajax('filter','ajax_save_filter',{project_id:project_id, filter:params, name: name},onSaved);

@@ -48,4 +48,18 @@ class FilterController extends spController {
       $return[]=$row;
     $this->sendAjaxResponce($return);
   }
+  
+  function doAjaxDeleteFilter() {
+    $request = $this->toolkit->request;
+    $project_id = $request['project_id'];
+    $name = $request['name'];
+    
+    $find = new Filter();
+    /** @var mysqli **/
+    $db  = $find->getDefaultConnection();
+    $SQL = "DELETE FROM filter where `project_id`=$project_id and `name`='$name'";
+    $db->execute($SQL);    
+    $this->sendAjaxSuccess();
+  }
+  
 }

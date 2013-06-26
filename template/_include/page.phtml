@@ -88,19 +88,31 @@
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="filter-dropdown">
                   {{list using="$#filters" as="$item"}}
                     {{list:item}}
-                    <li>
+                    <li class="dropdown-submenu">
                       <a href="#" onclick="return window.filter.setup({$item.data},this);">
                         <input type="radio" name="optionsRadios" id="{$item.name}" value="{$item.name}" style="margin-right: 10px;margin-top: -2px;"/>{$item.name}
                       </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="#" onclick="return window.filter.change({$item.data},{$item.name},this);">
+                            Изменить
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" onclick="return window.filter.del({$item.data},'{$item.name}',this);">
+                            Удалить
+                          </a>
+                        </li>
+                      </ul>
                     </li>
                     {{/list:item}}
                   {{/list}}
                   <li>
                       <a href="#" onclick="return window.filter.setup({},this);">
                         <input type="radio" name="optionsRadios" id="all" value="all" style="margin-right: 10px;margin-top: -2px;"/>Все
-                      </a>
+                      </a>                      
                   </li>
-                  <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Изменить</a></li>
+                  <li><a href="" role="button" class="btn" data-toggle="modal" onclick="return window.filter.show();">Добавить</a></li>
                 </ul>                
             </li>              
             <li>
@@ -126,8 +138,8 @@
     </table>
   </div>
   <div class="modal-footer">
-    <a id="filter-apply" href="#" class="btn btn-primary"          onclick="return window.filter.apply(this);">Apply</a>
-    <a id="filter-save"  href="#" class="btn btn-primary disabled" onclick="return window.filter.save(this);">Save filter</a>
+    <a id="filter-apply" href="#" class="btn btn-primary" onclick="return window.filter.apply(this);">Apply</a>
+    <a id="filter-save"  href="#" class="btn btn-primary" onclick="return window.filter.save(this);">Save filter</a>
   </div>
 </div>    
 
