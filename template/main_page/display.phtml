@@ -30,7 +30,9 @@
 {{/into}}  
 
 {{ainto slot="js_ready"}}
-  $('#projects').dataTable();
+  $('#projects').dataTable({
+    "iDisplayLength": 50,
+  });
 {{/ainto}}
   
 {{/wrap}}

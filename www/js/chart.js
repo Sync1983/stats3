@@ -162,8 +162,12 @@ function chart_funct(parent) {
           $('#logger-div').css("display","block");
         }        
       });      
-      var tbl1 = $('#preset-table').dataTable();
-      var tbl2 = $('#logger-table').dataTable();      
+      var tbl1 = $('#preset-table').dataTable({
+        "iDisplayLength": 50,
+      });
+      var tbl2 = $('#logger-table').dataTable({
+        "iDisplayLength": 50,
+      });      
       // Insert editable for preset table
       tbl1.$('td[fixed!="fixed"]').editable( '/preset/ajax_change_row/', {
         "callback": function( sValue, y ) {
