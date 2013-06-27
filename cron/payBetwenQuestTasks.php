@@ -21,9 +21,19 @@ pay($db,$time_start,$time_stop);
 cost($db,$time_start,$time_stop);
 exit(0);
 
+<<<<<<< HEAD
 function cost($db,$time_start,$time_stop) {
   $db_answer = $db->query("SELECT ext_id,item_id,stamp,project_id FROM log_QuestDone WHERE stamp>=$time_start and stamp<=$time_stop ORDER BY ext_id,stamp");
 
+=======
+function cost($db,$time) {
+  $time_start  = round($time/86400)-1;
+  $time_stop   = round($time/86400);
+  $time_start *= 86400;
+  $time_stop  *= 86400;
+  $db_answer = $db->query("CREATE TEMPORARY TABLE tmp_costByTask (SELECT id,project_id,ext_id,stamp,reg_time,value as pay FROM log_costStock WHERE stamp>=$time_start and stamp<=$time_stop and item_id IN (108683766,37710838))");
+  var_dump($db_answer);
+>>>>>>> parent of 404d956... pre merge
   if(!$db_answer) {
     echo "Error: ".$db->error."\r\n";
     return;
@@ -131,6 +141,10 @@ function cost($db,$time_start,$time_stop) {
       echo "SQL: $SQL\r\n";      
       echo "Error: ".$db->error."\r\n\r\n\r\n";
     }
+<<<<<<< HEAD
+=======
+    echo "SQL: $SQL\r\n";
+>>>>>>> parent of 404d956... pre merge
   }
 }
   
