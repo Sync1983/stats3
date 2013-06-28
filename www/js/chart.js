@@ -24,7 +24,7 @@ function chart_funct(parent) {
      tooltip:{
         crosshairs: [true],
         shared: true,
-        formatter: function(){           
+        /*formatter: function(){           
            var text_tip = "<b>"+Highcharts.dateFormat("%d-%m-%Y", this.x+86400000) + "</b>";
            var lines = new Array();
            for(var i in this.points) {
@@ -43,7 +43,7 @@ function chart_funct(parent) {
            for(var i in lines)
              text_tip +=lines[i];
            return text_tip;
-          }
+          }*/
        }
     };
     var chart = new Highcharts.Chart(options);     

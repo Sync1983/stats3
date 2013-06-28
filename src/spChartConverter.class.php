@@ -47,8 +47,8 @@ class spChartConverter extends spTools {
         if($key<100000) {
           $data_array[] = array($key,isset($chart[$key])?$chart[$key]*1:0);
           $linear = true;
-        } else
-          $data_array[] = array($key*1000,isset($chart[$key])?$chart[$key]*1:0);
+        } else          
+          $data_array[] = array($key*1000+3*3600,isset($chart[$key])?$chart[$key]*1:0);
       }
       
       /*foreach ($chart as $c_key=>$value) {
