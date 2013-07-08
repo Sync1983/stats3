@@ -31,11 +31,14 @@ class spChartConverter extends spTools {
     $linear = false;
     //print_r($data);
     $keys = array();
+    $categories = array();
     foreach ($data as $key=>$chart) {
       if(!is_array($chart))
         continue;
-      foreach ($chart as $c_key=>$value)
+      foreach ($chart as $c_key=>$value) {
         $keys[$c_key] = $c_key;
+        $categories[$c_key] = $c_key." ";
+      }
     }
     
     foreach ($data as $name=>$chart) {
@@ -45,30 +48,23 @@ class spChartConverter extends spTools {
       $data_array = array();      
       foreach ($keys as $key) {
         if($key<100000) {
-          $data_array[] = array($key,isset($chart[$key])?$chart[$key]*1:0);
+          //$data_array[] = array($key,isset($chart[$key])?$chart[$key]*1:0);
+          $data_array[] = isset($chart[$key])?$chart[$key]*1:0;
           $linear = true;
         } else          
           $data_array[] = array($key*1000+3*3600,isset($chart[$key])?$chart[$key]*1:0);
       }
       
-      /*foreach ($chart as $c_key=>$value) {
-        unset($chart[$c_key]);         
-        if($c_key<100000) {
-          $parse_chart[]=array($c_key,$value*1);          
-          $parse_keys[$c_key] = $c_key;
-          $linear = true;
-        } else
-          $parse_chart[]=array($c_key*1000,$value*1);        
-      }*/
-      
-      $series[] = array('data'=>array_values($data_array), 'name'=>$name, 'columns'=> array_keys($keys), 'units'=>$units, 'type'=>$this->_type_to_text[$type]);       
+      $tmp = array('data'=>array_values($data_array), 'name'=>$name, 'units'=>$units, 'type'=>$this->_type_to_text[$type]);
+      $tmp['columns']=array_keys($keys);
+      $series[] = $tmp;
     }
     
     if($linear)
       return array( 'series'=>$series,                    
                     'xAxis'=>array(                        
                             'type'=>'linear',
-                            'categories'=>array_values($keys),
+                            'categories'=>array_values($categories),
                             'title'=>array('text'=>'Параметр'),                            
                           )                    
           );
