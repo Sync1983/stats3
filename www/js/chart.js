@@ -43,7 +43,7 @@ function chart_funct(parent) {
            for(var i in lines)
              text_tip +=lines[i];
            return text_tip;
-         }*/
+          }*/
        }
     };
     var chart = new Highcharts.Chart(options);     
