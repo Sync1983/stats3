@@ -3,8 +3,8 @@
 $db_table_name_map = array(
     'addStock'    => 'log_addStock',
     'costStock'   => 'log_costStock',
-    'featureUse'  => 'log_FeatureUse',
-    'levelUp'     => 'log_LevelUp',
+    'featureUse'  => 'log_featureUse',
+    'levelUp'     => 'log_levelUp',
     'Login'       => 'log_Login',
     'NewPlayer'   => 'log_NewPlayer',
     'OutEnergy'   => 'log_OutEnergy',
@@ -63,7 +63,7 @@ function stat_get_db_fields($event_name) {
     return null;
   }
   elseif(isset($db_table_adt_fields[$event_name]))
-    $result = array_merge ($db_table_adt_fields[$event_name]);    
+    $result = array_merge ($result, $db_table_adt_fields[$event_name]);    
   return $result;
 }
 
@@ -73,10 +73,31 @@ function stat_normalize_event_data($event_name,$event,$project_id) {
     return null;
   $result = array();
   $data = isset($event['data'])?$event['data']:array();
-  
+  if($event['referal']=='')
+    $event['referal']="none";
   foreach ($fields as $field_name) {
     if($field_name=="project_id") {
-      $result[] = $project_id;
+      $result[] = "'".$project_id."'";
+      continue;
+    }
+    if($field_name=="ext_id") {
+      $result[] = "'".$event['id']."'";
+      continue;
+    }
+    if($field_name=="stamp") {
+      $result[] = "'".$event['time_stamp']."'";
+      continue;
+    }
+    if($field_name=="level") {
+      $result[] = "'".$event['lvl']."'";
+      continue;
+    }
+    if($field_name=="return") {
+      $result[] = "'".$event['return_day']."'";
+      continue;
+    }
+    if($field_name=="money") {
+      $result[] = "'".$event['moneys']."'";
       continue;
     }
     if(isset($data[$field_name]))
@@ -85,6 +106,6 @@ function stat_normalize_event_data($event_name,$event,$project_id) {
       $result[] = "'".$event[$field_name]."'";
     else
       $result[] = "''";
-  }
+  }  
   return "(".implode(",", $result).")";
 }

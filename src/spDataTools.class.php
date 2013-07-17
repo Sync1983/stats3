@@ -144,7 +144,6 @@ class spDataTools extends spTools {
     //  $return[$row['x']] = $row['y'];
     foreach ($charts as &$chart)
       ksort($chart);
-    
     if(isset($ids)&&$ids) {      
       foreach ($charts as &$chart) {
         $keys = array_keys($chart);

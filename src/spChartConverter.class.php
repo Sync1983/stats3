@@ -40,6 +40,9 @@ class spChartConverter extends spTools {
         $categories[$c_key] = $c_key." ";
       }
     }
+
+    ksort($categories,3);
+    ksort($keys,3);
     
     foreach ($data as $name=>$chart) {
       if(!is_array($chart))
@@ -56,7 +59,7 @@ class spChartConverter extends spTools {
       }
       
       $tmp = array('data'=>array_values($data_array), 'name'=>$name, 'units'=>$units, 'type'=>$this->_type_to_text[$type]);
-      $tmp['columns']=array_keys($keys);
+      $tmp['columns']=array_keys($categories);
       $series[] = $tmp;
     }
     
@@ -66,6 +69,7 @@ class spChartConverter extends spTools {
                             'type'=>'linear',
                             'categories'=>array_values($categories),
                             'title'=>array('text'=>'Параметр'),                            
+                            'showEmpty'=>false,
                           )                    
           );
     else

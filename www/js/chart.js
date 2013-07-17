@@ -16,6 +16,7 @@ function chart_funct(parent) {
      xAxis: {
        title: {text: 'Время'},
        type: 'datetime',
+       showEmpty: false,
        dateTimeLabelFormats: { day: '%e of %b'},
        //maxZoom: 48 * 3600 * 1000,      
        labels: {rotation: -45, align:'right', style: {fontSize: '10px',fontFamily: 'Verdana, sans-serif'} }
