@@ -23,7 +23,7 @@ function main() {
       $tables[] = $row[0];
   }
   print_r($tables);
-  $time = time() - 65*86400;
+  $time = time() - 45*86400;
   foreach($tables as $table) {
     $SQL = "DELETE FROM $table where stamp<$time";
     echo "SQL: $SQL\r\n";

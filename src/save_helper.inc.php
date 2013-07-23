@@ -64,8 +64,8 @@ function cronWorker()
         $timer_error = gme_pinba()->startTimer("Redis", "Redis_cron_error");
         echo "Inserting error!\r\n";
         gme_pinba()->stopTimer($timer_error);
-      }
-      $counter += count($values);
+      } else
+        $counter += count($values);
       gme_pinba()->stopTimer($timer_mysql_one);
     }
   }

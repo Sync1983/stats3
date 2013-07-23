@@ -101,9 +101,9 @@ function stat_normalize_event_data($event_name,$event,$project_id) {
       continue;
     }
     if(isset($data[$field_name]))
-      $result[] = "'".$data[$field_name]."'";
+      $result[] = "'".str_replace("'","",$data[$field_name])."'";
     elseif(isset($event[$field_name]))
-      $result[] = "'".$event[$field_name]."'";
+      $result[] = "'".str_replace("'","",$event[$field_name])."'";
     else
       $result[] = "''";
   }  
