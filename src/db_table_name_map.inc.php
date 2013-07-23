@@ -36,9 +36,9 @@ $db_table_std_fields = array(
 );
 
 $db_table_adt_fields = array(
-    'addStock'    => array('data'),
-    'costStock'   => array('data'),
-    'featureUse'  => array('pack','name'),
+    'addStock'    => array(),
+    'costStock'   => array(),
+    'featureUse'  => array(),
     'levelUp'     => array(),
     'Login'       => array('sex','age','fb_source','country'),
     'NewPlayer'   => array('sex','age','fb_source','country'),
@@ -47,8 +47,8 @@ $db_table_adt_fields = array(
     'QuestDone'   => array(),
     'QuestStart'  => array(),
     'QuestTaskComplete' => array('completeTask'),
-    'viralRecive' => array('type','name'),
-    'viralSend'   => array('type','name'),
+    'viralRecive' => array(),
+    'viralSend'   => array(),
     'realPay'     => array('sex','age','fb_source','country'),
     'shopOpen'    => array('sex','age'),
 );
