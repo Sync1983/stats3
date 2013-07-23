@@ -20,7 +20,7 @@ function cronWorker()
   $counter = 0;
   
   $groups = array();
-  $timer_parse = gme_pinba()->startTimer("Redis", "Redis_add_one_event");    
+  $timer_parse = gme_pinba()->startTimer("Redis", "Redis_parse_events");    
   foreach ($events as $event)
   {
     $timer1 = gme_pinba()->startTimer("Redis", "Redis_add_one_event");    
@@ -70,5 +70,6 @@ function cronWorker()
     }
   }
   gme_pinba()->stopTimer($timer_mysql);
+  gme_pinba()->stopTimer($timer);
   echo "Inserting count: ".$counter."\r\n";
 }
