@@ -54,6 +54,7 @@ class RedisLogger
   
   public function getSavedObjects($limit, $undelite=false)
   {
+    $keys = array();
     $keys = $this->redis()->keys(self::REDIS_PREFIX.'*');    
     if(count($keys)>$limit)
       $keys =  array_slice($keys, 0, $limit);
