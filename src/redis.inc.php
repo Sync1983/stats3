@@ -46,8 +46,10 @@ class RedisLogger
     $key = "stat_logger::events";
     $result = $this->redis()->lrange($key,0,$limit-1);
     $count = count($result);
+    $len = $this->redis()->llen($key);
+    echo "Count: $count\r\n";
     if($delete)
-      $this->redis()->ltrim($key,0,$count);
+      $this->redis()->ltrim($key,$count,$count+$len);
     return $result;
   }  
   

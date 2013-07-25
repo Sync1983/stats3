@@ -55,7 +55,7 @@ $db_table_std_fields = array(
     
   'pack'    => 14,
   'name'    => 15,
-  'currencyName'>16,
+  'currencyName'=>16,
     
   'completeTask' =>14,
   'type' => 14,
@@ -115,9 +115,11 @@ function stat_normalize_event_data($event,$project_id,$event_id) {
   $sql_fields = stat_get_db_fields($event_id);
   $max_len = substr_count($sql_fields,",");
 
-  $result = array_fill(0,$max_len,0);
+  $result = array_fill(0,$max_len+1,0);
   $result[0] = $project_id;  
   foreach ($event as $key=>$value) {
+    if(($key=="d")||($key=="data"))
+      continue;
     if(!$fields[$key]) {
       echo "Undefined field index: $key in (".json_encode($event).") event: $event_id\r\n";
       continue;
@@ -131,7 +133,7 @@ function stat_normalize_event_data($event,$project_id,$event_id) {
   if($data)
     foreach ($data as $key=>$value) {
     if(!$fields[$key]) {
-      echo "Undefined field index: $key in (".json_encode($event).") event: $event_id \r\n";
+      echo "Undefined field in data index: $key in (".json_encode($data).") event: $event_id \r\n";
       continue;
     }
     $index = $fields[$key];
