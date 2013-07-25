@@ -1,111 +1,137 @@
 <?php
 
 $db_table_name_map = array(
-    'addStock'    => 'log_addStock',
-    'costStock'   => 'log_costStock',
-    'featureUse'  => 'log_featureUse',
-    'levelUp'     => 'log_levelUp',
-    'Login'       => 'log_Login',
-    'NewPlayer'   => 'log_NewPlayer',
-    'OutEnergy'   => 'log_OutEnergy',
-    'payCost'     => 'log_payCost',
-    'QuestDone'   => 'log_QuestDone',
-    'QuestStart'  => 'log_QuestStart',
-    'QuestTaskComplete' => 'log_QuestTaskComplete',
-    'viralRecive' => 'log_viralRecive',
-    'viralSend'   => 'log_viralSend',
-    'realPay'     => 'log_Pay',
-    'shopOpen'    => 'log_shopOpen',
+  1  => 'log_Login',
+  2  => 'log_levelUp',
+  3  => 'log_featureUse',
+  4  => 'log_costStock',
+  5  => 'log_addStock',
+  6  => 'log_NewPlayer',
+  7  => 'log_OutEnergy',
+  8  => 'log_payCost',
+  9  => 'log_QuestDone',
+  10 => 'log_QuestStart',
+  11 => 'log_QuestTaskComplete',
+  12 => 'log_viralRecive',
+  14 => 'log_viralSend',
+  15 => 'log_Pay',
+  16 => 'log_shopOpen',    
 );
 
-$db_table_std_fields = array(
-    'project_id',
-    'ext_id',
-    'stamp',
-    'item_id',
-    'value',
-    'level',
-    'session',
-    'return',
-    'energy',
-    'real',
-    'bonus',
-    'money',
-    'referal',
-    'reg_time',    
+// project_id is 0
+$db_table_std_fields = array(  
+  'ext_id'  => 1,
+  'stamp'   => 2,
+  'item_id' => 3,
+  'value'   => 4,
+  'lvl'     => 5,
+  'session' => 6,
+  'return'  => 7,
+  'energy'  => 8,
+  'real'    => 9,
+  'bonus'   => 10,
+  'money'   => 11,
+  'referal' => 12,
+  'reg_time'=> 13,
+  
+  'id'      => 1,
+  't'       => 2,
+  'i'       => 3,
+  'v'       => 4,
+  'l'       => 5,
+  's'       => 6,
+  'rd'      => 7,
+  'e'       => 8,
+  'r'       => 9,
+  'b'       => 10,
+  'm'       => 11,
+  'rf'      => 12,
+  'rt'      => 13,
+  
+  'sex'     => 14,
+  'age'     => 15,
+  'fb_source'=>16,
+  'country' => 17,  
+    
+  'pack'    => 14,
+  'name'    => 15,
+  'currencyName'>16,
+    
+  'completeTask' =>14,
+    
 );
 
-$db_table_adt_fields = array(
-    'addStock'    => array(),
-    'costStock'   => array(),
-    'featureUse'  => array(),
-    'levelUp'     => array(),
-    'Login'       => array('sex','age','fb_source','country'),
-    'NewPlayer'   => array('sex','age','fb_source','country'),
-    'OutEnergy'   => array(),
-    'payCost'     => array('pack','name','currencyName'),
-    'QuestDone'   => array(),
-    'QuestStart'  => array(),
-    'QuestTaskComplete' => array('completeTask'),
-    'viralRecive' => array(),
-    'viralSend'   => array(),
-    'realPay'     => array('sex','age','fb_source','country'),
-    'shopOpen'    => array('sex','age'),
+$db_table_adt_fields = array(    
+    1  => '`sex`,`age`,`fb_source`,`country`',
+    6  => '`sex`,`age`,`fb_source`,`country`',
+    8  => '`pack`,`name`,`currencyName`',
+    11 => '`completeTask`',
+    //15 => '`sex`,`age`,`fb_source`,`country`',
+    //16 => '`sex`,`age`,`fb_source`,`country`',
+    //17 => '`sex`,`age`,`fb_source`,`country`',
 );
 
-function stat_get_db_fields($event_name) {
+/**
+ * 
+ * @global array $db_table_adt_fields
+ * @global array $db_table_std_fields
+ * @global array $db_table_name_map
+ * @param int $event_id
+ * @return null
+ */
+
+function stat_get_db_fields($event_id) {
   GLOBAL $db_table_adt_fields;
-  GLOBAL $db_table_std_fields;
-  GLOBAL $db_table_name_map;
-  $result = $db_table_std_fields;
-  if(!isset($db_table_name_map[$event_name])) {
-    echo "Undefined event name: $event_name\r\n";
-    return null;
-  }
-  elseif(isset($db_table_adt_fields[$event_name]))
-    $result = array_merge ($result, $db_table_adt_fields[$event_name]);    
-  return $result;
+  $std = '`ext_id`,`stamp`,`item_id`,`value`,`level`,`session`,`return`,`energy`,`real`,`bonus`,`money`,`referal`,`reg_time`';
+  if(isset($db_table_adt_fields[$event_id]))
+    return $std.",".$db_table_adt_fields[$event_id];
+  return $std;
 }
 
-function stat_normalize_event_data($event_name,$event,$project_id) {
-  $fields = stat_get_db_fields($event_name);
-  if(!$fields)
-    return null;
-  $result = array();
-  $data = isset($event['data'])?$event['data']:array();
+/**
+ * 
+ * @param int $event_id
+ * @param string $event
+ * @param int $project_id
+ * @return null
+ */
+
+function stat_normalize_event_data($event,$project_id) {
+  global $db_table_std_fields;
+  
+  $fields = $db_table_std_fields;
+  $data = null;
+  $data = isset($event['data'])?$event['data']:$data;
+  $data = isset($event['d'])?$event['d']:$data;
+  unset($event['data']);
+  unset($event['d']);
+  
   if($event['referal']=='')
     $event['referal']="none";
-  foreach ($fields as $field_name) {
-    if($field_name=="project_id") {
-      $result[] = "'".$project_id."'";
+  
+  if($event['rf']=='')
+    $event['rf']="none";
+  
+  $result = array();
+  $result[] = $project_id;  
+  foreach ($event as $key=>$value) {
+    if(!$fields[$key]) {
+      echo "Undefined field index: $key\r\n";
       continue;
     }
-    if($field_name=="ext_id") {
-      $result[] = "'".$event['id']."'";
+    $index = $fields[$key];
+    $result[$index] = $value;
+  } 
+  
+  if($data)
+    foreach ($data as $key=>$value) {
+    if(!$fields[$key]) {
+      echo "Undefined field index: $key\r\n";
       continue;
     }
-    if($field_name=="stamp") {
-      $result[] = "'".$event['time_stamp']."'";
-      continue;
-    }
-    if($field_name=="level") {
-      $result[] = "'".$event['lvl']."'";
-      continue;
-    }
-    if($field_name=="return") {
-      $result[] = "'".$event['return_day']."'";
-      continue;
-    }
-    if($field_name=="money") {
-      $result[] = "'".$event['moneys']."'";
-      continue;
-    }
-    if(isset($data[$field_name]))
-      $result[] = "'".$data[$field_name]."'";
-    elseif(isset($event[$field_name]))
-      $result[] = "'".$event[$field_name]."'";
-    else
-      $result[] = "''";
-  }  
-  return "(".implode(",", $result).")";
+    $index = $fields[$key];
+    $result[$index] = $value;
+  } 
+  
+  return "('".implode("','", $result)."')";
 }
