@@ -3,7 +3,7 @@
 require_once('db_table_name_map.inc.php');
 require_once('EnumEvents.inc.php');
 
-const MAX_SAVED_LINES = 50;
+const MAX_SAVED_LINES = 5;
 
 function cronWorker()
 {
@@ -32,7 +32,7 @@ function cronWorker()
     if(!isset($groups[$event_id][$project_id]))
       $groups[$event_id][$project_id] = array();
     
-    $values = stat_normalize_event_data($decode, $project_id);
+    $values = stat_normalize_event_data($decode, $project_id,$event_id);
     
     if($values)
       $groups[$event_id][$project_id][] = $values;
@@ -49,20 +49,19 @@ function cronWorker()
   
   foreach($groups as $event_id=>$projects){
     $sql_fields = "(".stat_get_db_fields($event_id).")";    
-    
     foreach($projects as $p_id=>$values) {
       $timer_mysql_one = gme_pinba()->startTimer("MySQL", "MySQL_add_one_mysql");      
       $value = implode(",", $values);      
       $SQL = "INSERT INTO ".$db_table_name_map[$event_id]." ".$sql_fields." VALUES ".$value.";";
       $result = false;
-      echo "SQL: $SQL\r\n";
-      //$result = $db->execute($SQL);
+//      echo "SQL: $SQL\r\n";
+      $result = $db->execute($SQL);
       if(!$result) {
         $timer_error = gme_pinba()->startTimer("Redis", "Redis_cron_error");
         echo "Inserting error!\r\n";
         gme_pinba()->stopTimer($timer_error);
-      }
-      $counter += count($values);
+      } else
+        $counter += count($values);
       gme_pinba()->stopTimer($timer_mysql_one);
     }
   }

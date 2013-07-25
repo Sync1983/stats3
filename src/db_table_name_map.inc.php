@@ -21,16 +21,16 @@ $db_table_name_map = array(
 // project_id is 0
 $db_table_std_fields = array(  
   'ext_id'  => 1,
-  'stamp'   => 2,
+  'time_stamp'   => 2,
   'item_id' => 3,
   'value'   => 4,
   'lvl'     => 5,
   'session' => 6,
-  'return'  => 7,
+  'return_day'  => 7,
   'energy'  => 8,
   'real'    => 9,
   'bonus'   => 10,
-  'money'   => 11,
+  'moneys'   => 11,
   'referal' => 12,
   'reg_time'=> 13,
   
@@ -58,6 +58,7 @@ $db_table_std_fields = array(
   'currencyName'>16,
     
   'completeTask' =>14,
+  'type' => 14,
     
 );
 
@@ -82,7 +83,7 @@ $db_table_adt_fields = array(
 
 function stat_get_db_fields($event_id) {
   GLOBAL $db_table_adt_fields;
-  $std = '`ext_id`,`stamp`,`item_id`,`value`,`level`,`session`,`return`,`energy`,`real`,`bonus`,`money`,`referal`,`reg_time`';
+  $std = '`project_id`,`ext_id`,`stamp`,`item_id`,`value`,`level`,`session`,`return`,`energy`,`real`,`bonus`,`money`,`referal`,`reg_time`';
   if(isset($db_table_adt_fields[$event_id]))
     return $std.",".$db_table_adt_fields[$event_id];
   return $std;
@@ -96,7 +97,7 @@ function stat_get_db_fields($event_id) {
  * @return null
  */
 
-function stat_normalize_event_data($event,$project_id) {
+function stat_normalize_event_data($event,$project_id,$event_id) {
   global $db_table_std_fields;
   
   $fields = $db_table_std_fields;
@@ -106,32 +107,39 @@ function stat_normalize_event_data($event,$project_id) {
   unset($event['data']);
   unset($event['d']);
   
-  if($event['referal']=='')
-    $event['referal']="none";
-  
-  if($event['rf']=='')
+  if($event['referal']=="")
+    $event['referal'] = "none";
+  elseif(($event['rf'] == "")&&(isset($event['rf'])))
     $event['rf']="none";
   
-  $result = array();
-  $result[] = $project_id;  
+  $sql_fields = stat_get_db_fields($event_id);
+  $max_len = substr_count($sql_fields,",");
+
+  $result = array_fill(0,$max_len,0);
+  $result[0] = $project_id;  
   foreach ($event as $key=>$value) {
     if(!$fields[$key]) {
-      echo "Undefined field index: $key\r\n";
+      echo "Undefined field index: $key in (".json_encode($event).") event: $event_id\r\n";
       continue;
     }
     $index = $fields[$key];
+    if($index>$max_len)
+      continue;
     $result[$index] = $value;
   } 
   
   if($data)
     foreach ($data as $key=>$value) {
     if(!$fields[$key]) {
-      echo "Undefined field index: $key\r\n";
+      echo "Undefined field index: $key in (".json_encode($event).") event: $event_id \r\n";
       continue;
     }
     $index = $fields[$key];
+    if($index>$max_len)
+      continue;
     $result[$index] = $value;
   } 
-  
+
+  ksort($result); 
   return "('".implode("','", $result)."')";
 }

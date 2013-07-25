@@ -50,7 +50,7 @@ class EnumLoggerEvent
     if(!is_numeric($value))
       ASSERT_TRUE(false, "Numeric expected but got $value");
     if(!self::isValueValid($value))
-      ASSERT_TRUE(false, "Numeric value $value isn't value from enum EnumLoggerEvent. Accepted numerics are " . implode(',', self::getValuesList()) . " but better to use one of names instead: " . implode(',', self::getNamesList()));
+      echo "Value is invalid $value\r\n";
   }
 
   static private $values_list_;
@@ -89,7 +89,7 @@ class EnumLoggerEvent
     $flip = array_flip(self::$values_map_);
     
     if(!isset($flip[$value]))
-      ASSERT_TRUE(false, "Value $value isn't defined in enum EnumLoggerEvent. Accepted: " . implode(',', self::getValuesList()));
+      echo "Value $value isn't defined in enum EnumLoggerEvent. Accepted: " . implode(',', self::getValuesList());
     return $flip[$value];    
   }
 }

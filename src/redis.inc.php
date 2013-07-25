@@ -32,10 +32,10 @@ class RedisLogger
   public function getSavedObjects($limit, $delete=true)
   {
     $key = "stat_logger::events";
-    $result = $this->redis()->lrange($key,0,$limit);
+    $result = $this->redis()->lrange($key,0,$limit-1);
     $count = count($result);
     if($delete)
-      $this->redis()->ltrim(0,$count);
+      $this->redis()->ltrim($key,0,$count);
     return $result;
   }  
   
