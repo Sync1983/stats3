@@ -3,7 +3,7 @@
 require_once('db_table_name_map.inc.php');
 require_once('EnumEvents.inc.php');
 
-const MAX_SAVED_LINES = 5000;
+const MAX_SAVED_LINES = 100000;
 
 function cronWorker()
 {
