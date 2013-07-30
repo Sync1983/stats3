@@ -23,8 +23,11 @@ function cronWorker()
     $project_id = substr($event, 0, $pos);
     $event = substr($event, $pos+1,  strlen($event)-$pos);
     $decode = json_decode($event,true);
-    $event_id = $decode['event']*1;
-    unset($decode['event']);
+    $event_id = isset($decode['event'])?$decode['event']*1:$decode['ev']*1;
+    if(isset($decode['ev']))
+      unset($decode['ev']);
+    if(isset($decode['event']))
+      unset($decode['event']);
 
     if(!isset($groups[$event_id]))
       $groups[$event_id] = array();

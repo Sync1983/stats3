@@ -5,12 +5,9 @@ class RedisLogger
   const REDIS_PREFIX = "stat_logger::";
   const MAP_PREFIX = "logger_map::";
   const HOST = 'localhost';
-  const PORT = 6379;
-  const TTL = 172800; //2 days
-  const COUNTER = 'id_';
+  const PORT = 6379;    
   /* @var Redis */
-  private static $rd = null;
-  private $counter_key = null;
+  private static $rd = null;  
   
   function __construct() {
     if(self::$rd==null)
@@ -34,15 +31,6 @@ class RedisLogger
   
   public function getSavedObjects($limit, $delete=true)
   {
-    /*$keys = $this->redis()->keys(self::REDIS_PREFIX.'*');    
-    if(count($keys)>$limit)
-      $keys =  array_slice($keys, 0, $limit);
-    $result = array();
-    foreach ($keys as $key) {      
-      $result[] = $this->redis()->get($key);
-      if(!$undelite)
-        $this->redis()->del($key);
-    }*/
     $key = "stat_logger::events";
     $result = $this->redis()->lrange($key,0,$limit-1);
     $count = count($result);
