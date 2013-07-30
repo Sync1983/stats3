@@ -111,7 +111,9 @@ class spDataTools extends spTools {
     $data = str_replace("DROP", "", $data);
     $data = str_replace("DELETE", "", $data);
     $data = str_replace("CREATE", "", $data);
-//   echo "SQL: $data\r\n";
+    syslog(7,"SQL: ".$data);
+//   echo "SQL: $data\r\n";a
+    $result = array();
     $result = $this->_db->execute($data);    
     $charts = array();
     
