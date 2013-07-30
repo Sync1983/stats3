@@ -60,6 +60,10 @@ $db_table_std_fields = array(
   'completeTask' =>14,
   'type' => 14,
     
+  'currency' => 14,
+  'currencyValue' => 15,
+    
+    
 );
 
 $db_table_adt_fields = array(    
