@@ -119,6 +119,8 @@ function stat_normalize_event_data($event,$project_id,$event_id) {
   $result[0] = $project_id;  
   foreach ($event as $key=>$value) {
     $value = str_replace("`","",$value);
+    $value = str_replace("'","",$value);
+    $value = str_replace("\"","",$value);
     if(($key=="d")||($key=="data"))
       continue;
     if(!$fields[$key]) {
@@ -133,16 +135,19 @@ function stat_normalize_event_data($event,$project_id,$event_id) {
   
   if($data)
     foreach ($data as $key=>$value) {
-    $value = str_replace("`","",$value);
-    if(!$fields[$key]) {
-      echo "Undefined field in data index: $key in (".json_encode($data).") event: $event_id \r\n";
-      continue;
-    }
-    $index = $fields[$key];
-    if($index>$max_len)
-      continue;
-    $result[$index] = $value;
-  } 
+      $value = str_replace("`","",$value);
+      $value = str_replace("'","",$value);
+      $value = str_replace("\"","",$value);
+    
+      if(!$fields[$key]) {
+        echo "Undefined field in data index: $key in (".json_encode($data).") event: $event_id \r\n";
+        continue;
+      }
+      $index = $fields[$key];
+      if($index>$max_len)
+        continue;
+      $result[$index] = $value;
+    } 
 
   ksort($result); 
   return "('".implode("','", $result)."')";
